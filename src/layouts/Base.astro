@@ -143,10 +143,13 @@ const ogImage = absoluteUrl(image, Astro.site);
   import { initCardSpot } from '@/scripts/spotlight';
   import { readStoredTheme, applyTheme } from '@/scripts/theme';
   import { readGlass, applyGlass, detectLens } from '@/scripts/motion';
+  import { initTilt, initMagnetic } from '@/scripts/interactions';
   // Runs on first load and after every client-side navigation (ClientRouter).
   document.addEventListener('astro:page-load', () => {
     initReveal();
     initCardSpot();
+    initTilt();
+    initMagnetic();
     detectLens();
   });
   // ClientRouter swaps <html> attributes, so re-apply stored theme/glass before the new page paints.

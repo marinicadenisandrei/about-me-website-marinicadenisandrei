@@ -35,14 +35,20 @@ export function initHeroGrid(hero: HTMLElement, grid: HTMLElement): void {
     },
     { passive: true },
   );
-  let running = true;
-  const io = new IntersectionObserver(([e]) => { running = !!e?.isIntersecting; if (running) requestAnimationFrame(lerp); });
+  // The loop only runs while the spot is still travelling; it stops once it has settled
+  // (a permanent rAF loop repainted the viewport-wide mask every frame).
+  let visible = true, raf = 0;
+  const io = new IntersectionObserver(([e]) => { visible = !!e?.isIntersecting; if (visible) kick(); });
   io.observe(hero);
+  function kick() { if (!raf && visible) raf = requestAnimationFrame(lerp); }
   function lerp() {
-    gx += (tx - gx) * 0.08;
-    gy += (ty - gy) * 0.08;
-    grid.style.setProperty('--mx', `${gx}px`);
-    grid.style.setProperty('--my', `${gy}px`);
-    if (running) requestAnimationFrame(lerp);
+    raf = 0;
+    gx += (tx - gx) * 0.1;
+    gy += (ty - gy) * 0.1;
+    grid.style.setProperty('--mx', `${gx.toFixed(1)}px`);
+    grid.style.setProperty('--my', `${gy.toFixed(1)}px`);
+    if (Math.abs(tx - gx) > 0.5 || Math.abs(ty - gy) > 0.5) kick();
   }
+  document.addEventListener('mousemove', kick, { passive: true });
+  kick();
 }

@@ -11,6 +11,26 @@
 .lgrid > *, .pgrid > *, .stack-grid > *, .grid > .card { content-visibility: auto; contain-intrinsic-size: auto 320px; }
 .portrait-img, .portrait-glow, .glass--lift { will-change: transform; }
 
+/* ── magnetic primary buttons (interactions.ts sets --mag-x/--mag-y) ── */
+.btn--primary { --mag-x: 0px; --mag-y: 0px; translate: var(--mag-x) var(--mag-y); transition: translate 0.5s var(--spring-bouncy), transform var(--dur-snappy) var(--spring-snappy), box-shadow var(--dur-smooth) var(--spring-smooth); }
+
+/* ── avatar halo: a thin rotating conic ring (About, footer) ── */
+@property --halo-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+.avatar--glow::after {
+  content: ''; position: absolute; inset: -3px; border-radius: 50%; z-index: -1; padding: 1.5px;
+  background: conic-gradient(from var(--halo-angle), transparent 0 40%, hsl(var(--tint-h) 80% 70%) 50%, transparent 60% 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: halo 6s linear infinite;
+}
+@keyframes halo { to { --halo-angle: 360deg; } }
+
+/* ── hero headline: word-by-word rise with a blur-to-sharp settle (once, on load) ── */
+.word { display: inline-block; opacity: 0; transform: translateY(0.35em); filter: blur(6px); animation: wordIn 0.9s var(--spring-smooth) forwards; animation-delay: calc(0.35s + var(--w) * 70ms); will-change: transform, opacity, filter; }
+@keyframes wordIn { to { opacity: 1; transform: none; filter: blur(0); } }
+/* gradient words: slow shimmer across the gradient */
+.hero h1 em { background-size: 200% 100%; animation: shimmer 9s ease-in-out infinite; }
+@keyframes shimmer { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
 /* ── dock-style hover on tool tiles ── */
 .stack-item, .integration-item { transition: transform var(--dur-snappy) var(--spring-bouncy), box-shadow var(--dur-smooth) var(--spring-smooth), border-color var(--dur-smooth) var(--spring-smooth) !important; }
 @media (hover: hover) { .stack-item:hover, .integration-item:hover { transform: translateY(-4px) scale(1.06); } }
@@ -88,6 +108,10 @@
   ::view-transition-old(*) { animation-name: -ua-view-transition-fade-out; }
   ::view-transition-new(*) { animation-name: -ua-view-transition-fade-in; }
   .glass--lift:hover { transform: none; }
+  .word { animation: none; opacity: 1; transform: none; filter: none; }
+  .hero h1 em { animation: none; }
+  .avatar--glow::after { animation: none; }
+  .btn--primary { translate: 0 0; }
 }
 
 /* ── Calendly popup (loaded only after "Book a call"): entrance on our springs; nothing else is restyled ── */

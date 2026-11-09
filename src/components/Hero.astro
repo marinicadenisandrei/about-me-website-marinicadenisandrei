@@ -12,6 +12,12 @@ import { getHeroMetrics } from '@lib/content';
 interface Props { title?: string; sub?: string; compact?: boolean; portrait?: boolean }
 const { title = site.ui.heroTitle, sub = site.tagline, compact = false, portrait = !compact } = Astro.props;
 const m = await getHeroMetrics();
+/** Wrap each word in <span class="word" style="--w:i"> so the headline rises word by word; <em> boundaries are preserved. */
+function splitWords(html: string): string {
+  let i = 0;
+  return html.replace(/(<em>|<\/em>|<strong>|<\/strong>)|([^\s<]+)/g, (mt, tag, word) => (tag ? tag : `<span class="word" style="--w:${i++}">${word}</span>`));
+}
+const titleHtml = splitWords(title);
 const metrics = [
   { value: m.years, suffix: '+', label: site.ui.metrics.yearsExperience },
   { value: m.projects, suffix: '', label: site.ui.metrics.projects },
@@ -31,7 +37,7 @@ const metrics = [
     </div>
   )}
   <p class="hero-kicker">{site.headline}</p>
-  <h1 set:html={title} />
+  <h1 set:html={titleHtml} />
   <p class="hero-sub">{sub}</p>
   <div class="hero-ctas">
     <Link href="/services" class="btn btn--primary">{site.ui.ctaWorkWithMe}</Link>
@@ -76,7 +82,7 @@ const metrics = [
   .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: hsl(var(--tint-h) 70% 60%); box-shadow: 0 0 8px hsl(var(--tint-h) 70% 60% / 0.6); animation: pulse 3s ease-in-out infinite; }
   .hero-badge span { font-family: var(--font-display); font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-muted); }
   .hero-kicker { font-family: var(--font-display); font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-subtle); max-width: 760px; line-height: 1.9; margin-bottom: 22px; opacity: 0; animation: fadeUp 1.2s var(--silk-ease) 0.3s forwards; }
-  .hero h1 { font-size: clamp(2.6rem, 6.5vw, 5.4rem); font-weight: 300; letter-spacing: -0.05em; line-height: 1.02; max-width: 16ch; opacity: 0; transform: translateY(24px); animation: fadeUp 1.4s var(--silk-ease) 0.4s forwards; }
+  .hero h1 { font-size: clamp(2.6rem, 6.5vw, 5.4rem); font-weight: 300; letter-spacing: -0.05em; line-height: 1.02; max-width: 16ch; }
   .hero h1 :global(em) { font-style: normal; font-weight: 600; background: linear-gradient(135deg, var(--fg), hsl(var(--tint-h) 70% var(--em-l1)), hsl(calc(var(--tint-h) + 40) 60% var(--em-l2))); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
   .hero-sub { font-size: clamp(0.9rem, 1.2vw, 1.05rem); font-weight: 300; line-height: 1.7; color: var(--fg-muted); max-width: 520px; margin: 28px auto 44px; opacity: 0; transform: translateY(16px); animation: fadeUp 1.4s var(--silk-ease) 0.6s forwards; }
   .hero-ctas { display: flex; gap: 14px; opacity: 0; transform: translateY(16px); animation: fadeUp 1.4s var(--silk-ease) 0.8s forwards; }
@@ -88,7 +94,7 @@ const metrics = [
   @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
   @media (prefers-reduced-motion: reduce) {
-    .hero-badge, .hero-kicker, .hero h1, .hero-sub, .hero-ctas, .hero-metrics { opacity: 1; transform: none; animation: none; }
+    .hero-badge, .hero-kicker, .hero-sub, .hero-ctas, .hero-metrics { opacity: 1; transform: none; animation: none; }
     .hero-badge-dot { animation: none; }
   }
   @media (max-width: 1024px) {
