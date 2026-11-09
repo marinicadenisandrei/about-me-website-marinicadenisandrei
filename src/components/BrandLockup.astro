@@ -15,7 +15,7 @@ const { size = 30, compact = false, transitionName, class: cls, priority = true 
 
 <Link href="/" class:list={['nav-brand', 'lockup', { 'lockup--compact': compact }, cls]} aria-label="Denis M — Marinică Denis-Andrei — Home">
   <Avatar size={size} transitionName={transitionName} priority={priority} />
-  <span class="lockup-text"><b>{site.brand.primary}</b><span>{site.brand.secondary}</span></span>
+  <span class="lockup-text"><b>{site.brand.primary}</b>{' '}<span>{site.brand.secondary}</span></span>
 </Link>
 
 <style>

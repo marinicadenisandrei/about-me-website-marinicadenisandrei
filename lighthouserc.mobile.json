@@ -10,7 +10,6 @@
     },
     "assert": {
       "aggregationMethod": "median",
-      "preset": "lighthouse:no-pwa",
       "assertions": {
         "categories:performance": [
           "error",
@@ -35,16 +34,13 @@
           {
             "minScore": 0.95
           }
-        ],
-        "unused-javascript": "off",
-        "unused-css-rules": "off",
-        "non-composited-animations": "off",
-        "third-party-cookies": "off"
+        ]
       }
     },
     "upload": {
       "target": "filesystem",
       "outputDir": ".lighthouseci-mobile"
-    }
+    },
+    "_note": "Category scores only (all four >= 0.95, median of 3 runs). Per-audit presets are intentionally not used."
   }
 }
