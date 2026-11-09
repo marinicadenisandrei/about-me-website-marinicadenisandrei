@@ -11,10 +11,10 @@ export const site = {
   /** Nav lockup text only — everything else uses `name`. */
   brand: { primary: 'DENIS', secondary: 'M' },
   /** Derived from the LinkedIn headline (shortened; "PhD candidate", never "PhD"). */
-  headline: 'Senior DevOps Engineer @ LSEG · AI Research Engineer · University Teaching Assistant @ ACS-UNSTPB · PhD candidate',
-  tagline: 'Reliable platforms, from cloud pipelines to research prototypes.',
+  headline: 'Senior DevOps Engineer @ LSEG · PhD candidate in AIOps & MLOps · Teaching Artificial Intelligence & Machine Learning @ ACS-UNSTPB',
+  tagline: 'I keep production reliable at the London Stock Exchange Group, teach Artificial Intelligence & Machine Learning at ACS-UNSTPB, and research AIOps & MLOps as a PhD candidate.',
   description:
-    'Senior DevOps Engineer at LSEG, AI research engineer and university teaching assistant at ACS-UNSTPB, PhD candidate and freelance DevOps/MLOps consultant based in Bucharest, Romania.',
+    'Senior DevOps Engineer at the London Stock Exchange Group (LSEG), PhD candidate in AIOps & MLOps, teaching Artificial Intelligence & Machine Learning at ACS-UNSTPB, and freelance DevOps/MLOps consultant in Bucharest, Romania.',
   location: 'Bucharest, Romania',
   email: 'marinicadenisandrei@gmail.com',
   /** Public profile links (also used for JSON-LD `sameAs`). */
@@ -95,7 +95,7 @@ export const site = {
     scroll: 'Scroll',
     section: 'Section',
     heroBadge: 'Available for freelance projects',
-    heroTitle: 'Reliable systems, <em>from pipeline to prototype</em>',
+    heroTitle: 'Senior DevOps Engineer <em>at LSEG</em>',
     ctaWorkWithMe: 'Work with me',
     ctaDownloadCv: 'Download CV',
     ctaViewCv: 'View CV',
@@ -114,8 +114,8 @@ export const site = {
     roles: {
       tag: 'Three roles, one engineer',
       title: 'Industry, academia <strong>and freelance</strong>',
-      industry: { tag: 'Industry', title: 'Senior DevOps Engineer <strong>at LSEG</strong>', cta: 'Experience' },
-      academia: { tag: 'Academia & Research', title: 'Teaching, research <strong>and a PhD</strong>', cta: 'Research & Teaching' },
+      industry: { tag: 'Industry', title: 'Senior DevOps Engineer <strong>at the London Stock Exchange Group</strong>', cta: 'Experience' },
+      academia: { tag: 'Academia & Research', title: 'Teaching AI & ML, <strong>researching AIOps & MLOps</strong>', cta: 'Research & Teaching' },
       freelance: { tag: 'Freelance', title: 'Independent DevOps <strong>& MLOps consulting</strong>', cta: 'Work with me' },
     },
     projects: {

@@ -35,7 +35,7 @@ d = ImageDraw.Draw(img)
 f700 = ImageFont.truetype(ttf(700), 58); f300 = ImageFont.truetype(ttf(300), 58); f500 = ImageFont.truetype(ttf(500), 20); fm = ImageFont.truetype(ttf(400), 17)
 d.text((80, 200), 'MARINICĂ', font=f700, fill=(229, 231, 235))
 d.text((80, 268), 'DENIS-ANDREI', font=f300, fill=(176, 184, 196))
-lines = ['SENIOR DEVOPS ENGINEER @ LSEG', 'AI RESEARCH ENGINEER · TEACHING ASSISTANT @ ACS-UNSTPB', 'PHD CANDIDATE · FREELANCE DEVOPS & MLOPS']
+lines = ['SENIOR DEVOPS ENGINEER @ LSEG', 'PHD CANDIDATE · AIOPS & MLOPS', 'TEACHING AI & MACHINE LEARNING @ ACS-UNSTPB']
 y = 370
 for l in lines:
     d.text((80, y), l, font=f500, fill=(156, 163, 175), spacing=4); y += 34

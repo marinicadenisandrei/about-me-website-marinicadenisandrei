@@ -19,6 +19,11 @@
 | A11 | Publications (optional) — section renders only when at least one exists | `src/content/publications/*.md` |
 | A12 | Custom-domain email for the GDPR contact (currently the Gmail address, assembled client-side) | `src/config/business.ts → dataContactEmail`, `site.ts → email` |
 
+## A2. Landing-page framing to confirm
+
+- The landing page now presents the PhD as **AIOps & MLOps** (per your instruction). The research page still shows the thesis title from LinkedIn/CV, *Audio-Haptic Rendering of Real and Virtual Environments*. If the official thesis topic changed, update `src/content/research/phd-thesis.md` (title + description) so both pages agree.
+- Teaching is presented as **Artificial Intelligence & Machine Learning** (the MSc course "Intelligent Image Processing") and Software Engineering (BSc).
+
 ## B. Numbers I must confirm (hidden until confirmed)
 
 | Figure | Source | Where it sits |

@@ -28,7 +28,6 @@ const featured = (await getFeaturedProjects()).slice(0, 3);
 const engagements = await getEngagementModels();
 const learning = await getLearningStats();
 const stack = (await getStackPages()).slice(0, 12);
-const thesis = (await getResearch()).find((r) => r.data.type === 'thesis');
 const researchCount = (await getResearch()).filter((r) => r.data.type !== 'thesis').length;
 const teaching = await getTeaching();
 const faq = (await getFaq()).slice(0, 3);
@@ -52,8 +51,8 @@ const current = experience[0];
   {/* ── three roles (template features) ── */}
   <section class="section" id="roles" data-label="Roles">
     <SectionHeader tag={ui.roles.tag} title={ui.roles.title} center />
-    <FeatureRow number="01" tag={ui.roles.industry.tag} title={ui.roles.industry.title} body={`${current?.data.summary ?? ''}`} href="/experience" cta={ui.roles.industry.cta} tint="industry" />
-    <FeatureRow number="02" tag={ui.roles.academia.tag} title={ui.roles.academia.title} body={`Teaching ${teaching.map((t) => t.data.course).join(' and ')} at ACS-UNSTPB, AI research engineering in the Romanian AI Hub, and a PhD on ${thesis?.data.title.toLowerCase() ?? 'audio-haptic rendering'}.`} href="/research" cta={ui.roles.academia.cta} tint="academia" reverse />
+    <FeatureRow number="01" tag={ui.roles.industry.tag} title={ui.roles.industry.title} body="Senior DevOps Engineer at LSEG since 2025: CI/CD, infrastructure as code and Kubernetes across AWS, Azure and GCP, OIDC-based identity, observability — and the escalation call when production needs it." href="/experience" cta={ui.roles.industry.cta} tint="industry" />
+    <FeatureRow number="02" tag={ui.roles.academia.tag} title={ui.roles.academia.title} body={`University teaching assistant at ACS-UNSTPB for Artificial Intelligence & Machine Learning (${teaching.find((t) => t.data.level === 'MSc')?.data.course ?? 'Intelligent Image Processing'}, MSc) and Software Engineering (BSc); PhD candidate researching AIOps & MLOps — AI-driven operations and production machine-learning platforms; AI research engineer in the Romanian AI Hub.`} href="/research" cta={ui.roles.academia.cta} tint="academia" reverse />
     <FeatureRow number="03" tag={ui.roles.freelance.tag} title={ui.roles.freelance.title} body="Consulting and audits, scoped projects and monthly retainers through my own practice — delivered as code in your repositories." href="/services" cta={ui.roles.freelance.cta} tint="freelance" />
   </section>
 
@@ -82,8 +81,8 @@ const current = experience[0];
     <Grid cols={2} min="320px">
       <GlassCard tint="academia" as="section" lift={false} class="reveal" aria-labelledby="h-research">
         <p class="section-tag">{ui.research.tag}</p>
-        <h2 class="home-h" id="h-research">{thesis ? `PhD candidate — ${thesis.data.title}` : 'Research & teaching'}</h2>
-        <p class="home-p">{researchCount} research projects (HRIA, Sound of Vision, TRAVEE, GLOBE-CoP, GREENUS, ROSPIN/ESA) and {teaching.length} university courses as teaching assistant.</p>
+        <h2 class="home-h" id="h-research">PhD candidate in AIOps & MLOps · teaching AI & ML</h2>
+        <p class="home-p">Research on AI-driven operations and production ML platforms, {researchCount} research projects (HRIA, Sound of Vision, TRAVEE, GLOBE-CoP, GREENUS, ROSPIN/ESA), and {teaching.length} university courses as teaching assistant.</p>
         <ul class="home-list">{teaching.map((t) => <li>{t.data.course} <span>· {t.data.level}</span></li>)}</ul>
         <SeeAll href="/research" label="See research & teaching" />
       </GlassCard>
