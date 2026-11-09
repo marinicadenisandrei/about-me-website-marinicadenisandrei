@@ -27,7 +27,7 @@ jobs:
       site_url: ${{ steps.pages-config.outputs.site_url }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node (LTS)
         uses: actions/setup-node@v4
@@ -126,7 +126,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Wait for the new deployment to propagate
         run: sleep 30
