@@ -10,6 +10,10 @@ updates:
         patterns: ['astro', '@astrojs/*']
       dev-tooling:
         patterns: ['eslint*', 'typescript*', '@eslint/*', 'globals', '@types/*']
+    ignore:
+      # @astrojs/check 0.9.x only supports TypeScript 5–6 (peer "^5.0.0 || ^6.0.0"); allow minors, not majors.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
     open-pull-requests-limit: 5
 
   - package-ecosystem: github-actions

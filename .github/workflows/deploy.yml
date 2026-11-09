@@ -1,16 +1,19 @@
 name: Build & Deploy (GitHub Pages)
 
 on:
-  push:
-    branches: ['**']
+  push:   # every branch except Dependabot's
+    # Dependabot branches are already validated by their pull_request run — avoid a duplicate push run.
+    branches-ignore: ['dependabot/**']
   pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
 
+# One build per branch; a newer push to the same branch cancels the older build of THAT branch only.
+# (A single global group here would let any branch/PR run cancel the main deployment.)
 concurrency:
-  group: pages
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -111,6 +114,10 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    # Only one Pages deployment at a time; never cancel a deployment that already started.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     steps:
       - name: Deploy
         id: deployment
