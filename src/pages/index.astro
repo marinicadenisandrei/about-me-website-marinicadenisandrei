@@ -31,7 +31,6 @@ const stack = (await getStackPages()).slice(0, 12);
 const researchCount = (await getResearch()).filter((r) => r.data.type !== 'thesis').length;
 const teaching = await getTeaching();
 const faq = (await getFaq()).slice(0, 3);
-const current = experience[0];
 ---
 
 <Base title={site.shortName} jsonLd={[personJsonLd(Astro.site)]}>
