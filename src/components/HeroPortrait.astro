@@ -32,10 +32,10 @@ const alt = `${site.name} — stylised cut-out portrait`;
   .portrait-glow {
     position: absolute; inset: 8% 4% -4%; border-radius: 50%; z-index: 0; pointer-events: none;
     background:
-      radial-gradient(60% 55% at 45% 40%, hsl(var(--tint-h) 70% 60% / 0.55), transparent 70%),
-      radial-gradient(50% 50% at 70% 70%, var(--orb-4), transparent 70%),
-      radial-gradient(50% 50% at 25% 75%, var(--orb-3), transparent 70%);
-    filter: blur(44px); opacity: 0.8; transform: translate3d(calc(var(--px) * -0.4), calc(var(--py) * -0.4), 0);
+      radial-gradient(55% 50% at 45% 40%, hsl(var(--tint-h) 70% 60% / 0.5), hsl(var(--tint-h) 70% 60% / 0.18) 35%, transparent 70%),
+      radial-gradient(45% 45% at 70% 70%, color-mix(in srgb, var(--orb-4) 70%, transparent), transparent 70%),
+      radial-gradient(45% 45% at 25% 75%, color-mix(in srgb, var(--orb-3) 70%, transparent), transparent 70%);
+    opacity: 0.9; transform: translate3d(calc(var(--px) * -0.4), calc(var(--py) * -0.4), 0);
     transition: transform 0.9s var(--silk-ease);
   }
   :global(.portrait-pic) { display: block; position: relative; z-index: 1; }

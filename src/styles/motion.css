@@ -4,6 +4,17 @@
  */
 @import './springs.css';
 
+/* ── performance budget ──
+   backdrop-filter is paid per element per frame; keep blur modest on mobile and skip
+   rendering of cards that are off-screen in long grids. */
+@media (max-width: 768px) { .glass { --glass-blur: 18px; --glass-sat: 150%; } .glass--thick { --glass-blur: 24px; } }
+.lgrid > *, .pgrid > *, .stack-grid > *, .grid > .card { content-visibility: auto; contain-intrinsic-size: auto 320px; }
+.portrait-img, .portrait-glow, .glass--lift { will-change: transform; }
+
+/* ── dock-style hover on tool tiles ── */
+.stack-item, .integration-item { transition: transform var(--dur-snappy) var(--spring-bouncy), box-shadow var(--dur-smooth) var(--spring-smooth), border-color var(--dur-smooth) var(--spring-smooth) !important; }
+@media (hover: hover) { .stack-item:hover, .integration-item:hover { transform: translateY(-4px) scale(1.06); } }
+
 /* ── press squish: anything tappable ── */
 .btn, .pill[href], .glass--lift, .segmented__btn, .nav-links a, .theme-toggle, .nav-toggle, .faq-question, .sheet-link {
   transition-timing-function: var(--spring-smooth);
@@ -55,9 +66,15 @@
 
 /* ── lensing (Chromium): applied by motion.ts via html.has-lens after feature detection ── */
 @supports (backdrop-filter: url('#glass-lens')) {
-  html.has-lens .top-nav { -webkit-backdrop-filter: url('#glass-lens') blur(var(--glass-blur)) saturate(var(--glass-sat)); backdrop-filter: url('#glass-lens') blur(var(--glass-blur)) saturate(var(--glass-sat)); }
   html.has-lens .glass--lift:hover { -webkit-backdrop-filter: url('#glass-lens') blur(var(--glass-blur)) saturate(var(--glass-sat)); backdrop-filter: url('#glass-lens') blur(var(--glass-blur)) saturate(var(--glass-sat)); }
 }
+
+/* ── view transitions: iOS push/pop on <main> (Base.astro) ── */
+@keyframes pageIn { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+@keyframes pageOut { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateX(-16px); } }
+@keyframes pageInBack { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+@keyframes pageOutBack { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateX(16px); } }
+::view-transition-old(main), ::view-transition-new(main) { mix-blend-mode: normal; }
 
 /* ── view transitions ── */
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.35s; animation-timing-function: var(--spring-smooth); }

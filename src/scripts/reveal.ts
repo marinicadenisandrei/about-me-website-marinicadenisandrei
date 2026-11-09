@@ -6,6 +6,15 @@ export function initReveal(root: ParentNode = document): void {
     els.forEach((el) => el.classList.add('visible'));
     return;
   }
+  // stagger siblings (cards in a grid) like an iOS app grid appearing
+  const seen = new Map<Element, number>();
+  els.forEach((el) => {
+    const parent = el.parentElement;
+    if (!parent) return;
+    const n = seen.get(parent) ?? 0;
+    if (!el.style.getPropertyValue('--i') && !/reveal-d\d/.test(el.className)) el.style.setProperty('--i', String(Math.min(n, 8)));
+    seen.set(parent, n + 1);
+  });
   const io = new IntersectionObserver(
     (entries) => {
       for (const e of entries) {
