@@ -1,0 +1,22 @@
+{
+  "title": "Ultimate LLMOps Bootcamp - Production LLM Systems",
+  "url": "https://www.udemy.com/course/ultimate-llmops-bootcamp/",
+  "provider": "udemy",
+  "instructors": [
+    "Gourav J. Shah",
+    "School of Devops"
+  ],
+  "progress": 0,
+  "completed": false,
+  "lectures": 111,
+  "hours": 12.5,
+  "enrolledDate": "2026-10-23",
+  "archived": false,
+  "certificate": null,
+  "category": "AI/ML & Computer Vision",
+  "role": "student",
+  "stack": [
+    "machine-learning"
+  ],
+  "generated": true
+}

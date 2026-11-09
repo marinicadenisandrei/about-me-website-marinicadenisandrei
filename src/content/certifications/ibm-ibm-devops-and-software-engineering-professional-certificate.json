@@ -1,0 +1,15 @@
+{
+  "name": "IBM DevOps and Software Engineering Professional Certificate",
+  "issuer": "IBM (Coursera)",
+  "kind": "certification",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "devops",
+    "docker",
+    "kubernetes",
+    "python"
+  ],
+  "order": 170,
+  "credentialUrl": "https://coursera.org/share/ab0cbe9ca241de8e7b0fd1e201e52396"
+}

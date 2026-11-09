@@ -1,0 +1,28 @@
+{
+  "title": "Chef for the Absolute Beginners - DevOps",
+  "url": "https://www.udemy.com/course/learn-chef/",
+  "provider": "udemy",
+  "instructors": [
+    "Mumshad Mannambeth",
+    "Yogesh Raheja",
+    "KodeKloud Training"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 28,
+  "hours": 2,
+  "enrolledDate": "2025-05-08",
+  "archived": true,
+  "certificate": {
+    "id": "UC-307e1ff3-c3a5-47ef-8019-093b22e64641",
+    "date": "2025-08-20",
+    "url": "https://www.udemy.com/certificate/UC-307e1ff3-c3a5-47ef-8019-093b22e64641/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-307e1ff3-c3a5-47ef-8019-093b22e64641.pdf"
+  },
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "chef"
+  ],
+  "generated": true
+}

@@ -1,0 +1,45 @@
+---
+/** /stack — every technology referenced by any collection, grouped, each linking to its page. */
+import Base from '@layouts/Base.astro';
+import Link from '@components/Link.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import { site } from '@config/site';
+import { STACK, techLabel } from '@config/stack';
+import { getStackPages } from '@lib/content';
+
+const index = await getStackPages();
+const groups = new Map<string, typeof index>();
+for (const u of index) {
+  const g = STACK[u.slug]?.group ?? 'Other';
+  groups.set(g, [...(groups.get(g) ?? []), u]);
+}
+const ordered = [...groups.entries()].sort((a, b) => b[1].length - a[1].length);
+---
+
+<Base title="Stack" description={`Technologies ${site.name} works with — ${index.length} tools across projects, roles, courses and certifications.`} tint="industry">
+  <header class="page-head" data-label="Stack">
+    <SectionHeader tag={site.ui.stack.tag} title={site.ui.stack.title} body={`${index.length} technologies referenced at least three times across projects, roles, courses and certifications — each page is generated from that content. Counts show direct references (+ items reached through related tools).`} as="h1" reveal={false} />
+  </header>
+  {ordered.map(([g, items]) => (
+    <section class="section--tight stack-group" data-label={g}>
+      <p class="section-tag reveal">{g} · {items.length}</p>
+      <div class="stack-grid reveal reveal-d1">
+        {items.map((u) => (
+          <Link href={`/stack/${u.slug}`} class="stack-item glass glass--thin glass--sm glass--lift">
+            <span class="stack-name">{techLabel(u.slug)}</span>
+            <span class="stack-count">{u.total}{u.via.length > 0 && <span class="stack-via"> +{u.via.length}</span>}</span>
+          </Link>
+        ))}
+      </div>
+    </section>
+  ))}
+</Base>
+
+<style>
+  .stack-group { padding: 28px 0; }
+  .stack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+  .stack-item { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 16px; text-decoration: none; color: var(--fg); }
+  .stack-name { font-size: 0.86rem; font-weight: 500; }
+  .stack-via { opacity: 0.6; }
+  .stack-count { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.1em; color: var(--fg-subtle); background: var(--panel-bg); border: 1px solid var(--line); padding: 3px 8px; border-radius: 100px; }
+</style>

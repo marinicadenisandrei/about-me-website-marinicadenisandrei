@@ -1,0 +1,62 @@
+---
+/** Luminary footer-cta → contact CTA + footer bar with business details and legal links. */
+import Link from '@components/Link.astro';
+import { site } from '@config/site';
+import { business } from '@config/business';
+import Avatar from '@components/Avatar.astro';
+import GlassSlider from '@components/GlassSlider.astro';
+import BookCall from '@components/BookCall.astro';
+interface Props { hideCta?: boolean; page?: string }
+const { hideCta = false, page = 'footer' } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<section class="footer-cta" id="cta" data-label="Contact" data-tint="freelance">
+  {!hideCta && (
+    <>
+      <div class="footer-avatar reveal"><Avatar size={72} glow /></div>
+      <p class="section-tag reveal">{site.ui.footerCtaTag}</p>
+      <h2 class="section-title reveal reveal-d1" set:html={site.ui.footerCtaTitle} />
+      <p class="section-body reveal reveal-d2" style="margin: 0 auto;">{site.ui.footerCtaBody}</p>
+      <div class="footer-ctas reveal reveal-d3">
+        <BookCall page={`footer-${page}`} variant="primary" disclosure="short" />
+        <Link href="/contact" class="btn btn--secondary">{site.ui.ctaSendMessage}</Link>
+      </div>
+    </>
+  )}
+
+  <footer class="footer-bar reveal reveal-d4">
+    <div class="footer-brand">
+      <span class="footer-name">{site.name} — {year}</span>
+      <span class="footer-biz">{business.legalName} · CUI {business.taxId} · {business.tradeRegisterNo} · {business.registeredOffice}</span>
+    </div>
+    <GlassSlider class="footer-glass" />
+    <nav class="footer-links" aria-label="Footer">
+      {site.footerNav.map((n) => <Link href={n.href}>{n.label}</Link>)}
+      <a href={site.links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href={site.links.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+      <span class="footer-credit">{site.ui.footer.design} <a href="https://templatemo.com" target="_blank" rel="nofollow noopener">TemplateMo</a> · {site.ui.footer.builtWith}</span>
+    </nav>
+  </footer>
+</section>
+
+<style>
+  .footer-cta { padding: 120px 0 48px; text-align: center; }
+  .footer-avatar { display: flex; justify-content: center; margin-bottom: 24px; }
+  .footer-ctas { display: flex; justify-content: center; gap: 14px; margin-top: 40px; align-items: flex-start; }
+  .footer-bar { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px 32px; flex-wrap: wrap; padding-top: 40px; margin-top: 80px; border-top: 1px solid var(--line); text-align: left; }
+  .footer-brand { display: flex; flex-direction: column; gap: 6px; }
+  .footer-name { font-family: var(--font-display); font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-muted); }
+  .footer-biz { font-size: 11px; color: var(--fg-subtle); line-height: 1.6; }
+  .footer-links { display: flex; gap: 22px; flex-wrap: wrap; justify-content: flex-end; }
+  .footer-links a, .footer-credit { font-family: var(--font-display); font-size: 10px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-subtle); text-decoration: none; transition: color 0.6s var(--silk-ease); }
+  .footer-links a:hover { color: var(--fg); }
+  .footer-credit a { text-transform: none; letter-spacing: 0.05em; }
+  @media (max-width: 768px) {
+    .footer-cta { padding: 80px 0 32px; }
+    .footer-avatar { display: flex; justify-content: center; margin-bottom: 24px; }
+  .footer-ctas { flex-direction: column; align-items: center; }
+    .footer-bar { flex-direction: column; text-align: center; align-items: center; }
+    .footer-links { justify-content: center; }
+  }
+</style>

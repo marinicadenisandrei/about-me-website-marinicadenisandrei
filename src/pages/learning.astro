@@ -1,0 +1,163 @@
+---
+/**
+ * Learning: stats · in-progress courses (progress bars) · completed with certificate · certifications ·
+ * LinkedIn skill assessments. Filter by category/status + search = one small island.
+ * Archived courses are hidden unless site.features.showArchivedCourses (they still count in the stats).
+ */
+import Base from '@layouts/Base.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import SegmentedControl from '@components/SegmentedControl.astro';
+import GlassCard from '@components/GlassCard.astro';
+import Grid from '@components/Grid.astro';
+import Pill from '@components/Pill.astro';
+import { site } from '@config/site';
+import { COURSE_CATEGORIES } from '@config/course-categories';
+import { getCourses, getCertifications, getLearningStats } from '@lib/content';
+import { formatHours, formatMonthYear } from '@lib/format';
+
+const ui = site.ui.learning;
+const stats = await getLearningStats();
+const courses = await getCourses();
+const student = courses.filter((c) => c.data.role === 'student');
+const mine = courses.filter((c) => c.data.role === 'instructor');
+const completed = student.filter((c) => c.data.completed || c.data.certificate).sort((a, b) => (b.data.certificate?.date?.getTime() ?? 0) - (a.data.certificate?.date?.getTime() ?? 0));
+const inProgress = student.filter((c) => !c.data.completed && !c.data.certificate).sort((a, b) => b.data.progress - a.data.progress);
+const certs = (await getCertifications()).filter((c) => c.data.kind !== 'skill-assessment');
+const assessments = (await getCertifications()).filter((c) => c.data.kind === 'skill-assessment');
+const usedCats = COURSE_CATEGORIES.filter((c) => student.some((x) => x.data.category === c));
+const statTiles = [
+  [ui.stats.hours, stats.hours.toLocaleString(site.lang)],
+  [ui.stats.completed, String(stats.completed)],
+  [ui.stats.certificates, String(stats.certificates)],
+];
+---
+
+<Base title="Learning" description={`${stats.totalCourses} Udemy courses (${stats.hours} hours), ${stats.certificates} certificates and professional certifications of ${site.name}.`} tint="learning">
+  <section class="page-head" data-label="Learning">
+    <SectionHeader tag={ui.tag} title={ui.title} body={`Continuous learning across DevOps, cloud, security, AI/ML and embedded — every course and certificate below is generated from data, never typed in.`} as="h1" reveal={false} />
+    <dl class="lstats">
+      {statTiles.map(([k, v]) => <div class="glass glass--thin glass--sm lstat"><dd>{v}</dd><dt>{k}</dt></div>)}
+      <div class="glass glass--thin glass--sm lstat lstat--cats"><dd>{stats.topCategories.slice(0, 4).map(([c, n]) => <span>{c} <b>{n}</b></span>)}</dd><dt>{ui.stats.topCategories}</dt></div>
+    </dl>
+  </section>
+
+  <section class="section--tight" id="courses" data-label="Courses" data-learning>
+    <div class="lf">
+      <SegmentedControl group="lstatus" label={ui.filterStatus} value="all" options={[{ value: 'all', label: ui.all }, { value: 'completed', label: ui.completed }, { value: 'progress', label: ui.inProgress }]} />
+      <label class="lf-select"><span class="visually-hidden">{ui.filterCategory}</span>
+        <select data-l-cat><option value="all">{ui.filterCategory}: {ui.all}</option>{usedCats.map((c) => <option value={c}>{c}</option>)}</select>
+      </label>
+      <label class="lf-search"><span class="visually-hidden">{ui.search}</span><input type="search" placeholder={ui.search} data-l-search autocomplete="off" /></label>
+    </div>
+
+    <h2 class="section-tag lh" data-group="completed">{ui.completed} · <span data-count>{completed.length}</span></h2>
+    <Grid cols={3} min="260px" class="lgrid" data-group="completed">
+      {completed.map((c) => (
+        <GlassCard as="article" tint="learning" href={c.data.certificate?.url ?? c.data.url} padding="sm" class="course" data-cat={c.data.category} data-status="completed" data-title={c.data.title.toLowerCase()}>
+          <div class="course-top"><Pill dot>{c.data.category}</Pill>{c.data.certificate && <span class="course-cert" title={ui.viewCertificate}>🎓</span>}</div>
+          <h3 class="course-title">{c.data.title}</h3>
+          <p class="course-meta">{c.data.instructors[0]}{c.data.instructors.length > 1 && ' et al.'} · {formatHours(c.data.hours)}{c.data.certificate?.date && <> · {formatMonthYear(c.data.certificate.date)}</>}</p>
+          {c.data.certificate && <span class="course-link">{ui.viewCertificate} ↗</span>}
+        </GlassCard>
+      ))}
+    </Grid>
+
+    <h2 class="section-tag lh" data-group="progress">{ui.inProgress} · <span data-count>{inProgress.length}</span></h2>
+    <Grid cols={3} min="260px" class="lgrid" data-group="progress">
+      {inProgress.map((c) => (
+        <GlassCard as="article" tint="learning" href={c.data.url} padding="sm" variant="thin" class="course" data-cat={c.data.category} data-status="progress" data-title={c.data.title.toLowerCase()}>
+          <div class="course-top"><Pill dot>{c.data.category}</Pill><span class="course-pct">{c.data.progress}%</span></div>
+          <h3 class="course-title">{c.data.title}</h3>
+          <p class="course-meta">{c.data.instructors[0]}{c.data.instructors.length > 1 && ' et al.'} · {formatHours(c.data.hours)} · {c.data.lectures} lectures</p>
+          <div class="progress" role="progressbar" aria-valuenow={c.data.progress} aria-valuemin="0" aria-valuemax="100" aria-label={`${c.data.progress}% complete`}><div class="progress__fill" style={`width:${c.data.progress}%`}></div></div>
+        </GlassCard>
+      ))}
+    </Grid>
+    <p class="lf-empty" data-l-empty hidden>{ui.empty}</p>
+    {!site.features.showArchivedCourses && <p class="l-note">{stats.totalCourses - courses.length} archived courses are hidden (they still count in the totals). Set <code>features.showArchivedCourses</code> to show them.</p>}
+  </section>
+
+  {site.features.udemyInstructor && mine.length > 0 && (
+    <section class="section--tight" id="my-courses" data-label={ui.myCourses}>
+      <h2 class="section-tag lh">{ui.myCourses} · {mine.length}</h2>
+      <Grid cols={3} min="260px">{mine.map((c) => <GlassCard href={c.data.url} tint="learning" padding="sm"><h3 class="course-title">{c.data.title}</h3><p class="course-meta">{formatHours(c.data.hours)} · {c.data.lectures} lectures</p></GlassCard>)}</Grid>
+    </section>
+  )}
+
+  <section class="section--tight" id="certifications" data-label={ui.certifications}>
+    <h2 class="section-tag lh">{ui.certifications} · {certs.length}</h2>
+    <Grid cols={3} min="260px">
+      {certs.map((c) => (
+        <GlassCard as="article" tint="learning" href={c.data.credentialUrl} padding="sm" variant="thin" class="cert">
+          <p class="cert-issuer">{c.data.issuer}</p>
+          <h3 class="course-title">{c.data.name}</h3>
+          <p class="course-meta">{c.data.kind.replace('-', ' ')}{c.data.date && <> · {formatMonthYear(c.data.date)}</>}{c.data.credentialUrl && <> · verify ↗</>}</p>
+        </GlassCard>
+      ))}
+    </Grid>
+  </section>
+
+  {assessments.length > 0 && (
+    <section class="section--tight" id="skill-assessments" data-label={ui.skillAssessments}>
+      <h2 class="section-tag lh">{ui.skillAssessments} · {assessments.length}</h2>
+      <div class="badges reveal">{assessments.map((a) => <a class="pill" data-tint="learning" href={a.data.credentialUrl} target="_blank" rel="noopener noreferrer">✓ {a.data.name}</a>)}</div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .section--tight { padding: 32px 0; }
+  .lstats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 28px; }
+  .lstat { display: flex; flex-direction: column-reverse; gap: 6px; padding: 18px 20px; }
+  .lstat dd { font-family: var(--font-display); font-size: 2rem; font-weight: 300; letter-spacing: -0.04em; color: var(--fg); line-height: 1; }
+  .lstat dt { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-muted); }
+  .lstat--cats dd { font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0; display: flex; flex-direction: column; gap: 3px; color: var(--fg-muted); }
+  .lstat--cats b { color: var(--fg); font-weight: 600; }
+  .lf { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 28px; }
+  .lf-select select, .lf-search input { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg); padding: 10px 16px; border-radius: var(--radius-full); border: 1px solid var(--line); background: var(--panel-bg); outline: none; -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+  .lf-search input { text-transform: none; letter-spacing: 0.02em; font-family: var(--font-ui); font-size: 0.85rem; min-width: 200px; }
+  .lh { margin: 28px 0 14px; opacity: 1; color: var(--fg-muted); }
+  .lgrid { margin-bottom: 8px; }
+  :global(.course) { gap: 10px; }
+  .course-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .course-title { font-size: 0.95rem; font-weight: 500; line-height: 1.35; color: var(--fg); }
+  .course-meta { font-size: 0.76rem; color: var(--fg-subtle); line-height: 1.5; }
+  .course-pct { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.1em; color: var(--fg-muted); }
+  .course-cert { font-size: 14px; }
+  .course-link { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: hsl(var(--tint-h) 70% 55%); margin-top: auto; }
+  .cert-issuer { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-subtle); }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; }
+  .lf-empty { text-align: center; color: var(--fg-subtle); padding: 32px 0; }
+  .l-note { font-size: 0.78rem; color: var(--fg-subtle); margin-top: 16px; }
+  .l-note code { font-family: var(--font-mono); }
+  :global([data-learning] [hidden]) { display: none !important; }
+  @media (max-width: 900px) { .lstats { grid-template-columns: repeat(2, 1fr); } }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const root = document.querySelector<HTMLElement>('[data-learning]');
+    if (!root || root.dataset.bound) return;
+    root.dataset.bound = '';
+    const state = { status: 'all', cat: 'all', q: '' };
+    const cards = [...root.querySelectorAll<HTMLElement>('.course')];
+    const empty = root.querySelector<HTMLElement>('[data-l-empty]');
+    const apply = () => {
+      const counts: Record<string, number> = { completed: 0, progress: 0 };
+      for (const c of cards) {
+        const ok = (state.status === 'all' || c.dataset.status === state.status) && (state.cat === 'all' || c.dataset.cat === state.cat) && (!state.q || (c.dataset.title ?? '').includes(state.q));
+        c.hidden = !ok;
+        if (ok) { c.classList.add('visible'); counts[c.dataset.status ?? ''] = (counts[c.dataset.status ?? ''] ?? 0) + 1; }
+      }
+      for (const g of ['completed', 'progress']) {
+        const n = counts[g] ?? 0;
+        root.querySelectorAll<HTMLElement>(`[data-group="${g}"]`).forEach((el) => { el.hidden = n === 0 || (state.status !== 'all' && state.status !== g); });
+        const cnt = root.querySelector<HTMLElement>(`.lh[data-group="${g}"] [data-count]`); if (cnt) cnt.textContent = String(n);
+      }
+      if (empty) empty.hidden = (counts.completed ?? 0) + (counts.progress ?? 0) > 0;
+    };
+    document.addEventListener('segmented:change', (e) => { const d = (e as CustomEvent).detail; if (d.group === 'lstatus') { state.status = d.value; apply(); } });
+    root.querySelector<HTMLSelectElement>('[data-l-cat]')?.addEventListener('change', (e) => { state.cat = (e.target as HTMLSelectElement).value; apply(); });
+    root.querySelector<HTMLInputElement>('[data-l-search]')?.addEventListener('input', (e) => { state.q = (e.target as HTMLInputElement).value.trim().toLowerCase(); apply(); });
+  });
+</script>

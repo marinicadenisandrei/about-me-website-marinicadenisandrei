@@ -1,0 +1,95 @@
+---
+/** Projects — grid filterable by category (segmented), status (segmented), technology (select) and search. One small island. */
+import Base from '@layouts/Base.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import SegmentedControl from '@components/SegmentedControl.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import Grid from '@components/Grid.astro';
+import { site } from '@config/site';
+import { CATEGORY_META, PROJECT_CATEGORIES } from '@config/categories';
+import { techLabel, canonicalTech } from '@config/stack';
+import { getProjects } from '@lib/content';
+
+const ui = site.ui.projects;
+const projects = await getProjects();
+const usedCategories = PROJECT_CATEGORIES.filter((c) => projects.some((p) => p.data.category === c));
+const usedStatuses = (['active', 'completed', 'paused', 'archived'] as const).filter((s) => projects.some((p) => p.data.status === s));
+const techCounts = new Map<string, number>();
+for (const p of projects) for (const s of new Set(p.data.stack.map(canonicalTech))) techCounts.set(s, (techCounts.get(s) ?? 0) + 1);
+const techs = [...techCounts.entries()].filter(([, n]) => n >= 2).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+---
+
+<Base title="Projects" description={`${projects.length} projects by ${site.name}: research platforms, CubeSat software, VR rehabilitation, AI infrastructure and more.`} tint="industry">
+  <section class="page-head" data-label="Projects">
+    <SectionHeader tag={ui.tag} title={ui.title} body={`${projects.length} projects across research, employment and academia. Filter by category, status or technology.`} as="h1" reveal={false} />
+    <div class="pf" data-project-filters>
+      <SegmentedControl group="category" label={ui.filterCategory} value="all" options={[{ value: 'all', label: ui.all }, ...usedCategories.map((c) => ({ value: c, label: CATEGORY_META[c].label }))]} />
+      <SegmentedControl group="status" label={ui.filterStatus} value="all" options={[{ value: 'all', label: ui.all }, ...usedStatuses.map((s) => ({ value: s, label: ui.status[s] }))]} />
+      <label class="pf-select"><span class="visually-hidden">{ui.filterTech}</span>
+        <select data-filter-tech>
+          <option value="all">{ui.filterTech}: {ui.all}</option>
+          {techs.map(([t, n]) => <option value={t}>{techLabel(t)} ({n})</option>)}
+        </select>
+      </label>
+      <label class="pf-search"><span class="visually-hidden">{ui.search}</span><input type="search" placeholder={ui.search} data-filter-search autocomplete="off" /></label>
+    </div>
+  </section>
+
+  <section class="section--tight" data-label="Project grid" aria-labelledby="pgrid-h">
+    <h2 class="visually-hidden" id="pgrid-h">All projects</h2>
+    <Grid cols={3} class="pgrid" data-project-grid>
+      {projects.map((p, i) => <ProjectCard project={p} reveal={`reveal reveal-d${(i % 3) + 1}`} />)}
+    </Grid>
+    <p class="pf-empty" data-filter-empty hidden>{ui.empty}</p>
+  </section>
+</Base>
+
+<style>
+  .pf { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 8px; }
+  .pf-select select, .pf-search input {
+    font-family: var(--font-display); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg);
+    padding: 10px 16px; border-radius: var(--radius-full); border: 1px solid var(--line); background: var(--panel-bg); outline: none;
+    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  }
+  .pf-search input { text-transform: none; letter-spacing: 0.02em; font-family: var(--font-ui); font-size: 0.85rem; min-width: 200px; }
+  .pf-select select:focus, .pf-search input:focus { border-color: hsl(var(--tint-h) 70% 65%); box-shadow: 0 0 0 3px hsl(var(--tint-h) 70% 60% / 0.2); }
+  .pf-empty { text-align: center; color: var(--fg-subtle); padding: 48px 0; }
+  :global(.pgrid [hidden]) { display: none !important; }
+</style>
+
+<script>
+  import { canonicalTech } from '@config/stack';
+  document.addEventListener('astro:page-load', () => {
+    const root = document.querySelector<HTMLElement>('[data-project-filters]');
+    const grid = document.querySelector<HTMLElement>('[data-project-grid]');
+    if (!root || !grid || root.dataset.bound) return;
+    root.dataset.bound = '';
+    const state = { category: 'all', status: 'all', tech: 'all', q: '' };
+    const cards = [...grid.querySelectorAll<HTMLElement>('.pc')];
+    const empty = document.querySelector<HTMLElement>('[data-filter-empty]');
+    const apply = () => {
+      let shown = 0;
+      for (const c of cards) {
+        const stack = (c.dataset.stack ?? '').split(' ').map(canonicalTech);
+        const ok =
+          (state.category === 'all' || c.dataset.category === state.category) &&
+          (state.status === 'all' || c.dataset.status === state.status) &&
+          (state.tech === 'all' || stack.includes(state.tech)) &&
+          (!state.q || (c.dataset.title ?? '').includes(state.q) || c.textContent?.toLowerCase().includes(state.q));
+        c.hidden = !ok;
+        if (ok) { shown++; c.classList.add('visible'); }
+      }
+      if (empty) empty.hidden = shown > 0;
+    };
+    document.addEventListener('segmented:change', (e) => {
+      const d = (e as CustomEvent).detail as { group: string; value: string };
+      if (d.group === 'category' || d.group === 'status') { state[d.group] = d.value; apply(); }
+    });
+    root.querySelector<HTMLSelectElement>('[data-filter-tech]')?.addEventListener('change', (e) => { state.tech = (e.target as HTMLSelectElement).value; apply(); });
+    root.querySelector<HTMLInputElement>('[data-filter-search]')?.addEventListener('input', (e) => { state.q = (e.target as HTMLInputElement).value.trim().toLowerCase(); apply(); });
+    // deep link: /projects?category=research&tech=kubernetes
+    const qs = new URLSearchParams(location.search);
+    for (const k of ['category', 'status', 'tech'] as const) { const v = qs.get(k); if (v) state[k] = v; }
+    if (qs.get('category') || qs.get('status') || qs.get('tech')) apply();
+  });
+</script>

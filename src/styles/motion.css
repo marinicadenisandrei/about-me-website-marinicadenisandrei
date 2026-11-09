@@ -1,0 +1,82 @@
+/*
+ * iOS 27 / macOS 27 motion layer: springs (springs.css), press squish, concentric
+ * radii, glass opacity modes, lensing, and reduced-motion / contrast behaviour.
+ */
+@import './springs.css';
+
+/* ── press squish: anything tappable ── */
+.btn, .pill[href], .glass--lift, .segmented__btn, .nav-links a, .theme-toggle, .nav-toggle, .faq-question, .sheet-link {
+  transition-timing-function: var(--spring-smooth);
+}
+.btn:active, .pill[href]:active, .theme-toggle:active, .nav-toggle:active { transform: scale(0.94); transition: transform 0.12s var(--spring-snappy); }
+.glass--lift:active { transform: scale(0.98) translateY(0); transition: transform 0.12s var(--spring-snappy); }
+.segmented__btn:active { transform: scale(0.95); transition: transform 0.12s var(--spring-snappy); }
+.glass--lift { transition: transform var(--dur-smooth) var(--spring-smooth), box-shadow var(--dur-smooth) var(--spring-smooth), border-color var(--dur-smooth) var(--spring-smooth); }
+.btn { transition: transform var(--dur-snappy) var(--spring-snappy), box-shadow var(--dur-smooth) var(--spring-smooth), background var(--dur-smooth) var(--spring-smooth), border-color var(--dur-smooth) var(--spring-smooth); }
+
+/* ── concentric corner radii: inner radius = outer radius − padding ── */
+.glass { --r: var(--radius-md); --pad: 32px; }
+.glass--lg { --r: var(--radius-lg); }
+.glass--sm { --r: var(--radius-sm); }
+.card--pad-sm { --pad: 22px; }
+.card--pad-lg { --pad: 40px; }
+.card--pad-none { --pad: 0px; }
+.concentric, .glass .glass, .glass img:not(.avatar img), .glass pre, .glass .field input, .glass .field textarea, .glass .progress, .glass .feature-placeholder {
+  border-radius: max(4px, calc(var(--r) - var(--pad)));
+}
+.card--pad-none > img, .card--pad-none > picture img { border-radius: inherit; }
+
+/* ── glass opacity modes: html[data-glass="clear|tinted|opaque"] (persisted by GlassSlider) ── */
+:root { --glass-opacity: 1; }
+:root[data-glass='clear'] { --glass-opacity: 0.55; }
+:root[data-glass='opaque'] { --glass-opacity: 1.8; }
+.glass, .btn--secondary, .segmented {
+  --glass-hi-eff: color-mix(in srgb, var(--glass-hi) calc(100% * min(1, var(--glass-opacity))), transparent);
+}
+:root[data-glass='clear'] .glass { --glass-tint-a: 0.05; --glass-hi: rgba(255,255,255,0.07); --glass-lo: rgba(255,255,255,0.02); --glass-blur: 18px; }
+:root[data-glass='opaque'] .glass,
+:root[data-glass='opaque'] .btn--secondary,
+:root[data-glass='opaque'] .segmented {
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  background: color-mix(in srgb, var(--glass-fallback) 92%, hsl(var(--tint-h) 70% 60%));
+}
+:root[data-glass='opaque'] .glass--spot::after { display: none; }
+/* OS says reduce transparency → behave as Opaque regardless of the stored choice */
+@media (prefers-reduced-transparency: reduce) {
+  .glass, .btn--secondary, .segmented { -webkit-backdrop-filter: none; backdrop-filter: none; background: color-mix(in srgb, var(--glass-fallback) 94%, hsl(var(--tint-h) 70% 60%)); }
+  .glass-slider { display: none; }
+}
+/* OS asks for more contrast → stronger borders and text */
+@media (prefers-contrast: more) {
+  :root { --glass-border: color-mix(in srgb, var(--fg) 45%, transparent); --line: color-mix(in srgb, var(--fg) 30%, transparent); --fg-muted: var(--fg); --fg-subtle: color-mix(in srgb, var(--fg) 80%, transparent); }
+  .glass { border-width: 1.5px; }
+  .pill { border-color: color-mix(in srgb, var(--fg) 45%, transparent); }
+}
+
+/* ── lensing (Chromium): applied by motion.ts via html.has-lens after feature detection ── */
+@supports (backdrop-filter: url('#glass-lens')) {
+  html.has-lens .top-nav { -webkit-backdrop-filter: url('#glass-lens') blur(var(--glass-blur)) saturate(var(--glass-sat)); backdrop-filter: url('#glass-lens') blur(var(--glass-blur)) saturate(var(--glass-sat)); }
+  html.has-lens .glass--lift:hover { -webkit-backdrop-filter: url('#glass-lens') blur(var(--glass-blur)) saturate(var(--glass-sat)); backdrop-filter: url('#glass-lens') blur(var(--glass-blur)) saturate(var(--glass-sat)); }
+}
+
+/* ── view transitions ── */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.35s; animation-timing-function: var(--spring-smooth); }
+::view-transition-group(portrait), ::view-transition-group(nav-shell) { animation-duration: 0.6s; animation-timing-function: var(--spring-smooth); }
+::view-transition-old(portrait), ::view-transition-new(portrait) { mix-blend-mode: normal; height: 100%; overflow: hidden; border-radius: 50%; }
+[style*='view-transition-name: project-'] { contain: layout; }
+/* reduced motion → crossfades only (no group movement, no scale) */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*) { animation: none !important; }
+  ::view-transition-old(*), ::view-transition-new(*) { animation-duration: 0.2s !important; animation-name: -ua-view-transition-fade-out, -ua-view-transition-fade-in; }
+  ::view-transition-old(*) { animation-name: -ua-view-transition-fade-out; }
+  ::view-transition-new(*) { animation-name: -ua-view-transition-fade-in; }
+  .glass--lift:hover { transform: none; }
+}
+
+/* ── Calendly popup (loaded only after "Book a call"): entrance on our springs; nothing else is restyled ── */
+.calendly-overlay { animation: calFade 0.3s var(--spring-smooth) both; }
+.calendly-overlay .calendly-popup { animation: calPop var(--dur-smooth) var(--spring-smooth) both; border-radius: var(--radius-lg); overflow: hidden; }
+@keyframes calFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes calPop { from { opacity: 0; transform: translateY(24px) scale(0.96); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .calendly-overlay .calendly-popup { animation: calFade 0.2s both; } }
+[data-book-call].is-loading { opacity: 0.7; cursor: progress; }

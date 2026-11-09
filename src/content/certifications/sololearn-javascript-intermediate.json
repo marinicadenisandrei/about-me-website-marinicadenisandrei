@@ -1,0 +1,12 @@
+{
+  "name": "JavaScript Intermediate",
+  "issuer": "Sololearn",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "javascript"
+  ],
+  "order": 200,
+  "credentialUrl": "https://api2.sololearn.com/v2/certificates/CC-JOKQQSOV/image/jpg"
+}

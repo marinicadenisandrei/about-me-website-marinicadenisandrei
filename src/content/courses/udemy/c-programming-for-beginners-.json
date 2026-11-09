@@ -1,0 +1,27 @@
+{
+  "title": "C Programming For Beginners - Master the C Language",
+  "url": "https://www.udemy.com/course/c-programming-for-beginners-/",
+  "provider": "udemy",
+  "instructors": [
+    "Tim Buchalka's Learn Programming Academy",
+    "Jason Fedin"
+  ],
+  "progress": 99,
+  "completed": false,
+  "lectures": 150,
+  "hours": 25.5,
+  "enrolledDate": "2023-01-12",
+  "archived": true,
+  "certificate": {
+    "id": "UC-a30647a4-2fa8-4169-b1da-9651b86d920a",
+    "date": "2023-05-26",
+    "url": "https://www.udemy.com/certificate/UC-a30647a4-2fa8-4169-b1da-9651b86d920a/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-a30647a4-2fa8-4169-b1da-9651b86d920a.pdf"
+  },
+  "category": "Programming Languages",
+  "role": "student",
+  "stack": [
+    "c"
+  ],
+  "generated": true
+}

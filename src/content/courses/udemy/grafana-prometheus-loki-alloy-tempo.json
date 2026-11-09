@@ -1,0 +1,22 @@
+{
+  "title": "Observability with Grafana, Prometheus,Loki, Alloy and Tempo",
+  "url": "https://www.udemy.com/course/grafana-prometheus-loki-alloy-tempo/",
+  "provider": "udemy",
+  "instructors": [
+    "Aref Karimi"
+  ],
+  "progress": 69,
+  "completed": false,
+  "lectures": 113,
+  "hours": 7.5,
+  "enrolledDate": "2025-08-20",
+  "archived": false,
+  "certificate": null,
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "grafana",
+    "prometheus"
+  ],
+  "generated": true
+}

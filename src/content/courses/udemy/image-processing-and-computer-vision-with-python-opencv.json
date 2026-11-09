@@ -1,0 +1,22 @@
+{
+  "title": "Image Processing and Computer Vision with Python & OpenCV",
+  "url": "https://www.udemy.com/course/image-processing-and-computer-vision-with-python-opencv/",
+  "provider": "udemy",
+  "instructors": [
+    "Shiv Onkar Deepak Kumar"
+  ],
+  "progress": 1,
+  "completed": false,
+  "lectures": 77,
+  "hours": 9.5,
+  "enrolledDate": "2025-12-22",
+  "archived": true,
+  "certificate": null,
+  "category": "AI/ML & Computer Vision",
+  "role": "student",
+  "stack": [
+    "python",
+    "opencv"
+  ],
+  "generated": true
+}

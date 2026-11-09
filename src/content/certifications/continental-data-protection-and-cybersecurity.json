@@ -1,0 +1,14 @@
+{
+  "name": "Data Protection and Cybersecurity",
+  "issuer": "Continental",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "cybersecurity",
+    "gdpr"
+  ],
+  "order": 120,
+  "credentialUrl": "https://drive.google.com/file/d/1uItb7uZ4zi71hAGWUde_A1NAXUbN3syP/view?usp=sharing",
+  "$comment": "TODO: confirm this Google Drive link is meant to be public (or replace with an issuer verification link)"
+}

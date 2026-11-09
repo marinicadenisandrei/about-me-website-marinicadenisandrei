@@ -1,0 +1,24 @@
+{
+  "title": "Complete C# Unity 3D Game Development in Unity 6",
+  "url": "https://www.udemy.com/course/unitycourse2/",
+  "provider": "udemy",
+  "instructors": [
+    "Rick Davidson",
+    "GameDev.tv Team",
+    "Stephen Hubbard"
+  ],
+  "progress": 36,
+  "completed": false,
+  "lectures": 192,
+  "hours": 27,
+  "enrolledDate": "2024-10-01",
+  "archived": false,
+  "certificate": null,
+  "category": "Game Dev & XR",
+  "role": "student",
+  "stack": [
+    "csharp",
+    "unity"
+  ],
+  "generated": true
+}

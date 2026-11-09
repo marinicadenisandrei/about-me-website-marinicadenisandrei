@@ -1,0 +1,14 @@
+{
+  "name": "Machine Learning with Python",
+  "issuer": "freeCodeCamp",
+  "kind": "certification",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "python",
+    "machine-learning",
+    "tensorflow"
+  ],
+  "order": 60,
+  "credentialUrl": "https://freecodecamp.org/certification/fcca2c830be-7f65-45e3-9762-0cd84396b100/machine-learning-with-python-v7"
+}

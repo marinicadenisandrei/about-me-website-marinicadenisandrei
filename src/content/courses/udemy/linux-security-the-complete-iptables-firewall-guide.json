@@ -1,0 +1,23 @@
+{
+  "title": "Linux Security: The Complete Iptables Firewall Guide",
+  "url": "https://www.udemy.com/course/linux-security-the-complete-iptables-firewall-guide/",
+  "provider": "udemy",
+  "instructors": [
+    "Andrei Dumitrescu",
+    "Crystal Mind Academy"
+  ],
+  "progress": 24,
+  "completed": false,
+  "lectures": 125,
+  "hours": 9.5,
+  "enrolledDate": "2026-06-30",
+  "archived": false,
+  "certificate": null,
+  "category": "Security",
+  "role": "student",
+  "stack": [
+    "linux",
+    "cybersecurity"
+  ],
+  "generated": true
+}

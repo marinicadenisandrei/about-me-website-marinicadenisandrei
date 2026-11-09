@@ -1,0 +1,12 @@
+{
+  "name": "IBM Cloud Computing",
+  "issuer": "IBM (Coursera)",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "cloud"
+  ],
+  "order": 160,
+  "credentialUrl": "https://coursera.org/share/84d0852b81d0139106eb4c0b007c8e29"
+}

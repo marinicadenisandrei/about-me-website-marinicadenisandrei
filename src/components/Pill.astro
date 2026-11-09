@@ -1,0 +1,9 @@
+---
+/** Small uppercase label. With href it links (e.g. to /stack/[tech]). */
+import { withBase } from '@lib/url';
+interface Props { href?: string; tint?: string; neutral?: boolean; dot?: boolean; class?: string; title?: string }
+const { href, tint, neutral = false, dot = false, class: cls, title } = Astro.props;
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag class:list={['pill', { 'pill--neutral': neutral, 'pill--dot': dot }, cls]} data-tint={tint} href={href ? withBase(href) : undefined} title={title}><slot /></Tag>

@@ -1,0 +1,42 @@
+---
+title: Real-time robot control with cloud supervision (MSc project)
+category: academic
+role: Author — master's dissertation project
+organization: Faculty of Automatic Control and Computers, POLITEHNICA Bucharest
+status: completed
+startDate: 2022-10-01
+endDate: 2024-06-01
+summary: A four-axis servo robot controlled from a desktop application over Arduino, with I²C-connected diagnostics and error boards, a Raspberry Pi gateway pushing telemetry to AWS S3, and EC2 instances feeding status screens — plus admin-approved login and a 2FA web app.
+problem: Design, program and control an industrial robotic process end to end — real-time control, diagnostics and safety shutdown, network and system security, and cloud supervision — as a complete, demonstrable system.
+solution: A layered architecture — Arduino controllers for motion, diagnostics and error handling, a Raspberry Pi (Ubuntu) collecting data with Python and storing it in S3, and EC2 instances reading it back for local display — with CLI and GUI supervision and multi-step authentication.
+myContribution:
+  - Desktop application (CLI + GUI) controlling the four-servo robot through the main Arduino board; login with admin approval from a Linux admin application.
+  - Second Arduino over I²C generating system diagnostics and monitoring sensor values, with automatic shutdown in critical scenarios; third Arduino dedicated to error display.
+  - Raspberry Pi gateway (Ubuntu) collecting diagnostics and errors from the slave boards via Python and storing them in AWS S3; EC2 instances reading the cloud data and driving three SPI screens on an Arduino Mega.
+  - Web application with username/password and two-factor authentication.
+outcomes:
+  - Master's degree in Computer Science — Advanced Control and Real-Time Systems (2024).
+stack: [arduino, raspberry-pi, python, c, cpp, java, aws, s3, ec2, i2c, spi, linux, matlab-simulink, jenkins]
+links: {}
+featured: false
+order: 100
+---
+
+## Thesis
+
+*Design, programming and control of industrial robotic processes, implementing a real-time control system for intelligent and cognitive control of robots, industrial processes, network, system security, and cloud supervision.*
+
+## Hardware architecture
+
+1. **Main Arduino** — directly connected to the robot and responsible for controlling its four servos (four axes).
+2. **Diagnostics Arduino** — connected to the main board over I²C; generates system diagnostics, monitors sensor values of the industrial application and can shut the system down in critical scenarios.
+3. **Error-handling Arduino** — connected over I²C; displays errors from the whole application.
+4. **Raspberry Pi (Ubuntu)** — the two slave boards and an Arduino Mega with three SPI screens are attached to it. Python scripts retrieve diagnostics and errors and store them in an **AWS S3** bucket.
+5. **AWS EC2** instances read the stored data and display it locally on the three screens (robot status, diagnostics, errors).
+
+## Software
+
+- Desktop application with command-line and graphical interfaces for supervision and control; user login requires approval from an admin application running on Linux.
+- Web application with username/password authentication and two-factor authentication.
+
+{/* TODO: image — photo of the robot / architecture diagram */}

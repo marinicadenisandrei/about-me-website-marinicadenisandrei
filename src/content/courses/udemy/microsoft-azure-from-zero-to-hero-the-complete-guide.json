@@ -1,0 +1,21 @@
+{
+  "title": "Microsoft Azure: From Zero to Hero - The Complete Guide",
+  "url": "https://www.udemy.com/course/microsoft-azure-from-zero-to-hero-the-complete-guide/",
+  "provider": "udemy",
+  "instructors": [
+    "Memi Lavi"
+  ],
+  "progress": 43,
+  "completed": false,
+  "lectures": 287,
+  "hours": 21,
+  "enrolledDate": "2025-10-15",
+  "archived": false,
+  "certificate": null,
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "azure"
+  ],
+  "generated": true
+}

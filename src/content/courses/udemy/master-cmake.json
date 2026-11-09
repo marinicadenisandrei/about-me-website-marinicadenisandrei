@@ -1,0 +1,27 @@
+{
+  "title": "Master CMake for Cross-Platform C++ Project Building",
+  "url": "https://www.udemy.com/course/master_cmake/",
+  "provider": "udemy",
+  "instructors": [
+    "Milan Yadav"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 46,
+  "hours": 3.5,
+  "enrolledDate": "2025-05-28",
+  "archived": true,
+  "certificate": {
+    "id": "UC-f5cf8700-dbc2-425b-b091-f3ed8b0ca8a1",
+    "date": "2026-03-10",
+    "url": "https://www.udemy.com/certificate/UC-f5cf8700-dbc2-425b-b091-f3ed8b0ca8a1/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-f5cf8700-dbc2-425b-b091-f3ed8b0ca8a1.pdf"
+  },
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "cpp",
+    "cmake"
+  ],
+  "generated": true
+}

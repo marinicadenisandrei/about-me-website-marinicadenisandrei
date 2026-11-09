@@ -1,0 +1,82 @@
+---
+/** TODO: review by accountant/lawyer before launch — see LegalLayout banner. */
+import LegalLayout from '@components/LegalLayout.astro';
+import { business } from '@config/business';
+import { site } from '@config/site';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const [user, domain] = business.dataContactEmail.split('@');
+---
+
+<LegalLayout title="Privacy policy" description="How this website handles personal data (GDPR): controller, processors, international transfers, retention and your rights." crumb="Privacy">
+  <h2 id="controller">Data controller</h2>
+  <p>
+    <strong>{business.legalName}</strong> ({business.dataController}), {business.registeredOffice}, CUI {business.taxId}, is the controller for personal data processed through this website.
+    Contact for privacy matters: <a class="cv-email" data-u={user} data-d={domain} href={`${base}/contact#direct`} rel="nofollow">{user} [at] {domain}</a>.
+    {/* TODO: switch to a custom-domain address when available */}
+  </p>
+
+  <h2 id="site">What this site does by itself</h2>
+  <p>This is a static website hosted on GitHub Pages. It sets <strong>no cookies</strong> and runs <strong>no tracking or advertising scripts</strong>. Two preferences (colour theme, glass opacity) are stored only in your browser's <code>localStorage</code> and never leave your device.</p>
+  {site.features.analytics.provider === 'none' ? (
+    <p>No analytics are collected.</p>
+  ) : (
+    <p>Page views are measured with {site.features.analytics.provider === 'plausible' ? 'Plausible' : 'Umami'}, a cookie-less analytics tool that does not identify individual visitors.</p>
+  )}
+
+  <h2 id="hosting">Hosting</h2>
+  <p>Pages are served by GitHub Pages (GitHub, Inc., USA). GitHub may log IP addresses for security purposes; see <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub's privacy statement</a>. GitHub relies on the EU-US Data Privacy Framework and Standard Contractual Clauses for transfers.</p>
+
+  <h2 id="processors">Processors used only when you choose to</h2>
+  <table>
+    <thead><tr><th>Service</th><th>When it loads</th><th>Data</th><th>Legal basis · purpose</th></tr></thead>
+    <tbody>
+      <tr id="calendly">
+        <td>Calendly (Calendly LLC, Atlanta, USA)</td>
+        <td><strong>Only after you click “Book a call”.</strong> Nothing from Calendly is loaded, and no Calendly cookie is set, before that click. Without JavaScript the button is a plain link to calendly.com.</td>
+        <td>Name, email, chosen time slot, time zone and anything you type; Calendly's own cookies once its widget is open. The page you booked from is passed as a non-identifying <code>utm</code> parameter.</td>
+        <td>Art. 6(1)(b) GDPR — steps prior to a contract at your request. Purpose: scheduling an intro call. See <a href={site.booking.privacyUrl} target="_blank" rel="noopener noreferrer">Calendly's privacy policy</a>.</td>
+      </tr>
+      <tr id="web3forms">
+        <td>Web3Forms</td>
+        <td>Only when you submit the contact form.</td>
+        <td>Name, email, message; the sender's IP as part of email delivery.</td>
+        <td>Art. 6(1)(b)/(f) GDPR — answering your request. Purpose: delivering your message to my inbox. <a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer">Web3Forms privacy policy</a>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 id="transfers">International transfers</h2>
+  <p>
+    Calendly processes personal data in the United States. The transfer is covered by Calendly's <a href={site.booking.dpaUrl} target="_blank" rel="noopener noreferrer">Data Processing Addendum</a>, which incorporates the European Commission's Standard Contractual Clauses (Art. 46(2)(c) GDPR) and, where applicable, Calendly's certification under the EU-US Data Privacy Framework. By booking a call you also become a user of Calendly's service under <a href={site.booking.privacyUrl} target="_blank" rel="noopener noreferrer">its privacy policy</a>.
+    Web3Forms and GitHub may likewise process data outside the EEA under Standard Contractual Clauses.
+    {/* TODO: confirm the current Calendly DPA/DPF status with your lawyer before launch */}
+  </p>
+
+  <h2 id="retention">Retention</h2>
+  <table>
+    <thead><tr><th>Data</th><th>Kept for</th></tr></thead>
+    <tbody>
+      <tr><td>Contact-form submissions (received by email)</td><td>Until your request is handled, then up to <strong>12 months</strong>, unless it leads to client work.</td></tr>
+      <tr><td>Booking details (Calendly)</td><td>In my calendar until the call has taken place and any follow-up is done, then up to <strong>12 months</strong>; Calendly keeps its own records under its policy.</td></tr>
+      <tr><td>Client correspondence, contracts and invoices</td><td>As required by Romanian accounting and tax law (currently <strong>5–10 years</strong>).</td></tr>
+    </tbody>
+  </table>
+  {/* TODO: confirm retention periods with your accountant */}
+
+  <h2 id="rights">Your rights</h2>
+  <p>Under Articles 15–22 GDPR you can request <strong>access</strong> to your data, <strong>rectification</strong>, <strong>erasure</strong>, restriction of processing, data portability, and you can <strong>object</strong> to processing based on legitimate interest. Write to the contact address above; I answer within one month. You also have the right to lodge a complaint with the Romanian supervisory authority, <strong>ANSPDCP</strong> — Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal (<a href="https://www.dataprotection.ro" target="_blank" rel="noopener noreferrer">dataprotection.ro</a>, B-dul G-ral. Gheorghe Magheru 28-30, Bucharest).</p>
+
+  <h2 id="changes">Changes</h2>
+  <p>This policy is updated when the site's tooling changes; the date below reflects the last revision.</p>
+</LegalLayout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLAnchorElement>('.cv-email:not([data-bound])').forEach((a) => {
+      a.dataset.bound = '';
+      const addr = `${a.dataset.u}@${a.dataset.d}`;
+      a.textContent = addr;
+      a.href = `mailto:${addr}`;
+    });
+  });
+</script>

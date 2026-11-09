@@ -1,0 +1,26 @@
+{
+  "title": "Complete Linux Training Course to Get Your Dream IT Job 2026",
+  "url": "https://www.udemy.com/course/complete-linux-training-course-to-get-your-dream-it-job/",
+  "provider": "udemy",
+  "instructors": [
+    "Imran Afzal"
+  ],
+  "progress": 98,
+  "completed": false,
+  "lectures": 292,
+  "hours": 42.5,
+  "enrolledDate": "2023-12-11",
+  "archived": true,
+  "certificate": {
+    "id": "UC-dd36df65-99cb-4691-a7c4-25954704bef1",
+    "date": "2026-05-12",
+    "url": "https://www.udemy.com/certificate/UC-dd36df65-99cb-4691-a7c4-25954704bef1/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-dd36df65-99cb-4691-a7c4-25954704bef1.pdf"
+  },
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "linux"
+  ],
+  "generated": true
+}

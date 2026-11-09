@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+*.log
+.DS_Store
+.lighthouseci/
+
+# never commit the original CV or any export containing personal data
+*_CV_*.pdf
+Profile.pdf

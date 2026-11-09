@@ -1,0 +1,22 @@
+---
+/**
+ * iOS segmented control. Emits `segmented:change` ({ group, value }) on the element.
+ * Filters/pages listen for it; the script module moves the glass thumb.
+ */
+interface Option { value: string; label: string }
+interface Props { group: string; options: Option[]; value?: string; label: string; class?: string }
+const { group, options, value, label, class: cls } = Astro.props;
+const active = value ?? options[0]?.value;
+---
+
+<div class:list={['segmented', cls]} role="group" aria-label={label} data-group={group}>
+  <span class="segmented__thumb" aria-hidden="true"></span>
+  {options.map((o) => (
+    <button type="button" class="segmented__btn" data-value={o.value} aria-pressed={o.value === active ? 'true' : 'false'}>{o.label}</button>
+  ))}
+</div>
+
+<script>
+  import { initSegmented } from '@/scripts/segmented';
+  document.addEventListener('astro:page-load', () => initSegmented());
+</script>

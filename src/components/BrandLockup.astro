@@ -1,0 +1,27 @@
+---
+/**
+ * Nav lockup: avatar + site.brand.primary (700) + site.brand.secondary (300, muted) — "DENIS M",
+ * reusing the template's .nav-brand / .nav-brand span styling. Links to Home. Visible in full
+ * at every breakpoint; the full name is used everywhere else. The accessible name starts with the
+ * visible text (WCAG 2.5.3 label-in-name) and then carries the full name.
+ */
+import Link from '@components/Link.astro';
+import Avatar from '@components/Avatar.astro';
+import { site } from '@config/site';
+interface Props { size?: number; compact?: boolean; transitionName?: string; class?: string; priority?: boolean }
+const { size = 30, compact = false, transitionName, class: cls, priority = true } = Astro.props;
+// `compact` is kept for API compatibility; the lockup is always shown in full.
+---
+
+<Link href="/" class:list={['nav-brand', 'lockup', { 'lockup--compact': compact }, cls]} aria-label="Denis M — Marinică Denis-Andrei — Home">
+  <Avatar size={size} transitionName={transitionName} priority={priority} />
+  <span class="lockup-text"><b>{site.brand.primary}</b><span>{site.brand.secondary}</span></span>
+</Link>
+
+<style>
+  .lockup { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--fg); }
+  .lockup-text { display: inline-flex; align-items: baseline; gap: 8px; font-family: var(--font-display); font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; white-space: nowrap; }
+  .lockup-text b { font-weight: 700; color: var(--fg); }
+  .lockup-text span { font-weight: 300; color: var(--fg-subtle); }
+  @media (max-width: 420px) { .lockup-text { font-size: 12px; letter-spacing: 0.14em; } }
+</style>

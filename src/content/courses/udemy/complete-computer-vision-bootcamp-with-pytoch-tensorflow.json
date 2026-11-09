@@ -1,0 +1,26 @@
+{
+  "title": "Complete Computer Vision Bootcamp With PyTorch & Tensorflow",
+  "url": "https://www.udemy.com/course/complete-computer-vision-bootcamp-with-pytoch-tensorflow/",
+  "provider": "udemy",
+  "instructors": [
+    "Krish Naik",
+    "Sourangshu Pal",
+    "Monal kumar",
+    "KRISHAI Technologies Private Limited"
+  ],
+  "progress": 0,
+  "completed": false,
+  "lectures": 189,
+  "hours": 59.5,
+  "enrolledDate": "2025-12-16",
+  "archived": true,
+  "certificate": null,
+  "category": "AI/ML & Computer Vision",
+  "role": "student",
+  "stack": [
+    "tensorflow",
+    "pytorch",
+    "opencv"
+  ],
+  "generated": true
+}

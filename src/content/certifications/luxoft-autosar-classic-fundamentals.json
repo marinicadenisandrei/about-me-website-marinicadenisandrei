@@ -1,0 +1,14 @@
+{
+  "name": "AUTOSAR Classic Fundamentals",
+  "issuer": "Luxoft",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "autosar",
+    "embedded"
+  ],
+  "order": 70,
+  "credentialUrl": "https://drive.google.com/file/d/15FUAdHt54D_OduTpocdMQAzMSgQ31y2Y/view?usp=sharing",
+  "$comment": "TODO: confirm this Google Drive link is meant to be public (or replace with an issuer verification link)"
+}

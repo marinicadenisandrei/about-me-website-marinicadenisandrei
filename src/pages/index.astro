@@ -1,0 +1,156 @@
+---
+/**
+ * Home — overview only. Every block is a teaser that ends with "See all →":
+ *   hero · employers · roles (→ /experience, /research, /services) · featured projects (→ /projects)
+ *   · services teaser (→ /services) · learning stats (→ /learning) · research & teaching (→ /research)
+ *   · stack (→ /stack) · FAQ (→ /services#faq) · footer CTA (→ /contact + booking)
+ */
+import Base from '@layouts/Base.astro';
+import Hero from '@components/Hero.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import FeatureRow from '@components/FeatureRow.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import EngagementCard from '@components/EngagementCard.astro';
+import GlassCard from '@components/GlassCard.astro';
+import Grid from '@components/Grid.astro';
+import SeeAll from '@components/SeeAll.astro';
+import Link from '@components/Link.astro';
+import Faq from '@components/Faq.astro';
+import { site } from '@config/site';
+import { techLabel } from '@config/stack';
+import { personJsonLd } from '@lib/jsonld';
+import { getExperience, getFeaturedProjects, getEngagementModels, getLearningStats, getStackPages, getResearch, getTeaching, getFaq } from '@lib/content';
+
+const ui = site.ui;
+const experience = await getExperience();
+const employers = experience.filter((e) => e.data.showLogo);
+const featured = (await getFeaturedProjects()).slice(0, 3);
+const engagements = await getEngagementModels();
+const learning = await getLearningStats();
+const stack = (await getStackPages()).slice(0, 12);
+const thesis = (await getResearch()).find((r) => r.data.type === 'thesis');
+const researchCount = (await getResearch()).filter((r) => r.data.type !== 'thesis').length;
+const teaching = await getTeaching();
+const faq = (await getFaq()).slice(0, 3);
+const current = experience[0];
+---
+
+<Base title={site.shortName} jsonLd={[personJsonLd(Astro.site)]}>
+  <Hero />
+
+  {/* ── employers (template logo-ticker) ── */}
+  <div class="logo-ticker reveal" data-label="Employers">
+    <div class="logo-ticker-label">Employers & institutions</div>
+    <div class="ticker-track" aria-hidden="true">
+      {[...employers, ...employers].map((e) => <span class="ticker-item">{e.data.companyShort ?? e.data.company}</span>)}
+      <span class="ticker-item">UNSTPB · ACS</span><span class="ticker-dot"></span>
+    </div>
+    <ul class="visually-hidden">{employers.map((e) => <li>{e.data.company}</li>)}<li>National University of Science and Technology POLITEHNICA Bucharest</li></ul>
+    {/* TODO: employer logos → experience/*.md logo: and render <img> here instead of names */}
+  </div>
+
+  {/* ── three roles (template features) ── */}
+  <section class="section" id="roles" data-label="Roles">
+    <SectionHeader tag={ui.roles.tag} title={ui.roles.title} center />
+    <FeatureRow number="01" tag={ui.roles.industry.tag} title={ui.roles.industry.title} body={`${current?.data.summary ?? ''}`} href="/experience" cta={ui.roles.industry.cta} tint="industry" />
+    <FeatureRow number="02" tag={ui.roles.academia.tag} title={ui.roles.academia.title} body={`Teaching ${teaching.map((t) => t.data.course).join(' and ')} at ACS-UNSTPB, AI research engineering in the Romanian AI Hub, and a PhD on ${thesis?.data.title.toLowerCase() ?? 'audio-haptic rendering'}.`} href="/research" cta={ui.roles.academia.cta} tint="academia" reverse />
+    <FeatureRow number="03" tag={ui.roles.freelance.tag} title={ui.roles.freelance.title} body="Consulting and audits, scoped projects and monthly retainers through my own practice — delivered as code in your repositories." href="/services" cta={ui.roles.freelance.cta} tint="freelance" />
+  </section>
+
+  <div class="silk-divider reveal"></div>
+
+  {/* ── featured projects ── */}
+  <section class="section" id="projects" data-label="Projects">
+    <SectionHeader tag={ui.projects.tag} title={ui.projects.title} />
+    <Grid cols={3}>{featured.map((p, i) => <ProjectCard project={p} reveal={`reveal reveal-d${i + 1}`} />)}</Grid>
+    <SeeAll href="/projects" label="See all projects" />
+  </section>
+
+  <div class="silk-divider reveal"></div>
+
+  {/* ── services teaser (template pricing) ── */}
+  <section class="section section-center" id="services" data-label="Services" data-tint="freelance">
+    <SectionHeader tag={ui.services.tag} title={ui.services.title} center body="Three engagement models. Prices on request." />
+    <Grid cols={3} class="home-eng">{engagements.map((s, i) => <EngagementCard service={s} reveal={`reveal reveal-d${i + 1}`} />)}</Grid>
+    <SeeAll href="/services" label="See all services" />
+  </section>
+
+  <div class="silk-divider reveal"></div>
+
+  {/* ── research & teaching + learning, side by side ── */}
+  <section class="section" id="academia" data-label="Research & learning">
+    <Grid cols={2} min="320px">
+      <GlassCard tint="academia" as="section" lift={false} class="reveal" aria-labelledby="h-research">
+        <p class="section-tag">{ui.research.tag}</p>
+        <h2 class="home-h" id="h-research">{thesis ? `PhD candidate — ${thesis.data.title}` : 'Research & teaching'}</h2>
+        <p class="home-p">{researchCount} research projects (HRIA, Sound of Vision, TRAVEE, GLOBE-CoP, GREENUS, ROSPIN/ESA) and {teaching.length} university courses as teaching assistant.</p>
+        <ul class="home-list">{teaching.map((t) => <li>{t.data.course} <span>· {t.data.level}</span></li>)}</ul>
+        <SeeAll href="/research" label="See research & teaching" />
+      </GlassCard>
+      <GlassCard tint="learning" as="section" lift={false} class="reveal reveal-d1" aria-labelledby="h-learning">
+        <p class="section-tag">{ui.learning.tag}</p>
+        <h2 class="home-h" id="h-learning">{learning.hours.toLocaleString(site.lang)} hours of courses, {learning.certificates} certificates</h2>
+        <dl class="home-stats">
+          <div><dt>{ui.learning.stats.completed}</dt><dd>{learning.completed}</dd></div>
+          <div><dt>{ui.learning.stats.certificates}</dt><dd>{learning.certificates}</dd></div>
+          <div><dt>{ui.learning.stats.topCategories}</dt><dd class="home-cats">{learning.topCategories.slice(0, 3).map(([c]) => <span>{c}</span>)}</dd></div>
+        </dl>
+        <SeeAll href="/learning" label="See all courses" />
+      </GlassCard>
+    </Grid>
+  </section>
+
+  <div class="silk-divider reveal"></div>
+
+  {/* ── stack (template integrations grid) ── */}
+  <section class="section section-center" id="stack" data-label="Stack" data-tint="industry">
+    <SectionHeader tag={ui.stack.tag} title={ui.stack.title} center />
+    <div class="integrations-grid reveal reveal-d2">
+      {stack.map((u) => (
+        <Link href={`/stack/${u.slug}`} class="integration-item glass glass--thin glass--sm glass--lift">
+          <span class="integration-name">{techLabel(u.slug)}</span>
+          <span class="integration-count">{u.total}</span>
+        </Link>
+      ))}
+    </div>
+    <SeeAll href="/stack" label="See the full stack" />
+  </section>
+
+  <div class="silk-divider reveal"></div>
+
+  {/* ── FAQ teaser ── */}
+  <section class="section section-center" id="faq" data-label="FAQ" data-tint="freelance">
+    <SectionHeader tag={ui.faq.tag} title={ui.faq.title} center />
+    <Faq items={faq} />
+    <SeeAll href="/services#faq" label="See all questions" />
+  </section>
+</Base>
+
+<style>
+  .logo-ticker { padding: 48px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; position: relative; }
+  .logo-ticker-label { text-align: center; font-family: var(--font-display); font-size: 9px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-subtle); margin-bottom: 28px; }
+  .ticker-track { display: flex; width: max-content; animation: tickerScroll 30s linear infinite; }
+  .ticker-track:hover { animation-play-state: paused; }
+  .ticker-item { flex-shrink: 0; padding: 0 40px; font-family: var(--font-display); font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-subtle); opacity: 0.6; transition: opacity 0.6s var(--silk-ease); }
+  .ticker-item:hover { opacity: 1; }
+  .ticker-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--fg-subtle); opacity: 0.3; margin: 8px 40px; flex-shrink: 0; }
+  @keyframes tickerScroll { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; } }
+
+  .home-h { font-size: 1.2rem; font-weight: 500; letter-spacing: -0.02em; line-height: 1.35; color: var(--fg); margin-bottom: 12px; }
+  .home-p { font-size: 0.9rem; line-height: 1.65; color: var(--fg-muted); margin-bottom: 14px; }
+  .home-list { list-style: none; display: grid; gap: 6px; font-size: 0.88rem; color: var(--fg); }
+  .home-list span { color: var(--fg-subtle); }
+  .home-stats { display: grid; grid-template-columns: repeat(3, auto); gap: 18px; }
+  .home-stats div { display: flex; flex-direction: column-reverse; gap: 4px; }
+  .home-stats dd { font-family: var(--font-display); font-size: 1.6rem; font-weight: 300; letter-spacing: -0.03em; color: var(--fg); }
+  .home-stats dt { font-family: var(--font-display); font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-subtle); }
+  .home-cats { display: flex; flex-direction: column; gap: 2px; font-size: 0.78rem !important; font-family: var(--font-ui) !important; letter-spacing: 0 !important; }
+  .integrations-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .integration-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 22px 12px; text-decoration: none; color: var(--fg); }
+  .integration-name { font-family: var(--font-display); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; text-align: center; color: var(--fg-muted); }
+  .integration-count { font-family: var(--font-display); font-size: 9px; color: var(--fg-subtle); }
+  :global(.home-eng) { text-align: left; }
+  @media (max-width: 1024px) { .integrations-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 640px) { .integrations-grid { grid-template-columns: repeat(2, 1fr); } .home-stats { grid-template-columns: 1fr 1fr; } }
+</style>

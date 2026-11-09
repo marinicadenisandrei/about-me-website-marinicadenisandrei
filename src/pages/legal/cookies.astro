@@ -1,0 +1,26 @@
+---
+import LegalLayout from '@components/LegalLayout.astro';
+import { site } from '@config/site';
+---
+
+<LegalLayout title="Cookie policy" description="This website uses no tracking cookies." crumb="Cookies">
+  <h2>Cookies set by this site</h2>
+  <p><strong>None.</strong> The site does not set cookies, and there is no cookie banner because there is nothing to consent to.</p>
+
+  <h2>Local storage</h2>
+  <table>
+    <thead><tr><th>Key</th><th>Purpose</th><th>Lifetime</th></tr></thead>
+    <tbody>
+      <tr><td><code>theme</code></td><td>Your light/dark choice from the toggle in the navigation.</td><td>Until you clear site data</td></tr>
+      <tr><td><code>glass</code></td><td>Your glass opacity choice (Clear / Tinted / Opaque).</td><td>Until you clear site data</td></tr>
+    </tbody>
+  </table>
+  <p>These values stay in your browser and are never transmitted.</p>
+
+  <h2>Third-party cookies after an action you take</h2>
+  <ul>
+    <li><strong>Calendly</strong> — loads only after you click “Book a call”; its widget may then set Calendly's own cookies. See <a href={site.booking.privacyUrl} target="_blank" rel="noopener noreferrer">Calendly's privacy policy</a>.</li>
+    <li><strong>Web3Forms</strong> — receives the contact form only when you submit it; it sets no cookies on this site.</li>
+  </ul>
+  {site.features.analytics.provider !== 'none' && <p>Analytics ({site.features.analytics.provider}) are cookie-less.</p>}
+</LegalLayout>

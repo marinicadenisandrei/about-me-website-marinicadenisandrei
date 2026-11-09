@@ -1,0 +1,22 @@
+{
+  "title": "Complete C# Masterclass",
+  "url": "https://www.udemy.com/course/complete-csharp-masterclass/",
+  "provider": "udemy",
+  "instructors": [
+    "Denis Panjuta",
+    "Tutorials.eu by Denis Panjuta"
+  ],
+  "progress": 22,
+  "completed": false,
+  "lectures": 484,
+  "hours": 46,
+  "enrolledDate": "2026-09-03",
+  "archived": false,
+  "certificate": null,
+  "category": "Programming Languages",
+  "role": "student",
+  "stack": [
+    "csharp"
+  ],
+  "generated": true
+}

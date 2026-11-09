@@ -1,0 +1,99 @@
+---
+/** /stack/[tech] — everything that uses one technology: projects, roles, courses, certifications, teaching, research. */
+import Base from '@layouts/Base.astro';
+import Link from '@components/Link.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import GlassCard from '@components/GlassCard.astro';
+import Grid from '@components/Grid.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import { site } from '@config/site';
+import { STACK, techLabel } from '@config/stack';
+import { getStackPages, type StackUsage } from '@lib/content';
+import { formatRange } from '@lib/format';
+
+export async function getStaticPaths() {
+  const index = await getStackPages();
+  return index.map((u) => ({ params: { tech: u.slug }, props: { usage: u } }));
+}
+const { usage } = Astro.props as { usage: StackUsage };
+const label = techLabel(usage.slug);
+import type { CollectionEntry } from 'astro:content';
+const viaOf = <K extends StackUsage['via'][number]['kind']>(kind: K) =>
+  usage.via.filter((v) => v.kind === kind) as { item: CollectionEntry<K>; child: string }[];
+const viaProjects = viaOf('projects');
+const viaExperience = viaOf('experience');
+const viaCourses = viaOf('courses');
+const viaCerts = viaOf('certifications');
+const viaLabel = (child: string) => `via ${techLabel(child)}`;
+const group = STACK[usage.slug]?.group;
+const ui = site.ui.stack;
+---
+
+<Base title={label} description={`${label} — projects, roles, courses and certifications of ${site.name} that use ${label}.`} tint="industry">
+  <header class="page-head" data-label={label}>
+    <Breadcrumbs items={[{ label: 'Stack', href: '/stack' }, { label }]} />
+    <p class="section-tag">{ui.tag}{group && <> · {group}</>}</p>
+    <h1 class="section-title">{label}</h1>
+    <p class="section-body">{ui.usedIn} {usage.total} {usage.total === 1 ? 'place' : 'places'} directly{usage.via.length > 0 && <>, plus {usage.via.length} through related tools ({[...new Set(usage.via.map((v) => techLabel(v.child)))].join(', ')})</>}.</p>
+  </header>
+
+  {(usage.projects.length > 0 || viaProjects.length > 0) && (
+    <section class="section section--tight" data-label={ui.projects}>
+      <p class="section-tag reveal">{ui.projects} · {usage.projects.length + viaProjects.length}</p>
+      <Grid cols={3}>
+        {usage.projects.map((p) => <ProjectCard project={p} reveal="reveal" />)}
+        {viaProjects.map(({ item, child }) => <div class="via-wrap reveal"><ProjectCard project={item} /><span class="via">{viaLabel(child)}</span></div>)}
+      </Grid>
+    </section>
+  )}
+  {(usage.experience.length > 0 || viaExperience.length > 0) && (
+    <section class="section section--tight" data-label={ui.jobs}>
+      <p class="section-tag reveal">{ui.jobs} · {usage.experience.length + viaExperience.length}</p>
+      <Grid cols={2} min="300px">
+        {[...usage.experience.map((e) => ({ e, child: '' })), ...viaExperience.map(({ item, child }) => ({ e: item, child }))].map(({ e, child }) => (
+          <GlassCard href="/experience" tint={e.data.tint} class="reveal">
+            <p class="sk-k">{formatRange(e.data.startDate, e.data.endDate)}{child && <span class="via-inline"> · {viaLabel(child)}</span>}</p>
+            <h3 class="sk-t">{e.data.role}</h3>
+            <p class="sk-s">{e.data.company}</p>
+          </GlassCard>
+        ))}
+      </Grid>
+    </section>
+  )}
+  {(usage.research.length > 0 || usage.teaching.length > 0) && (
+    <section class="section section--tight" data-label="Research & teaching">
+      <p class="section-tag reveal">Research & teaching · {usage.research.length + usage.teaching.length}</p>
+      <Grid cols={2} min="300px">
+        {usage.research.map((r) => <GlassCard href="/research" tint="academia" class="reveal"><p class="sk-k">{r.data.role}</p><h3 class="sk-t">{r.data.title}</h3></GlassCard>)}
+        {usage.teaching.map((t) => <GlassCard href="/research" tint="academia" class="reveal"><p class="sk-k">{t.data.level} · {t.data.role}</p><h3 class="sk-t">{t.data.course}</h3></GlassCard>)}
+      </Grid>
+    </section>
+  )}
+  {(usage.courses.length + usage.certifications.length + viaCourses.length + viaCerts.length) > 0 && (
+    <section class="section section--tight" data-label="Learning">
+      <p class="section-tag reveal">{ui.courses} & {ui.certifications} · {usage.courses.length + usage.certifications.length + viaCourses.length + viaCerts.length}</p>
+      <ul class="sk-list reveal">
+        {usage.certifications.map((c) => <li><span class="sk-badge">cert</span>{c.data.credentialUrl ? <a href={c.data.credentialUrl} target="_blank" rel="noopener noreferrer">{c.data.name}</a> : c.data.name}<span class="sk-s"> · {c.data.issuer}</span></li>)}
+        {viaCerts.map(({ item: c, child }) => <li><span class="sk-badge">cert</span>{c.data.credentialUrl ? <a href={c.data.credentialUrl} target="_blank" rel="noopener noreferrer">{c.data.name}</a> : c.data.name}<span class="sk-s"> · {c.data.issuer} · {viaLabel(child)}</span></li>)}
+        {usage.courses.map((c) => <li><span class="sk-badge">{c.data.completed ? 'done' : `${c.data.progress}%`}</span><a href={c.data.url} target="_blank" rel="noopener noreferrer">{c.data.title}</a></li>)}
+        {viaCourses.map(({ item: c, child }) => <li><span class="sk-badge">{c.data.completed ? 'done' : `${c.data.progress}%`}</span><a href={c.data.url} target="_blank" rel="noopener noreferrer">{c.data.title}</a><span class="sk-s"> · {viaLabel(child)}</span></li>)}
+      </ul>
+    </section>
+  )}
+  <p class="sk-back"><Link href="/stack" class="btn btn--ghost btn--sm">← All technologies</Link></p>
+</Base>
+
+<style>
+  .sk-k { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-subtle); margin-bottom: 8px; }
+  .sk-t { font-size: 1rem; font-weight: 500; color: var(--fg); line-height: 1.35; }
+  .sk-s { font-size: 0.82rem; color: var(--fg-subtle); margin-top: 4px; }
+  .sk-list { list-style: none; display: grid; gap: 8px; max-width: 760px; }
+  .sk-list li { display: flex; align-items: baseline; gap: 10px; font-size: 0.9rem; color: var(--fg-muted); }
+  .sk-list a { color: var(--fg); text-decoration: none; }
+  .sk-list a:hover { text-decoration: underline; }
+  .sk-badge { font-family: var(--font-display); font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; background: hsl(var(--hue-learning) 70% 60% / 0.15); color: var(--fg-muted); flex-shrink: 0; }
+  .sk-back { padding: 32px 0 0; }
+  .via-wrap { position: relative; }
+  .via { position: absolute; top: 12px; right: 14px; font-family: var(--font-display); font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-subtle); background: var(--panel-bg); border: 1px solid var(--line); padding: 3px 8px; border-radius: 100px; pointer-events: none; }
+  .via-inline { text-transform: none; letter-spacing: 0.05em; }
+</style>

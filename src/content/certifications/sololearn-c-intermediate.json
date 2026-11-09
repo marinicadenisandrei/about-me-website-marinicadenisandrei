@@ -1,0 +1,12 @@
+{
+  "name": "C++ Intermediate",
+  "issuer": "Sololearn",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "cpp"
+  ],
+  "order": 100,
+  "credentialUrl": "https://www.sololearn.com/certificates/CC-Y4EJEL5U"
+}

@@ -1,0 +1,26 @@
+{
+  "title": "The Git & Github Bootcamp",
+  "url": "https://www.udemy.com/course/git-and-github-bootcamp/",
+  "provider": "udemy",
+  "instructors": [
+    "Colt Steele"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 190,
+  "hours": 17,
+  "enrolledDate": "2024-02-20",
+  "archived": true,
+  "certificate": {
+    "id": "UC-cddd54e3-e100-4fd4-a14a-f23922f62c5e",
+    "date": "2025-07-22",
+    "url": "https://www.udemy.com/certificate/UC-cddd54e3-e100-4fd4-a14a-f23922f62c5e/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-cddd54e3-e100-4fd4-a14a-f23922f62c5e.pdf"
+  },
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "git"
+  ],
+  "generated": true
+}

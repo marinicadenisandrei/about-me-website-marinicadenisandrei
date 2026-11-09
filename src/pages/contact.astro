@@ -1,0 +1,128 @@
+---
+/**
+ * Contact: avatar, obfuscated email (assembled client-side), LinkedIn/GitHub, Web3Forms form
+ * (honeypot + no JS fallback), and the Calendly "Book a call" facade next to the form.
+ */
+import Base from '@layouts/Base.astro';
+import Avatar from '@components/Avatar.astro';
+import GlassCard from '@components/GlassCard.astro';
+import BookCall from '@components/BookCall.astro';
+import { site } from '@config/site';
+import { personJsonLd } from '@lib/jsonld';
+
+const ui = site.ui.contact;
+const key = site.features.contactForm.key;
+const [user, domain] = site.email.split('@');
+const links = [
+  { label: 'LinkedIn', url: site.links.linkedin },
+  { label: 'GitHub', url: site.links.github },
+].filter((l) => l.url && !l.url.includes('TODO'));
+---
+
+<Base title="Contact" description={`Contact ${site.name} — email, LinkedIn, a 30-minute intro call or the contact form.`} tint="freelance" hideCta jsonLd={[personJsonLd(Astro.site)]}>
+  <section class="page-head contact-head" data-label="Contact">
+    <Avatar size={96} glow priority />
+    <div>
+      <p class="section-tag">{ui.tag}</p>
+      <h1 class="section-title" set:html={ui.title} />
+      <p class="section-body">Freelance projects, research collaborations, teaching or just a question — pick whichever is easiest. I reply within two working days.</p>
+    </div>
+  </section>
+
+  <section class="contact-grid" data-label="Contact options">
+    <GlassCard tint="freelance" lift={false} spot={false} as="section" aria-labelledby="direct">
+      <h2 class="ch" id="direct">Direct</h2>
+      <ul class="contact-list">
+        <li>
+          <span class="ck">Email</span>
+          {/* assembled client-side so scrapers don't get a plain address; noscript shows a hint */}
+          <a class="cv-email" data-u={user} data-d={domain} href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/contact#direct`} rel="nofollow">{user}&nbsp;[at]&nbsp;{domain}</a>
+          <noscript><span class="cv-email-ns">{user} [at] {domain}</span></noscript>
+        </li>
+        {links.map((l) => <li><span class="ck">{l.label}</span><a href={l.url} target="_blank" rel="noopener noreferrer">{l.url.replace(/^https?:\/\/(www\.)?/, '')}</a></li>)}
+        <li><span class="ck">Location</span><span>{site.location} · remote-first, EET/EEST</span></li>
+      </ul>
+      <div class="contact-book">
+        <h2 class="ch">{site.booking.label}</h2>
+        <BookCall page="contact" variant="primary" label={site.booking.label} disclosure="full" />
+      </div>
+    </GlassCard>
+
+    <GlassCard tint="freelance" lift={false} spot={false} as="section" aria-labelledby="formh">
+      <h2 class="ch" id="formh">{ui.send}</h2>
+      {!key && <p class="todo" style="margin-bottom:14px">TODO: set PUBLIC_WEB3FORMS_KEY — the form posts to Web3Forms only once the key is configured.</p>}
+      <form class="form" action="https://api.web3forms.com/submit" method="POST" data-contact-form>
+        <input type="hidden" name="access_key" value={key} />
+        <input type="hidden" name="subject" value={`New message from ${site.shortName}'s website`} />
+        <input type="hidden" name="from_name" value="Website contact form" />
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <label class="field"><span>{ui.name}</span><input type="text" name="name" required autocomplete="name" /></label>
+        <label class="field"><span>{ui.email}</span><input type="email" name="email" required autocomplete="email" /></label>
+        <label class="field"><span>{ui.message}</span><textarea name="message" rows="5" required></textarea></label>
+        <button class="btn btn--primary" type="submit">{ui.send}</button>
+        <p class="form-status" role="status" aria-live="polite" data-status></p>
+        <p class="form-note">Sent through Web3Forms (third-party). Your message is delivered to my inbox and not stored by this site.</p>
+      </form>
+    </GlassCard>
+  </section>
+</Base>
+
+<style>
+  .contact-head { display: grid; grid-template-columns: 120px 1fr; gap: 40px; align-items: start; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; padding-bottom: 40px; }
+  .ch { font-family: var(--font-display); font-size: 10px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: hsl(var(--tint-h) 70% 70%); margin-bottom: 16px; }
+  .contact-list { list-style: none; display: grid; gap: 14px; margin-bottom: 32px; }
+  .contact-list li { display: grid; gap: 4px; font-size: 0.92rem; color: var(--fg-muted); }
+  .contact-list a { color: var(--fg); text-decoration: none; word-break: break-all; }
+  .contact-list a:hover { text-decoration: underline; }
+  .ck { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-subtle); }
+  .contact-book { padding-top: 24px; border-top: 1px solid var(--line); }
+  .contact-book :global(.book) { align-items: flex-start; }
+  .contact-book :global(.book-note) { text-align: left; }
+  .form { display: flex; flex-direction: column; gap: 16px; }
+  .hp { position: absolute; left: -9999px; opacity: 0; }
+  .field { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-display); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-subtle); }
+  .field input, .field textarea { font-family: var(--font-ui); font-size: 0.95rem; color: var(--fg); padding: 12px 14px; border: 1px solid var(--glass-border); background: linear-gradient(135deg, var(--glass-lo), transparent); outline: none; transition: border-color 0.6s var(--spring-smooth), box-shadow 0.6s var(--spring-smooth); }
+  .field input:focus, .field textarea:focus { border-color: hsl(var(--tint-h) 70% 65%); box-shadow: 0 0 0 3px hsl(var(--tint-h) 70% 60% / 0.2); }
+  .form-status { font-size: 0.85rem; color: var(--fg); min-height: 1.2em; }
+  .form-status[data-state='error'] { color: hsl(0 70% 65%); }
+  .form-note { font-size: 0.68rem; color: var(--fg-subtle); line-height: 1.4; }
+  @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .contact-head { grid-template-columns: 1fr; gap: 20px; } }
+</style>
+
+<script>
+  import { site } from '@config/site';
+  document.addEventListener('astro:page-load', () => {
+    // Assemble the mailto on the client — the HTML never contains the address.
+    document.querySelectorAll<HTMLAnchorElement>('.cv-email:not([data-bound])').forEach((a) => {
+      a.dataset.bound = '';
+      const addr = `${a.dataset.u}@${a.dataset.d}`;
+      a.textContent = addr;
+      a.href = `mailto:${addr}`;
+    });
+    // Progressive enhancement: submit via fetch, show status inline; without JS the form posts normally.
+    const form = document.querySelector<HTMLFormElement>('[data-contact-form]:not([data-bound])');
+    if (!form) return;
+    form.dataset.bound = '';
+    const status = form.querySelector<HTMLElement>('[data-status]');
+    const btn = form.querySelector<HTMLButtonElement>('button[type=submit]');
+    form.addEventListener('submit', async (e) => {
+      if (!form.access_key || !(form.access_key as HTMLInputElement).value) return; // no key → let the browser post (Web3Forms shows its own error)
+      e.preventDefault();
+      if (status) { status.dataset.state = ''; status.textContent = site.ui.contact.sending; }
+      if (btn) btn.disabled = true;
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        const data = (await res.json()) as { success?: boolean };
+        if (!res.ok || !data.success) throw new Error('failed');
+        form.reset();
+        if (status) status.textContent = site.ui.contact.success;
+      } catch {
+        if (status) { status.dataset.state = 'error'; status.textContent = site.ui.contact.error; }
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    });
+  });
+</script>

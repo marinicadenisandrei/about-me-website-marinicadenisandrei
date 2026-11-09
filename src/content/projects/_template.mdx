@@ -1,0 +1,50 @@
+---
+# Copy this file to `<slug>.mdx` (e.g. `hria.mdx`). The file name becomes the URL: /projects/<slug>
+title: Project title
+category: freelance           # research | freelance | employment | academic | personal
+role: DevOps & MLOps Engineer
+organization: Organisation or employer name   # optional
+# client: acme                # optional — file name in src/content/clients (without .json)
+# experience: lseg            # optional — file name in src/content/experience
+# research: hria              # optional — file name in src/content/research
+status: active                # active | completed | paused | archived
+startDate: 2025-06-01
+endDate: null                 # null = ongoing
+summary: One sentence for the project card (max 280 chars).
+problem: What was the problem or need? (1–3 sentences)
+solution: What did the team build? (1–3 sentences)
+myContribution:               # 3–5 bullets on the card; full story in the body below
+  - Built the CI/CD pipeline with GitHub Actions and Argo CD.
+  - Provisioned AKS with Terraform and Helm.
+  - Set up Prometheus/Grafana observability and alerting.
+outcomes:                     # real, verifiable outcomes only — never invented numbers
+  - "TODO: confirm number — e.g. Release time reduced"
+stack: [kubernetes, terraform, github-actions, argo-cd, grafana]
+links:
+  live: https://example.com
+  repo: https://github.com/user/repo
+  # paper: https://doi.org/…
+  # demo: https://…
+images: []
+#  - src: ../../assets/projects/<slug>/architecture.png
+#    alt: Architecture diagram
+#    caption: High-level architecture
+# cover: ../../assets/projects/<slug>/cover.jpg
+featured: false
+confidential: false           # true → client name hidden, "Confidential client – <industry>" shown
+# industry: FinTech           # required when confidential = true and no client reference
+order: 100
+---
+
+import Note from '@components/mdx/Note.astro';
+
+## Context
+
+Full write-up in MDX. You can use images, diagrams and code blocks.
+
+```yaml
+# example
+stages: [build, test, deploy]
+```
+
+<Note>MDX components are available here.</Note>

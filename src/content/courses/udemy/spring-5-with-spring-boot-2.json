@@ -1,0 +1,22 @@
+{
+  "title": "Java Spring Framework, Spring Boot, Spring AI - Gen AI",
+  "url": "https://www.udemy.com/course/spring-5-with-spring-boot-2/",
+  "provider": "udemy",
+  "instructors": [
+    "Navin Reddy",
+    "Telusko Edutech"
+  ],
+  "progress": 6,
+  "completed": false,
+  "lectures": 500,
+  "hours": 55,
+  "enrolledDate": "2026-09-03",
+  "archived": false,
+  "certificate": null,
+  "category": "Web Development",
+  "role": "student",
+  "stack": [
+    "java"
+  ],
+  "generated": true
+}

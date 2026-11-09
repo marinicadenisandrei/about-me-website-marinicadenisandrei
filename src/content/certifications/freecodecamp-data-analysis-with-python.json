@@ -1,0 +1,14 @@
+{
+  "name": "Data Analysis with Python",
+  "issuer": "freeCodeCamp",
+  "kind": "certification",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "python",
+    "pandas",
+    "numpy"
+  ],
+  "order": 50,
+  "credentialUrl": "https://freecodecamp.org/certification/fcca2c830be-7f65-45e3-9762-0cd84396b100/data-analysis-with-python-v7"
+}

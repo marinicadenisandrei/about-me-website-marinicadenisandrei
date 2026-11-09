@@ -1,0 +1,12 @@
+{
+  "name": "SQL Intermediate",
+  "issuer": "Sololearn",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "sql"
+  ],
+  "order": 300,
+  "credentialUrl": "https://api2.sololearn.com/v2/certificates/CC-QQ4ZFQRQ/image/jpg"
+}

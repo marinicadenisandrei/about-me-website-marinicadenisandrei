@@ -1,0 +1,26 @@
+{
+  "title": "Linux on Windows (WSL2)",
+  "url": "https://www.udemy.com/course/linux-on-windows-wsl2/",
+  "provider": "udemy",
+  "instructors": [
+    "David Bombal"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 20,
+  "hours": 1.5,
+  "enrolledDate": "2026-01-27",
+  "archived": true,
+  "certificate": {
+    "id": "UC-0b4ca394-cf4e-45cc-bf0e-1ce4c776ff37",
+    "date": "2026-06-16",
+    "url": "https://www.udemy.com/certificate/UC-0b4ca394-cf4e-45cc-bf0e-1ce4c776ff37/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-0b4ca394-cf4e-45cc-bf0e-1ce4c776ff37.pdf"
+  },
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "linux"
+  ],
+  "generated": true
+}

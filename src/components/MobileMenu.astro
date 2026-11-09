@@ -1,0 +1,144 @@
+---
+/**
+ * Mobile menu as an iOS bottom sheet (grab handle, slides up, staggered links).
+ * Behaviour ported from the Luminary mobile menu: opened by #navToggle, closes on
+ * link click, Escape, backdrop tap and when the viewport grows past 1024px.
+ */
+import Link from '@components/Link.astro';
+import GlassSlider from '@components/GlassSlider.astro';
+import BookCall from '@components/BookCall.astro';
+import { site } from '@config/site';
+const links = [{ label: 'Home', href: '/' }, ...site.nav];
+---
+
+<div class="sheet" id="mobileMenu" role="dialog" aria-modal="true" aria-label={site.ui.menu} hidden>
+  <div class="sheet-backdrop" data-sheet-close></div>
+  <div class="sheet-panel glass glass--thick" data-sheet-panel>
+    <div class="sheet-handle" aria-hidden="true"></div>
+    <button class="sheet-close" type="button" data-sheet-close aria-label={site.ui.closeMenu}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <nav class="sheet-links" aria-label="Mobile">
+      {links.map((n, i) => (
+        <Link href={n.href} class="sheet-link" data-index={String(i + 1).padStart(2, '0')} activeMatch>{n.label}</Link>
+      ))}
+    </nav>
+    <div class="sheet-book"><BookCall page="mobile-menu" size="sm" block disclosure="short" /></div>
+    <div class="sheet-footer">
+      {site.footerNav.map((n) => <Link href={n.href}>{n.label}</Link>)}
+    </div>
+    <div class="sheet-glass"><GlassSlider compact /></div>
+  </div>
+</div>
+
+<style>
+  .sheet { position: fixed; inset: 0; z-index: 550; }
+  .sheet[hidden] { display: none; }
+  .sheet-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; transition: opacity 0.6s var(--silk-ease); }
+  .sheet-panel {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0; border-bottom: 0;
+    padding: 12px 24px calc(28px + env(safe-area-inset-bottom)); max-height: 88dvh; overflow-y: auto;
+    transform: translateY(100%); transition: transform 0.7s var(--silk-ease);
+  }
+  .sheet.open .sheet-backdrop { opacity: 1; }
+  .sheet.open .sheet-panel { transform: translateY(0); }
+  .sheet-close { position: absolute; top: 14px; right: 16px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel-bg); color: var(--fg); display: grid; place-items: center; cursor: pointer; }
+  .sheet-handle { width: 40px; height: 5px; border-radius: 5px; background: var(--fg-subtle); opacity: 0.5; margin: 0 auto 20px; }
+  .sheet-links { display: flex; flex-direction: column; }
+  .sheet-link {
+    display: flex; align-items: baseline; gap: 16px;
+    font-family: var(--font-display); font-size: clamp(1.5rem, 5vw, 2.2rem); font-weight: 300; letter-spacing: -0.02em;
+    color: var(--fg); text-decoration: none; padding: 12px 0; border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(16px); transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .sheet-link.active { font-weight: 600; }
+  .sheet-link::before { content: attr(data-index); font-size: 10px; font-weight: 500; letter-spacing: 0.15em; color: var(--fg-subtle); opacity: 0.6; min-width: 24px; font-variant-numeric: tabular-nums; }
+  .sheet.open .sheet-link { opacity: 1; transform: translateY(0); transition: opacity 0.5s var(--silk-ease), transform 0.5s var(--silk-ease); }
+  .sheet.open .sheet-link:nth-child(1) { transition-delay: 0.06s; }
+  .sheet.open .sheet-link:nth-child(2) { transition-delay: 0.12s; }
+  .sheet.open .sheet-link:nth-child(3) { transition-delay: 0.18s; }
+  .sheet.open .sheet-link:nth-child(4) { transition-delay: 0.24s; }
+  .sheet.open .sheet-link:nth-child(5) { transition-delay: 0.30s; }
+  .sheet.open .sheet-link:nth-child(6) { transition-delay: 0.36s; }
+  .sheet.open .sheet-link:nth-child(7) { transition-delay: 0.42s; }
+  .sheet.open .sheet-link:nth-child(8) { transition-delay: 0.48s; }
+  .sheet-book { padding-top: 18px; opacity: 0; transition: opacity 0.3s ease; }
+  .sheet.open .sheet-book { opacity: 1; transition: opacity 0.5s var(--silk-ease) 0.45s; }
+  .sheet-footer { display: flex; flex-wrap: wrap; gap: 18px 24px; padding-top: 20px; opacity: 0; transition: opacity 0.3s ease; }
+  .sheet.open .sheet-footer { opacity: 1; transition: opacity 0.5s var(--silk-ease) 0.5s; }
+  .sheet-footer a { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-subtle); text-decoration: none; }
+  .sheet-glass { display: flex; justify-content: center; padding-top: 18px; opacity: 0; transition: opacity 0.3s ease; }
+  .sheet.open .sheet-glass { opacity: 1; transition: opacity 0.5s var(--silk-ease) 0.55s; }
+  /* when the morph is driven by a same-document view transition, skip the CSS slide */
+  .sheet.morph .sheet-panel { transition: none; }
+  ::view-transition-group(nav-shell) { animation-timing-function: var(--spring-smooth); animation-duration: 0.55s; }
+  ::view-transition-old(nav-shell), ::view-transition-new(nav-shell) { height: 100%; overflow: hidden; border-radius: var(--radius-lg); }
+  :global(body.menu-open) { overflow: hidden; }
+</style>
+
+<script>
+  function init() {
+  const sheet = document.getElementById('mobileMenu');
+  const toggle = document.getElementById('navToggle');
+  if (sheet && toggle && !sheet.dataset.bound) {
+    sheet.dataset.bound = '';
+    let open = false;
+    let closing: number | undefined;
+    const panel = sheet.querySelector<HTMLElement>('[data-sheet-panel]');
+    const pill = document.querySelector<HTMLElement>('#topNav');
+    const canMorph = () =>
+      typeof (document as Document & { startViewTransition?: unknown }).startViewTransition === 'function' &&
+      !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    /** Hand the shared name from the pill to the sheet (or back) so the browser morphs one into the other. */
+    const handoff = (toSheet: boolean) => {
+      if (pill) pill.style.viewTransitionName = toSheet ? 'none' : 'nav-shell';
+      if (panel) panel.style.viewTransitionName = toSheet ? 'nav-shell' : 'none';
+    };
+    const doOpen = () => {
+      sheet.hidden = false;
+      sheet.classList.add('open');
+      toggle.classList.add('active');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('menu-open');
+    };
+    const doClose = () => {
+      sheet.classList.remove('open');
+      toggle.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
+    };
+    const openMenu = () => {
+      open = true;
+      clearTimeout(closing);
+      if (canMorph()) {
+        sheet.classList.add('morph');
+        handoff(true);
+        (document as Document & { startViewTransition: (cb: () => void) => { finished: Promise<void> } })
+          .startViewTransition(doOpen).finished.finally(() => sheet.classList.remove('morph'));
+      } else {
+        sheet.hidden = false;
+        requestAnimationFrame(() => requestAnimationFrame(doOpen));
+      }
+    };
+    const closeMenu = () => {
+      if (!open) return;
+      open = false;
+      if (canMorph()) {
+        sheet.classList.add('morph');
+        handoff(false);
+        (document as Document & { startViewTransition: (cb: () => void) => { finished: Promise<void> } })
+          .startViewTransition(() => { doClose(); sheet.hidden = true; }).finished.finally(() => sheet.classList.remove('morph'));
+      } else {
+        doClose();
+        closing = window.setTimeout(() => { sheet.hidden = true; }, 700);
+      }
+    };
+    toggle.addEventListener('click', () => (open ? closeMenu() : openMenu()));
+    sheet.querySelectorAll('a, [data-sheet-close]').forEach((el) => el.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+    addEventListener('resize', () => { if (innerWidth > 1024) closeMenu(); }, { passive: true });
+  }
+  }
+  document.addEventListener('astro:page-load', init);
+</script>

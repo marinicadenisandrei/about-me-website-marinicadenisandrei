@@ -1,0 +1,146 @@
+---
+/**
+ * Base layout — Luminary structure + tinted-glass layer.
+ * grain → atmosphere (+ mesh orbs) → floating nav pill → bottom-sheet menu →
+ * side panels → <main> → footer CTA. Scripts are small modules scoped here.
+ */
+import '@fontsource/montserrat/300.css';
+import '@fontsource/montserrat/400.css';
+import '@fontsource/montserrat/500.css';
+import '@fontsource/montserrat/600.css';
+import '@fontsource/montserrat/700.css';
+import '@styles/tokens.css';
+import '@styles/glass.css';
+import '@styles/base.css';
+import '@styles/motion.css';
+import Nav from '@components/Nav.astro';
+import MobileMenu from '@components/MobileMenu.astro';
+import SidePanels from '@components/SidePanels.astro';
+import FooterCta from '@components/FooterCta.astro';
+import LensFilter from '@components/LensFilter.astro';
+import { site } from '@config/site';
+import { absoluteUrl, canonicalUrl, withBase } from '@lib/url';
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Site-relative OG image path. */
+  image?: string;
+  noindex?: boolean;
+  /** Hide the big contact CTA (keeps the footer bar). */
+  hideCta?: boolean;
+  /** Page-level tint (category key). */
+  tint?: string;
+  /** JSON-LD objects to embed. */
+  jsonLd?: Record<string, unknown>[];
+  type?: 'website' | 'article' | 'profile';
+}
+const {
+  title, description = site.description, image = '/og-default.png', noindex = false, hideCta = false, tint, jsonLd = [], type = 'website',
+} = Astro.props;
+const fullTitle = title === site.shortName ? `${site.shortName} — ${site.tagline}` : `${title} · ${site.shortName}`;
+const canonical = canonicalUrl(Astro.url, Astro.site);
+const ogImage = absoluteUrl(image, Astro.site);
+---
+
+<!doctype html>
+<html lang={site.lang} class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link rel="icon" href={withBase('/favicon-64.png')} type="image/png" sizes="64x64" />
+    <link rel="icon" href={withBase('/favicon-128.png')} type="image/png" sizes="128x128" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} sizes="180x180" />
+    <link rel="manifest" href={withBase('/site.webmanifest')} />
+    {site.features.blog && <link rel="alternate" type="application/rss+xml" title={`${site.shortName} — Notes`} href={withBase('/rss.xml')} />}
+    <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content={site.shortName} />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0F1115" />
+    {jsonLd.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+    <script is:inline>
+      // Theme bootstrap — runs before paint to avoid a flash. Mirrors src/scripts/theme.ts.
+      /* eslint-disable */
+      (function () {
+        document.documentElement.classList.remove('no-js');
+        try {
+          const t = localStorage.getItem('theme');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+          const g = localStorage.getItem('glass');
+          if (g === 'clear' || g === 'opaque') document.documentElement.setAttribute('data-glass', g);
+        } catch (_e) { /* storage unavailable */ }
+        const forced = document.documentElement.getAttribute('data-theme');
+        const light = forced ? forced === 'light' : matchMedia('(prefers-color-scheme: light)').matches;
+        const m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.content = light ? '#F4F5F7' : '#0F1115';
+      })();
+      /* eslint-enable */
+    </script>
+    {site.features.analytics.provider === 'plausible' && site.features.analytics.plausibleDomain && (
+      <script defer data-domain={site.features.analytics.plausibleDomain} src="https://plausible.io/js/script.js"></script>
+    )}
+    {site.features.analytics.provider === 'umami' && site.features.analytics.umamiSrc && (
+      <script defer src={site.features.analytics.umamiSrc} data-website-id={site.features.analytics.umamiWebsiteId}></script>
+    )}
+    <ClientRouter />
+    <slot name="head" />
+  </head>
+  <body data-tint={tint}>
+    <svg class="grain" width="100%" height="100%" aria-hidden="true">
+      <filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="5" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
+      <rect width="100%" height="100%" filter="url(#n)"></rect>
+    </svg>
+    <div class="atmosphere" aria-hidden="true">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="orb orb-4"></div>
+    </div>
+
+    <LensFilter />
+    <a class="skip-link" href="#main">{site.ui.skipToContent}</a>
+    <Nav />
+    <MobileMenu />
+    <SidePanels />
+
+    <main class="main" id="main">
+      <slot />
+      <FooterCta hideCta={hideCta} page={Astro.url.pathname.replace(/\/+$/, '').split('/').pop() || 'home'} />
+    </main>
+  </body>
+</html>
+
+<script>
+  import { initReveal } from '@/scripts/reveal';
+  import { initCardSpot } from '@/scripts/spotlight';
+  import { readStoredTheme, applyTheme } from '@/scripts/theme';
+  import { readGlass, applyGlass, detectLens } from '@/scripts/motion';
+  // Runs on first load and after every client-side navigation (ClientRouter).
+  document.addEventListener('astro:page-load', () => {
+    initReveal();
+    initCardSpot();
+    detectLens();
+  });
+  // ClientRouter swaps <html> attributes, so re-apply stored theme/glass before the new page paints.
+  document.addEventListener('astro:after-swap', () => {
+    applyTheme(readStoredTheme());
+    applyGlass(readGlass());
+  });
+</script>

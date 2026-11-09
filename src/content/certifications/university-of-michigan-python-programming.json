@@ -1,0 +1,12 @@
+{
+  "name": "Python Programming",
+  "issuer": "University of Michigan (Coursera)",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "python"
+  ],
+  "order": 30,
+  "$comment": "TODO: the CV lists the same Coursera link as for Networking Essentials — add the correct credential URL"
+}

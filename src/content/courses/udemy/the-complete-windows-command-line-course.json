@@ -1,0 +1,24 @@
+{
+  "title": "Windows Command Line - Hands-On  (CMD, Batch, MS-DOS)",
+  "url": "https://www.udemy.com/course/the-complete-windows-command-line-course/",
+  "provider": "udemy",
+  "instructors": [
+    "Nerd Academy ⭑"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 18,
+  "hours": 1.5,
+  "enrolledDate": "2025-04-01",
+  "archived": true,
+  "certificate": {
+    "id": "UC-98ec5576-f183-4244-8fd1-606e4ccc7e4b",
+    "date": "2025-05-27",
+    "url": "https://www.udemy.com/certificate/UC-98ec5576-f183-4244-8fd1-606e4ccc7e4b/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-98ec5576-f183-4244-8fd1-606e4ccc7e4b.pdf"
+  },
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [],
+  "generated": true
+}

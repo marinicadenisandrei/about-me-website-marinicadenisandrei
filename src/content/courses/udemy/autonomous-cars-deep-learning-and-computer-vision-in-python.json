@@ -1,0 +1,33 @@
+{
+  "title": "Autonomous Cars: Deep Learning and Computer Vision in Python",
+  "url": "https://www.udemy.com/course/autonomous-cars-deep-learning-and-computer-vision-in-python/",
+  "provider": "udemy",
+  "instructors": [
+    "Frank Kane",
+    "Prof. Ryan Ahmed",
+    "PhD",
+    "MBA",
+    "Mitchell Bouchard",
+    "Sundog Education Team"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 94,
+  "hours": 12.5,
+  "enrolledDate": "2024-10-01",
+  "archived": true,
+  "certificate": {
+    "id": "UC-c53a71c8-652d-4888-a591-01cd9a39ba88",
+    "date": "2025-01-21",
+    "url": "https://www.udemy.com/certificate/UC-c53a71c8-652d-4888-a591-01cd9a39ba88/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-c53a71c8-652d-4888-a591-01cd9a39ba88.pdf"
+  },
+  "category": "AI/ML & Computer Vision",
+  "role": "student",
+  "stack": [
+    "python",
+    "opencv",
+    "machine-learning"
+  ],
+  "generated": true
+}

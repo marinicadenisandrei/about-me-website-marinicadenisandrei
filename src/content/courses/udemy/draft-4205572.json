@@ -1,0 +1,21 @@
+{
+  "title": "Invata limbajul C++ pentru programarea jocurilor video",
+  "url": "https://www.udemy.com/course/draft/4205572/",
+  "provider": "udemy",
+  "instructors": [
+    "Game Development Resources"
+  ],
+  "progress": 0,
+  "completed": false,
+  "lectures": 0,
+  "hours": 0,
+  "enrolledDate": "2021-11-24",
+  "archived": true,
+  "certificate": null,
+  "category": "Game Dev & XR",
+  "role": "student",
+  "stack": [
+    "cpp"
+  ],
+  "generated": true
+}

@@ -1,0 +1,77 @@
+---
+/**
+ * Luminary side panels. Left: scroll progress (unchanged). Right: the current
+ * section's name (from `section[id][data-label]`) instead of "LMN"; falls back
+ * to the initials.
+ */
+import { site } from '@config/site';
+interface Props { sections?: number }
+const { sections = 6 } = Astro.props;
+const dots = Array.from({ length: sections });
+---
+
+<nav class="side-panel left" aria-label="Scroll progress" aria-hidden="true">
+  <span class="side-label">{site.ui.scroll}</span>
+  <div class="side-track"><div class="side-track-fill" id="leftTrack"></div></div>
+  {dots.map((_, i) => <div class:list={['side-dot', { active: i === 0 }]}></div>)}
+  <div class="side-readout" id="scrollPct">00</div>
+</nav>
+
+<nav class="side-panel right" aria-label="Current section" aria-hidden="true">
+  <span class="side-label">{site.ui.section}</span>
+  <div class="side-track"><div class="side-track-fill" id="rightTrack"></div></div>
+  {dots.map((_, i) => <div class:list={['side-dot', { active: i === 0 }]}></div>)}
+  <div class="side-readout side-readout--name" id="sectionName">{site.initials}</div>
+</nav>
+
+<style>
+  .side-panel { position: fixed; top: 50%; transform: translateY(-50%); width: 56px; z-index: 100; display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 24px 0; }
+  .side-panel.left { left: 20px; }
+  .side-panel.right { right: 20px; }
+  .side-label { writing-mode: vertical-rl; text-orientation: mixed; font-family: var(--font-display); font-size: 9px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-subtle); opacity: 0.6; }
+  .side-track { width: 1px; height: 160px; background: var(--line); position: relative; border-radius: 1px; }
+  .side-track-fill { position: absolute; top: 0; left: 0; width: 100%; height: 0%; background: linear-gradient(to bottom, var(--accent), transparent); border-radius: 1px; transition: height 1.2s var(--silk-ease); }
+  .side-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--fg-subtle); opacity: 0.2; transition: opacity 0.8s var(--silk-ease), transform 0.8s var(--silk-ease), box-shadow 0.8s var(--silk-ease); }
+  .side-dot.active { opacity: 0.9; background: hsl(var(--tint-h) 70% 65%); box-shadow: 0 0 12px hsl(var(--tint-h) 70% 60% / 0.5); transform: scale(1.3); }
+  .side-readout { font-family: var(--font-display); font-size: 9px; font-weight: 400; letter-spacing: 0.1em; color: var(--fg-subtle); opacity: 0.5; font-variant-numeric: tabular-nums; }
+  .side-readout--name { writing-mode: vertical-rl; text-transform: uppercase; letter-spacing: 0.2em; max-height: 120px; overflow: hidden; white-space: nowrap; transition: opacity 0.6s var(--silk-ease); }
+  @media (max-width: 1240px) { .side-panel { display: none; } }
+</style>
+
+<script>
+  function init() {
+  const leftTrack = document.getElementById('leftTrack');
+  const rightTrack = document.getElementById('rightTrack');
+  const pctEl = document.getElementById('scrollPct');
+  const nameEl = document.getElementById('sectionName');
+  const leftDots = document.querySelectorAll('.side-panel.left .side-dot');
+  const rightDots = document.querySelectorAll('.side-panel.right .side-dot');
+  const sections = document.querySelectorAll<HTMLElement>('section[id]');
+  const fallback = nameEl?.textContent ?? '';
+  let ticking = false;
+
+  function update() {
+    ticking = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const pct = max > 0 ? Math.min(scrollY / max, 1) : 0;
+    const t = (pct * 100).toFixed(0);
+    if (leftTrack) leftTrack.style.height = `${t}%`;
+    if (rightTrack) rightTrack.style.height = `${t}%`;
+    if (pctEl) pctEl.textContent = t.padStart(2, '0');
+
+    const y = scrollY + innerHeight * 0.4;
+    let idx = -1;
+    sections.forEach((s, i) => { if (y >= s.offsetTop) idx = i; });
+    const active = idx >= 0 ? sections[idx] : undefined;
+    const label = active?.dataset.label ?? active?.querySelector('.section-tag')?.textContent?.trim() ?? fallback;
+    if (nameEl && nameEl.textContent !== label) nameEl.textContent = label;
+    const li = Math.max(0, Math.min(idx, leftDots.length - 1));
+    leftDots.forEach((d, i) => d.classList.toggle('active', i === li));
+    rightDots.forEach((d, i) => d.classList.toggle('active', i === li));
+  }
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener('resize', update, { passive: true });
+  update();
+  }
+  document.addEventListener('astro:page-load', init);
+</script>

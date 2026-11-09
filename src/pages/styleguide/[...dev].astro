@@ -1,0 +1,236 @@
+---
+/**
+ * /styleguide — dev-only. Every glass component, in both themes, for sign-off.
+ * Generated only in dev or when STYLEGUIDE=1 (never linked, noindex, excluded from the sitemap).
+ * `?theme=light|dark` forces a theme for screenshots.
+ */
+import Base from '@layouts/Base.astro';
+import Hero from '@components/Hero.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import GlassCard from '@components/GlassCard.astro';
+import Grid from '@components/Grid.astro';
+import Pill from '@components/Pill.astro';
+import SegmentedControl from '@components/SegmentedControl.astro';
+import Timeline from '@components/Timeline.astro';
+import TimelineItem from '@components/TimelineItem.astro';
+import Faq from '@components/Faq.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import FeatureRow from '@components/FeatureRow.astro';
+import EngagementCard from '@components/EngagementCard.astro';
+import BrandLockup from '@components/BrandLockup.astro';
+import Avatar from '@components/Avatar.astro';
+import Link from '@components/Link.astro';
+import { withBase } from '@lib/url';
+import GlassSlider from '@components/GlassSlider.astro';
+// Recordings live in public/_dev/motion (pruned from production builds by scripts/prune-dev.mjs).
+const v = (n: string) => withBase(`/_dev/motion/${n}.webm`);
+const clips = [
+  { src: v('nav-pill'), title: 'Nav pill', body: 'Persists across navigations; the glass indicator slides to the active/hovered link with --spring-smooth; compact on scroll-down, expanded on scroll-up.' },
+  { src: v('card-zoom'), title: 'Card → project zoom', body: 'Shared-element transition on the title (project-<slug>) in both directions, via ClientRouter.' },
+  { src: v('portrait-morph'), title: 'Avatar → portrait', body: 'The nav mark hands the "portrait" name to the large portrait on /about; Back reverses it.' },
+  { src: v('segmented-blob'), title: 'Segmented liquid blob', body: 'The thumb stretches toward the target and settles with --spring-snappy (Web Animations).' },
+  { src: v('press-squish'), title: 'Press squish + lift', body: 'Hover: lift, spotlight and (Chromium) edge lensing. Press: scale(.94–.98) on a snappy spring.' },
+  { src: v('mobile-sheet'), title: 'Pill → bottom sheet', body: 'Same-document view transition morphs the pill into the sheet (fallback: slide-up).', portrait: true },
+  { src: v('glass-modes'), title: 'Glass: Clear → Tinted → Opaque', body: 'Slider drives html[data-glass]; persisted; reduced-transparency forces Opaque; prefers-contrast strengthens borders.' },
+  { src: v('reduced-motion'), title: 'Reduced motion', body: 'With prefers-reduced-motion the same navigation is a plain crossfade: no group movement, no parallax, no reveals.' },
+];
+import { CATEGORY_META } from '@config/categories';
+import { getProjects, getFaq, getEngagementModels, getExperience } from '@lib/content';
+import { formatRange, formatDuration } from '@lib/format';
+
+/** Exists in dev and when STYLEGUIDE=1; otherwise no page is generated at all. */
+export function getStaticPaths() {
+  return import.meta.env.DEV || process.env.STYLEGUIDE === '1' ? [{ params: { dev: undefined } }] : [];
+}
+
+const projects = (await getProjects()).slice(0, 3);
+const faq = (await getFaq()).slice(0, 3);
+const engagements = await getEngagementModels();
+const exp = (await getExperience()).slice(0, 2);
+const tints = ['industry', 'academia', 'freelance', 'learning', 'personal'] as const;
+---
+
+<Base title="Styleguide" noindex hideCta>
+  <Hero />
+
+  <section class="section sg" id="sg-theme" data-label="Styleguide">
+    <SectionHeader tag="Styleguide" title="Glass components, <strong>both themes</strong>" body="Dark follows the system by default; the toggle in the nav stores an override in localStorage. Use the control below (or <code>?theme=light</code>) to compare." reveal={false} />
+    <div class="sg-row">
+      <SegmentedControl group="theme" label="Theme" value="auto" options={[{ value: 'auto', label: 'Auto' }, { value: 'dark', label: 'Dark' }, { value: 'light', label: 'Light' }]} />
+      <SegmentedControl group="audience" label="Audience" options={[{ value: 'companies', label: 'Companies' }, { value: 'startups', label: 'Startups & Academia' }]} />
+    </div>
+  </section>
+
+  <section class="section sg" id="sg-brand" data-label="Brand">
+    <SectionHeader tag="Brand" title="Lockup, avatar <strong>and favicon</strong>" body="The circular portrait is the brand mark: nav (30px, morphs into the /about portrait), footer CTA, About and Contact, JSON-LD Person.image and the OG image. The monogram favicon is generated from Montserrat 700 outlines." reveal={false} />
+    <div class="sg-row">
+      <span class="glass glass--thick glass--pill" style="padding:8px 18px 8px 8px"><BrandLockup size={30} priority={false} /></span>
+      <span class="glass glass--thick glass--pill" style="padding:6px 14px 6px 6px"><BrandLockup size={28} compact priority={false} /></span>
+    </div>
+    <div class="sg-row">
+      {[28, 40, 72, 120].map((n) => <Avatar size={n} glow={n >= 72} />)}
+      <img src={withBase('/favicon.svg')} width="64" height="64" alt="MDA monogram favicon" />
+      <img src={withBase('/favicon-64.png')} width="64" height="64" alt="Portrait favicon 64px" />
+      <img src={withBase('/og-default.png')} width="240" height="126" alt="Default Open Graph preview card" style="border-radius:10px;border:1px solid var(--line)" />
+    </div>
+    <p class="sg-note">See the shared-element transition: <Link href="/about">open /about</Link> — the nav mark grows into the portrait; Back reverses it.</p>
+  </section>
+
+  <section class="section sg" id="sg-tokens" data-label="Tokens">
+    <SectionHeader tag="Tokens" title="Orbs and <strong>category tints</strong>" reveal={false} />
+    <div class="sg-swatches">
+      {[1, 2, 3, 4].map((i) => <div class="sw" style={`background:var(--orb-${i})`}><span>--orb-{i}</span></div>)}
+    </div>
+    <div class="sg-swatches">
+      {tints.map((t) => <div class="sw sw-tint" data-tint={t}><span>{t} · hue {CATEGORY_META[t === 'industry' ? 'industry' : t === 'academia' ? 'research' : t].hue}</span></div>)}
+    </div>
+    <p class="sg-note">Radii: <code>--radius-lg 28px</code> · <code>--radius-md 20px</code> · <code>--radius-sm 14px</code> · pills/buttons full. Easing: <code>--silk-ease</code>. Fonts: Montserrat (display) / Apple system stack (UI).</p>
+  </section>
+
+  <section class="section sg" id="sg-type" data-label="Typography">
+    <SectionHeader tag="Section tag · 9px · 0.3em" title="Section title, light 300 with <strong>strong 600</strong>" body="Section body: 0.95rem, weight 300, line-height 1.8, muted colour, max-width 540px. The UI font is the Apple system stack; headings, tags, nav and buttons use Montserrat." reveal={false} />
+    <div class="prose">
+      <h2>Prose h2 inside MDX</h2>
+      <p>Body copy with <strong>strong</strong>, <a href="#sg-type">a link</a> and <code>inline code</code>. Lists, blockquotes and code blocks are styled in <code>base.css</code>.</p>
+      <pre><code>stages: [build, test, deploy]</code></pre>
+    </div>
+  </section>
+
+  <section class="section sg" id="sg-buttons" data-label="Buttons & pills">
+    <SectionHeader tag="Buttons & pills" title="Primary is tinted gradient, <strong>secondary is glass</strong>" reveal={false} />
+    <div class="sg-row">
+      <a href="#sg-buttons" class="btn btn--primary">Primary</a>
+      <a href="#sg-buttons" class="btn btn--secondary">Secondary</a>
+      <a href="#sg-buttons" class="btn btn--ghost">Ghost</a>
+      <a href="#sg-buttons" class="btn btn--primary btn--sm">Small</a>
+      <span data-tint="academia"><a href="#sg-buttons" class="btn btn--primary">Academia tint</a></span>
+      <span data-tint="freelance"><a href="#sg-buttons" class="btn btn--primary">Freelance tint</a></span>
+      <span data-tint="learning"><a href="#sg-buttons" class="btn btn--primary">Learning tint</a></span>
+    </div>
+    <div class="sg-row">
+      {tints.map((t) => <Pill tint={t} dot>{t}</Pill>)}
+      <Pill neutral>neutral</Pill>
+      <Pill href="/stack/kubernetes" tint="industry">kubernetes ↗</Pill>
+      <span class="todo">TODO: placeholder style</span>
+    </div>
+    <div class="sg-row sg-row--narrow">
+      <div class="progress" style="width:220px"><div class="progress__fill" style="width:73%"></div></div>
+      <div class="progress" data-tint="learning" style="width:220px"><div class="progress__fill" style="width:40%"></div></div>
+    </div>
+  </section>
+
+  <section class="section sg" id="sg-glass" data-label="Glass cards">
+    <SectionHeader tag="Glass material" title="Thin, regular and <strong>thick</strong> — hover for lift and spotlight, press for the iOS scale" reveal={false} />
+    <Grid cols={3}>
+      <GlassCard variant="thin" tint="industry"><h3 class="sg-h">.glass--thin</h3><p class="sg-p">blur 24px · saturate 160% · tint α .06. Pills, badges, FAQ rows, secondary buttons.</p></GlassCard>
+      <GlassCard variant="regular" tint="academia"><h3 class="sg-h">.glass (regular)</h3><p class="sg-p">blur 32px · saturate 175% · tint α .10. Project, feature and timeline cards.</p></GlassCard>
+      <GlassCard variant="thick" tint="freelance"><h3 class="sg-h">.glass--thick</h3><p class="sg-p">blur 40px · saturate 190% · tint α .14. Nav pill, bottom sheet, featured card.</p></GlassCard>
+    </Grid>
+    <div style="height:20px"></div>
+    <Grid cols={4}>
+      {tints.map((t) => <GlassCard tint={t} padding="sm"><p class="section-tag" style="margin:0 0 6px">{t}</p><p class="sg-p">Text on glass over the lightest orb — must stay ≥ WCAG AA.</p></GlassCard>)}
+    </Grid>
+  </section>
+
+  <section class="section sg" id="sg-projects" data-label="Project cards">
+    <SectionHeader tag="Project cards" title="Cards inherit their <strong>category tint</strong>" reveal={false} />
+    <Grid cols={3}>{projects.map((p) => <ProjectCard project={p} />)}</Grid>
+  </section>
+
+  <section class="section sg" id="sg-features" data-label="Feature rows">
+    <SectionHeader tag="Feature rows" title="The three roles, <strong>alternating</strong>" reveal={false} />
+    <FeatureRow number="01" tag="Industry" title="Senior DevOps Engineer <strong>at LSEG</strong>" body="CI/CD, infrastructure as code and Kubernetes across AWS, Azure and GCP." href="/experience" cta="Experience" tint="industry" />
+    <FeatureRow number="02" tag="Academia & Research" title="Teaching, research <strong>and a PhD</strong>" body="Intelligent Image Processing and Software Engineering at ACS-UNSTPB; HRIA, Sound of Vision, TRAVEE." href="/research" cta="Research & Teaching" tint="academia" reverse />
+  </section>
+
+  <section class="section sg section-center" id="sg-pricing" data-label="Engagement cards">
+    <SectionHeader tag="Engagement models" title="Pricing cards → <strong>ways to work together</strong>" center reveal={false} />
+    <Grid cols={3} class="sg-left">{engagements.map((s) => <EngagementCard service={s} />)}</Grid>
+  </section>
+
+  <section class="section sg" id="sg-timeline" data-label="Timeline">
+    <SectionHeader tag="Timeline" title="Experience <strong>timeline</strong>" reveal={false} />
+    <Timeline>
+      {exp.map((e, i) => (
+        <TimelineItem date={formatRange(e.data.startDate, e.data.endDate)} duration={formatDuration(e.data.startDate, e.data.endDate)} tint={e.data.tint} current={i === 0}>
+          <p class="section-tag" style="margin-bottom:8px">{e.data.company}</p>
+          <h3 class="sg-h">{e.data.role}</h3>
+          <p class="sg-p">{e.data.summary}</p>
+        </TimelineItem>
+      ))}
+    </Timeline>
+  </section>
+
+  <section class="section sg" id="sg-faq" data-label="FAQ">
+    <SectionHeader tag="FAQ" title="Accordion with <strong>staggered expand-all</strong>" center reveal={false} />
+    <Faq items={faq} />
+  </section>
+
+  <section class="section sg" id="sg-motion" data-label="Motion">
+    <SectionHeader tag="Motion" title="Springs, morphs <strong>and squish</strong>" body="Easings are <code>--spring-snappy / smooth / bouncy</code> (sampled damped springs as <code>linear()</code>, cubic-bezier fallbacks). Inner radii are concentric: <code>max(4px, var(--r) − var(--pad))</code>." reveal={false} />
+    <div class="sg-row">
+      <GlassSlider />
+      <button class="btn btn--primary btn--sm" type="button" style="transition-timing-function: var(--spring-bouncy); transition-duration: var(--dur-bouncy)" onmousedown="this.style.transform='scale(.9)'" onmouseup="this.style.transform=''">bouncy</button>
+      <button class="btn btn--secondary btn--sm" type="button" style="transition-timing-function: var(--spring-snappy); transition-duration: var(--dur-snappy)" onmousedown="this.style.transform='scale(.9)'" onmouseup="this.style.transform=''">snappy</button>
+      <button class="btn btn--ghost btn--sm" type="button" style="transition-timing-function: var(--spring-smooth); transition-duration: var(--dur-smooth)" onmousedown="this.style.transform='scale(.9)'" onmouseup="this.style.transform=''">smooth</button>
+    </div>
+    <Grid cols={2} min="320px">
+      {clips.map((c) => (
+        <GlassCard lift={false} spot={false} padding="sm" as="article" class="clip">
+          <video src={c.src} muted loop playsinline controls preload="metadata" class:list={['clip-video', { 'clip-video--portrait': c.portrait }]}></video>
+          <h3 class="sg-h">{c.title}</h3>
+          <p class="sg-p">{c.body}</p>
+        </GlassCard>
+      ))}
+    </Grid>
+  </section>
+
+  <section class="section sg" id="sg-form" data-label="Form">
+    <SectionHeader tag="Form" title="Contact <strong>fields</strong>" reveal={false} />
+    <GlassCard tint="freelance" lift={false} spot={false} style="max-width:560px">
+      <form class="form" onsubmit="return false">
+        <label class="field"><span>Name</span><input type="text" placeholder="Jane Doe" /></label>
+        <label class="field"><span>Email</span><input type="email" placeholder="jane@example.com" /></label>
+        <label class="field"><span>Message</span><textarea rows="3" placeholder="Tell me about the project"></textarea></label>
+        <button class="btn btn--primary" type="submit">Send message</button>
+      </form>
+    </GlassCard>
+  </section>
+</Base>
+
+<style is:global>
+  .sg { padding: 72px 0; border-top: 1px solid var(--line); }
+  .sg .reveal { opacity: 1; transform: none; }
+  .sg-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-bottom: 18px; }
+  .sg-row--narrow { gap: 24px; }
+  .sg-swatches { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
+  .sw { width: 150px; height: 70px; border-radius: var(--radius-sm); display: flex; align-items: flex-end; padding: 8px; font-family: var(--font-mono); font-size: 10px; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+  .sw-tint { background: var(--tint-grad); color: var(--tint-ink); text-shadow: none; }
+  .sg-note { font-size: 0.85rem; color: var(--fg-subtle); }
+  .sg-note code, .section-body code { font-family: var(--font-mono); font-size: 0.85em; background: var(--panel-bg); border: 1px solid var(--line); padding: 1px 6px; border-radius: 6px; }
+  .sg-h { font-size: 1.05rem; font-weight: 500; letter-spacing: -0.01em; color: var(--fg); margin-bottom: 8px; }
+  .sg-p { font-size: 0.86rem; line-height: 1.6; color: var(--fg-muted); }
+  .sg-left { text-align: left; }
+  .clip-video { width: 100%; height: auto; display: block; background: #000; margin-bottom: 14px; }
+  .clip-video--portrait { max-height: 420px; width: auto; margin-left: auto; margin-right: auto; }
+  .form { display: flex; flex-direction: column; gap: 16px; }
+  .field { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-display); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-subtle); }
+  .field input, .field textarea { font-family: var(--font-ui); font-size: 0.95rem; color: var(--fg); padding: 12px 14px; border-radius: var(--radius-sm); border: 1px solid var(--glass-border); background: linear-gradient(135deg, var(--glass-lo), transparent); outline: none; transition: border-color 0.6s var(--silk-ease), box-shadow 0.6s var(--silk-ease); }
+  .field input:focus, .field textarea:focus { border-color: hsl(var(--tint-h) 70% 65%); box-shadow: 0 0 0 3px hsl(var(--tint-h) 70% 60% / 0.2); }
+  .field input::placeholder, .field textarea::placeholder { color: var(--fg-subtle); }
+</style>
+
+<script>
+  import { applyTheme } from '@/scripts/theme';
+  document.addEventListener('astro:page-load', () => {
+    const q = new URLSearchParams(location.search).get('theme');
+    if (q === 'light' || q === 'dark') applyTheme(q);
+  });
+  document.addEventListener('segmented:change', (e) => {
+    const d = (e as CustomEvent).detail;
+    if (d.group === 'theme') {
+      try { if (d.value === 'auto') localStorage.removeItem('theme'); else localStorage.setItem('theme', d.value); } catch { /* ignore */ }
+      applyTheme(d.value);
+    }
+  });
+</script>

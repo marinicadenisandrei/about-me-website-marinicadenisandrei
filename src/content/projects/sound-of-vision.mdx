@@ -1,0 +1,43 @@
+---
+title: Sound of Vision — audio-haptic navigation for the visually impaired
+category: research
+role: Software Developer & DevOps Engineer · PhD candidate
+organization: ACS-UPB
+research: sound-of-vision
+status: active
+startDate: 2024-04-01
+endDate: null
+summary: Real-time detection of obstacles, text, pedestrians and stairs rendered as spatial audio and wireless haptic feedback, running on a GPU-accelerated NVIDIA Jetson edge cluster orchestrated with Kubernetes and MLOps.
+problem: Visually impaired users need reliable, low-latency awareness of their surroundings; a wearable system has to detect, classify and communicate objects in real time on constrained hardware.
+solution: CNN-based detection on a three-node Jetson Xavier NX Kubernetes cluster (TensorFlow/Keras, CUDA, TensorRT, Triton), spatial-audio rendering for positional cues, and a fully wireless ESP32 haptic belt — all with IaC, automated testing and MLOps pipelines.
+myContribution:
+  - Detection algorithms for obstacles, text, pedestrians, sidewalks and elements of interest (stairs, doors, potholes) using deep-learning computer vision.
+  - Spatial-audio rendering optimised so users can classify objects and navigate a scene by sound.
+  - Designed the fully wireless haptic belt — wireless charging and ESP-NOW communication via an ESP32-C3 — and the algorithms controlling haptic parameters.
+  - "Architected the GPU edge cluster: Kubernetes on Jetson Xavier NX, TensorFlow/Keras pipelines optimised with CUDA/cuDNN/TensorRT, Triton Inference Server, GStreamer/FFmpeg pre/post-processing."
+  - Ansible/Chef provisioning, Helm/Kustomize + GitLab CI/CD + Argo CD deployments, Kubeflow Pipelines and MLflow; pytest and Selenium test automation; Kafka/MQTT streaming, Ceph/MinIO storage, Prometheus/Grafana/ELK/Jaeger, Istio and Vault.
+outcomes: []
+stack: [computer-vision, tensorflow, keras, cuda, tensorrt, triton, nvidia-jetson, kubernetes, docker, helm, kustomize, gitlab-ci, argo-cd, kubeflow, mlflow, ansible, chef, pytest, selenium, kafka, mqtt, ceph, minio, prometheus, grafana, elk, jaeger, istio, vault, esp32, spatial-audio, haptics, cpp, python, unity]
+links:
+  live: http://soundofvision.net/
+featured: true
+order: 50
+---
+
+## System
+
+- **Core hardware** — NVIDIA Jetson Xavier NX for AI tasks, an ESP32 master controller driving the audio headset and the haptic belt, and a Mini ESP32-C3 in the belt handling wireless charging and ESP-NOW command transmission.
+- **Detection** — neural networks classify obstacles, text, pedestrians, sidewalks, stairs, doors and potholes.
+- **Spatial audio** — positional feedback relative to the user, with effects tuned for object classification and navigation.
+- **Haptics** — a fully wireless belt with control algorithms mapping detections to haptic parameters.
+
+## Edge platform
+
+A three-node NVIDIA Jetson Xavier NX cluster, fully containerised and orchestrated with Kubernetes, for real-time video analytics:
+
+- CNN video pipelines in TensorFlow/Keras, optimised with CUDA, cuDNN and TensorRT; models served with NVIDIA Triton Inference Server; GStreamer and FFmpeg for pre- and post-processing.
+- Infrastructure as code with Ansible and Chef; repeatable deployments with Helm, Kustomize, GitLab CI/CD and Argo CD; Kubeflow Pipelines and MLflow for MLOps.
+- Apache Kafka and MQTT for video and telemetry streams; Ceph/MinIO object storage and NFS/GlusterFS shared volumes for datasets.
+- Prometheus, Grafana, ELK and Jaeger tracing; Istio and Vault for service-to-service security; pytest unit/integration tests and Selenium end-to-end dashboard tests.
+
+{/* TODO: image — hardware photo / cluster diagram */}

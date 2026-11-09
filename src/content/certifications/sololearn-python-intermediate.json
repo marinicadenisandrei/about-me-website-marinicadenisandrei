@@ -1,0 +1,12 @@
+{
+  "name": "Python Intermediate",
+  "issuer": "Sololearn",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "python"
+  ],
+  "order": 270,
+  "credentialUrl": "https://api2.sololearn.com/v2/certificates/CC-JZWN7EJC/image/jpg"
+}

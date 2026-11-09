@@ -1,0 +1,27 @@
+{
+  "title": "Ansible for the Absolute Beginner - Hands-On - DevOps",
+  "url": "https://www.udemy.com/course/learn-ansible/",
+  "provider": "udemy",
+  "instructors": [
+    "Mumshad Mannambeth",
+    "KodeKloud Training"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 48,
+  "hours": 2.5,
+  "enrolledDate": "2024-11-08",
+  "archived": true,
+  "certificate": {
+    "id": "UC-367ccb5f-fcd8-434d-bd7d-9fd8f4e62b24",
+    "date": "2025-02-27",
+    "url": "https://www.udemy.com/certificate/UC-367ccb5f-fcd8-434d-bd7d-9fd8f4e62b24/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-367ccb5f-fcd8-434d-bd7d-9fd8f4e62b24.pdf"
+  },
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "ansible"
+  ],
+  "generated": true
+}

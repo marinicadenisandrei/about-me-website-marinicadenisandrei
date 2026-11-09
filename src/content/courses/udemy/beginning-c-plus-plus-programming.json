@@ -1,0 +1,27 @@
+{
+  "title": "Beginning C++ Programming - From Beginner to Beyond",
+  "url": "https://www.udemy.com/course/beginning-c-plus-plus-programming/",
+  "provider": "udemy",
+  "instructors": [
+    "Tim Buchalka's Learn Programming Academy",
+    "Dr. Frank Mitropoulos"
+  ],
+  "progress": 99,
+  "completed": false,
+  "lectures": 305,
+  "hours": 46,
+  "enrolledDate": "2023-04-06",
+  "archived": true,
+  "certificate": {
+    "id": "UC-7c1c4a8b-c758-4204-bfb4-0b00a0ecfa02",
+    "date": "2024-07-17",
+    "url": "https://www.udemy.com/certificate/UC-7c1c4a8b-c758-4204-bfb4-0b00a0ecfa02/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-7c1c4a8b-c758-4204-bfb4-0b00a0ecfa02.pdf"
+  },
+  "category": "Programming Languages",
+  "role": "student",
+  "stack": [
+    "cpp"
+  ],
+  "generated": true
+}

@@ -1,0 +1,15 @@
+---
+/**
+ * CV call-to-action: while site.cv.pdfReady is false the "Download CV" button is hidden everywhere
+ * and a "View CV" link to the printable /cv page is shown instead (hero: primary CTA target).
+ */
+import Link from '@components/Link.astro';
+import { site } from '@config/site';
+interface Props { class?: string; size?: 'sm' | 'md'; variant?: 'primary' | 'secondary' | 'ghost' }
+const { class: cls, size = 'md', variant = 'secondary' } = Astro.props;
+const ready = site.cv.pdfReady;
+---
+
+<Link href={ready ? site.cv.pdfPath : site.cv.pagePath} class:list={['btn', `btn--${variant}`, { 'btn--sm': size === 'sm' }, cls]} data-cv={ready ? 'pdf' : 'page'}>
+  {ready ? site.ui.ctaDownloadCv : site.ui.ctaViewCv}
+</Link>

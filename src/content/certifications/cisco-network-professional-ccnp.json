@@ -1,0 +1,12 @@
+{
+  "name": "Network Professional (CCNP)",
+  "issuer": "Cisco (Credly)",
+  "kind": "badge",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "networking"
+  ],
+  "order": 210,
+  "credentialUrl": "https://www.credly.com/badges/9248c4ba-c448-495f-9d42-2290b0919d60/public_url"
+}

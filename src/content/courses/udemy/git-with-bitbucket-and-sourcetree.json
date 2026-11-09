@@ -1,0 +1,26 @@
+{
+  "title": "Git Essentials: Learn Git with Bitbucket and Sourcetree",
+  "url": "https://www.udemy.com/course/git-with-bitbucket-and-sourcetree/",
+  "provider": "udemy",
+  "instructors": [
+    "Juke Moon"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 58,
+  "hours": 2.5,
+  "enrolledDate": "2024-06-03",
+  "archived": true,
+  "certificate": {
+    "id": "UC-754d1859-0906-4dee-a0bc-b0061420d108",
+    "date": "2026-03-10",
+    "url": "https://www.udemy.com/certificate/UC-754d1859-0906-4dee-a0bc-b0061420d108/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-754d1859-0906-4dee-a0bc-b0061420d108.pdf"
+  },
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "git"
+  ],
+  "generated": true
+}

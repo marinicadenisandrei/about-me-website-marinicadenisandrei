@@ -1,0 +1,161 @@
+/*
+ * iOS / macOS "tinted glass" layer — tokens live in tokens.css, this file holds
+ * the material and reusable utility classes.
+ *
+ *   .glass            regular material (default)
+ *   .glass--thin      lighter blur / tint — pills, badges, secondary buttons
+ *   .glass--thick     heavier blur / tint — nav, bottom sheet, featured cards
+ *   .glass--sheen     specular highlight along the top edge (pseudo-element)
+ *   .glass--spot      cursor-following radial highlight (needs --mx/--my from JS)
+ *   .glass--lift      hover lift + press scale
+ *   [data-tint=…]     per-context hue (see tokens.css)
+ *
+ * Performance: backdrop-filter is only used on nav, cards and the sheet.
+ * Fallbacks: no backdrop-filter → opaque; prefers-reduced-transparency → near-opaque.
+ */
+
+.glass {
+  position: relative;
+  background:
+    linear-gradient(135deg, var(--glass-hi), var(--glass-lo)),
+    var(--glass-tint);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 1px 0 var(--glass-inner), var(--glass-shadow);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  transition:
+    transform 0.8s var(--silk-ease),
+    box-shadow 0.8s var(--silk-ease),
+    border-color 0.8s var(--silk-ease),
+    background 0.8s var(--silk-ease);
+}
+.glass--thin  { --glass-blur: 24px; --glass-sat: 160%; --glass-tint-a: 0.08; --glass-hi: rgba(255,255,255,0.10); }
+.glass--thick { --glass-blur: 40px; --glass-sat: 190%; --glass-tint-a: 0.22; --glass-hi: rgba(255,255,255,0.18); }
+:root[data-theme='light'] .glass--thin,
+:root[data-theme='light'] .glass--thick { --glass-hi: rgba(255,255,255,0.75); }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) .glass--thin,
+  :root:not([data-theme='dark']) .glass--thick { --glass-hi: rgba(255,255,255,0.75); }
+}
+.glass--lg { border-radius: var(--radius-lg); }
+.glass--sm { border-radius: var(--radius-sm); }
+.glass--pill { border-radius: var(--radius-full); }
+
+/* specular sheen on the top edge */
+.glass--sheen::before {
+  content: '';
+  position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 18%, transparent 40%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 60%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 60%);
+}
+
+/* cursor-following radial highlight (reuses the template's --mx/--my technique) */
+.glass--spot { --mx: 50%; --my: 50%; }
+.glass--spot::after {
+  content: '';
+  position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(260px circle at var(--mx) var(--my), var(--spot), transparent 60%);
+  opacity: 0; transition: opacity 0.8s var(--silk-ease);
+}
+.glass--spot:hover::after { opacity: 1; }
+
+/* lift on hover, iOS-style press */
+@media (hover: hover) and (pointer: fine) {
+  .glass--lift:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 var(--glass-inner), 0 16px 48px rgba(0,0,0,0.28);
+    border-color: hsl(var(--tint-h) 70% 70% / 0.35);
+  }
+  :root[data-theme='light'] .glass--lift:hover { box-shadow: inset 0 1px 0 var(--glass-inner), 0 16px 48px rgba(28,31,38,0.14); }
+}
+.glass--lift:active { transform: scale(0.98); transition-duration: 0.15s; }
+.glass > * { position: relative; z-index: 1; }
+
+/* ── fallbacks ── */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass { background: var(--glass-fallback); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    background: color-mix(in srgb, var(--glass-fallback) 94%, hsl(var(--tint-h) 70% 60%));
+  }
+}
+
+/* ── buttons ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 16px 40px; border-radius: var(--radius-full);
+  font-family: var(--font-display); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none;
+  cursor: pointer; border: 1px solid transparent; white-space: nowrap;
+  transition: transform 0.8s var(--silk-ease), box-shadow 0.8s var(--silk-ease), background 0.8s var(--silk-ease), border-color 0.8s var(--silk-ease);
+}
+.btn:active { transform: scale(0.98); transition-duration: 0.15s; }
+.btn--primary {
+  color: var(--tint-ink);
+  background: var(--tint-grad);
+  box-shadow: 0 8px 24px hsl(var(--tint-h) 70% 50% / 0.30), inset 0 1px 0 rgba(255,255,255,0.3);
+}
+.btn--primary:hover { transform: translateY(-1px) scale(1.02); box-shadow: 0 12px 36px hsl(var(--tint-h) 70% 50% / 0.42), inset 0 1px 0 rgba(255,255,255,0.3); }
+.btn--secondary {
+  color: var(--fg);
+  background: linear-gradient(135deg, var(--glass-hi), var(--glass-lo)), var(--glass-tint);
+  border-color: var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-inner);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+}
+.btn--secondary:hover { transform: translateY(-1px) scale(1.02); border-color: hsl(var(--tint-h) 70% 70% / 0.4); }
+.btn--ghost { color: var(--fg-muted); border-color: var(--line); background: transparent; }
+.btn--ghost:hover { color: var(--fg); border-color: var(--line-strong); }
+.btn--sm { padding: 10px 22px; font-size: 10px; }
+.btn--block { width: 100%; }
+
+/* ── pills ── */
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: var(--radius-full);
+  font-family: var(--font-display); font-size: 9px; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none;
+  color: var(--fg-muted);
+  background: hsl(var(--tint-h) 60% 60% / 0.12);
+  border: 1px solid hsl(var(--tint-h) 60% 70% / 0.22);
+  transition: background 0.6s var(--silk-ease), color 0.6s var(--silk-ease), border-color 0.6s var(--silk-ease);
+}
+a.pill:hover { color: var(--fg); background: hsl(var(--tint-h) 60% 60% / 0.22); border-color: hsl(var(--tint-h) 60% 70% / 0.45); }
+.pill--neutral { background: var(--panel-bg); border-color: var(--line); }
+.pill--dot::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: hsl(var(--tint-h) 70% 60%); }
+
+/* ── segmented control (iOS) ── */
+.segmented {
+  display: inline-flex; align-items: center; gap: 2px; padding: 3px;
+  border-radius: var(--radius-full);
+  background: var(--panel-bg); border: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  position: relative; isolation: isolate; max-width: 100%; overflow-x: auto; scrollbar-width: none;
+}
+.segmented::-webkit-scrollbar { display: none; }
+.segmented__btn {
+  position: relative; z-index: 1; flex-shrink: 0;
+  padding: 8px 16px; border-radius: var(--radius-full); border: 0; background: transparent;
+  font-family: var(--font-display); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--fg-subtle); cursor: pointer; white-space: nowrap;
+  transition: color 0.5s var(--silk-ease);
+}
+.segmented__btn:hover { color: var(--fg); }
+.segmented__btn[aria-pressed='true'], .segmented__btn[aria-selected='true'] { color: var(--fg); }
+.segmented__thumb {
+  position: absolute; top: 3px; left: 0; height: calc(100% - 6px); width: 0; z-index: 0;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--glass-hi), var(--glass-lo)), var(--glass-tint);
+  border: 1px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-inner), 0 2px 8px rgba(0,0,0,0.18);
+  transition: transform 0.6s var(--silk-ease), width 0.6s var(--silk-ease), opacity 0.3s;
+  opacity: 0;
+}
+.segmented[data-ready] .segmented__thumb { opacity: 1; }
+
+/* ── progress bar ── */
+.progress { height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.progress__fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, hsl(var(--tint-h) 70% 60%), hsl(calc(var(--tint-h) + 28) 70% 55%)); transition: width 1.2s var(--silk-ease); }

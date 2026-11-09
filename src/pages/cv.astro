@@ -1,0 +1,112 @@
+---
+/**
+ * Printable CV generated from the same content. Contains only public professional data:
+ * no phone number, home address or date of birth. Print styles: single column, no glass.
+ */
+import Base from '@layouts/Base.astro';
+import Link from '@components/Link.astro';
+import Avatar from '@components/Avatar.astro';
+import CvLinks from '@components/CvLinks.astro';
+import { site } from '@config/site';
+import { techLabel, canonicalTech } from '@config/stack';
+import { getExperience, getProjects, getResearch, getTeaching, getCertifications, getLearningStats, getStackPages } from '@lib/content';
+import { formatRange } from '@lib/format';
+
+const experience = await getExperience();
+const projects = await getProjects();
+const research = await getResearch();
+const thesis = research.find((r) => r.data.type === 'thesis');
+const teaching = await getTeaching();
+const certs = (await getCertifications()).filter((c) => c.data.kind === 'certification' || c.data.kind === 'badge');
+const learning = await getLearningStats();
+const topStack = (await getStackPages()).slice(0, 24);
+const education = [
+  ['2024 – 2028 (expected)', 'PhD candidate, Computer Science — Faculty of Automatic Control and Computers, National University of Science and Technology POLITEHNICA Bucharest', 'Thesis: Audio-Haptic Rendering of Real and Virtual Environments'],
+  ['2022 – 2024', 'MSc, Computer Science — Advanced Control and Real-Time Systems, POLITEHNICA Bucharest', ''],
+  ['2018 – 2022', 'BSc (Eng.), Robotics, Programming and Computer Science — Faculty of Industrial Engineering and Robotics, University POLITEHNICA of Bucharest', ''],
+  ['2014 – 2018', 'Baccalaureate, Mathematics and Computer Science — Colegiul Național „Ion Creangă”, Bucharest', ''],
+];
+---
+
+<Base title="CV" description={`Curriculum vitae of ${site.name} — generated from the site content.`} tint="industry" hideCta>
+  <article class="cv" data-label="CV">
+    <header class="cv-head page-head">
+      <div class="cv-id">
+        <Avatar size={72} />
+        <div>
+          <h1 class="cv-name">{site.name}</h1>
+          <p class="cv-headline">{site.headline}</p>
+          <p class="cv-contact">{site.location} · <a href={site.links.linkedin}>LinkedIn</a>{site.links.github && !site.links.github.includes('TODO') && <> · <a href={site.links.github}>GitHub</a></>} · <Link href="/contact">contact</Link></p>
+        </div>
+      </div>
+      <div class="cv-actions no-print">
+        <button type="button" class="btn btn--primary btn--sm" onclick="window.print()">Print / save as PDF</button>
+        {site.cv.pdfReady && <CvLinks size="sm" />}
+      </div>
+    </header>
+
+    <section class="cv-sec"><h2>Experience</h2>
+      {experience.map((e) => (
+        <div class="cv-item">
+          <div class="cv-when">{formatRange(e.data.startDate, e.data.endDate)}</div>
+          <div><h3>{e.data.role} <span>· {e.data.company}, {e.data.location}</span></h3><ul>{e.data.highlights.slice(0, 4).map((h) => <li>{h}</li>)}</ul></div>
+        </div>
+      ))}
+    </section>
+
+    <section class="cv-sec"><h2>Research & teaching</h2>
+      {thesis && <div class="cv-item"><div class="cv-when">{formatRange(thesis.data.period.start, thesis.data.period.end)}</div><div><h3>{thesis.data.role} <span>· {thesis.data.title}</span></h3><p>{thesis.data.description}</p></div></div>}
+      {teaching.map((t) => <div class="cv-item"><div class="cv-when">{formatRange(t.data.period.start, t.data.period.end)}</div><div><h3>{t.data.role}, {t.data.course} ({t.data.level}) <span>· {t.data.faculty}</span></h3></div></div>)}
+      {research.filter((r) => r.data.type !== 'thesis').map((r) => <div class="cv-item"><div class="cv-when">{formatRange(r.data.period.start, r.data.period.end)}</div><div><h3>{r.data.role} <span>· {r.data.title}{r.data.funder && ` (${r.data.funder})`}</span></h3><p>{r.data.description}</p></div></div>)}
+    </section>
+
+    <section class="cv-sec"><h2>Selected projects</h2>
+      {projects.map((p) => <div class="cv-item"><div class="cv-when">{formatRange(p.data.startDate, p.data.endDate)}</div><div><h3>{p.data.title} <span>· {p.data.role}</span></h3><p>{p.data.summary}</p></div></div>)}
+    </section>
+
+    <section class="cv-sec"><h2>Education</h2>
+      {education.map(([w, t, n]) => <div class="cv-item"><div class="cv-when">{w}</div><div><h3>{t}</h3>{n && <p>{n}</p>}</div></div>)}
+    </section>
+
+    <section class="cv-sec"><h2>Skills</h2>
+      <p class="cv-skills">{topStack.map((u) => techLabel(canonicalTech(u.slug))).join(' · ')}</p>
+    </section>
+
+    <section class="cv-sec"><h2>Certifications & learning</h2>
+      <p class="cv-skills">{certs.map((c) => `${c.data.name} (${c.data.issuer})`).join(' · ')}</p>
+      <p class="cv-skills">{learning.totalCourses} online courses ({learning.hours.toLocaleString(site.lang)} h), {learning.completed} completed, {learning.courseCertificates} course certificates.</p>
+    </section>
+
+    <section class="cv-sec"><h2>Languages</h2><p class="cv-skills">Romanian (native) · English (C1) · French (A1)</p></section>
+  </article>
+</Base>
+
+<style>
+  .cv { max-width: 860px; }
+  .cv-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; padding-bottom: 24px; }
+  .cv-id { display: flex; gap: 20px; align-items: center; }
+  .cv-name { font-size: 1.8rem; font-weight: 600; letter-spacing: -0.03em; }
+  .cv-headline { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-subtle); margin: 6px 0; max-width: 560px; line-height: 1.7; }
+  .cv-contact { font-size: 0.85rem; color: var(--fg-muted); }
+  .cv-contact a { color: var(--fg); }
+  .cv-actions { display: flex; gap: 8px; }
+  .cv-sec { padding: 22px 0; border-top: 1px solid var(--line); }
+  .cv-sec h2 { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: hsl(var(--tint-h) 70% 70%); margin-bottom: 14px; }
+  .cv-item { display: grid; grid-template-columns: 150px 1fr; gap: 16px; margin-bottom: 14px; }
+  .cv-when { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-subtle); padding-top: 4px; }
+  .cv-item h3 { font-size: 0.98rem; font-weight: 500; color: var(--fg); line-height: 1.4; }
+  .cv-item h3 span { font-weight: 300; color: var(--fg-muted); }
+  .cv-item p { font-size: 0.86rem; color: var(--fg-muted); line-height: 1.55; margin-top: 4px; }
+  .cv-item ul { list-style: disc; padding-left: 18px; font-size: 0.86rem; color: var(--fg-muted); line-height: 1.55; margin-top: 6px; }
+  .cv-skills { font-size: 0.88rem; line-height: 1.7; color: var(--fg-muted); margin-bottom: 6px; }
+  @media (max-width: 640px) { .cv-item { grid-template-columns: 1fr; gap: 4px; } }
+  @media print {
+    :global(.grain), :global(.atmosphere), :global(.nav-wrap), :global(.side-panel), :global(.sheet), :global(.footer-cta), .no-print { display: none !important; }
+    :global(body) { background: #fff; color: #000; }
+    :global(.main) { max-width: none; padding: 0; }
+    .cv-sec h2, .cv-item h3, .cv-name { color: #000; }
+    .cv-item p, .cv-item ul, .cv-skills, .cv-contact, .cv-when, .cv-headline, .cv-item h3 span { color: #333; }
+    .cv-sec { break-inside: avoid; border-color: #ddd; }
+    a { color: #000; text-decoration: none; }
+  }
+</style>

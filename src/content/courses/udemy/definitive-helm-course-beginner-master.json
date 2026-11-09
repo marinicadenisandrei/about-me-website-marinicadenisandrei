@@ -1,0 +1,22 @@
+{
+  "title": "Helm: The Definitive Guide from Beginner to Master",
+  "url": "https://www.udemy.com/course/definitive-helm-course-beginner-master/",
+  "provider": "udemy",
+  "instructors": [
+    "Lauro Fialho Müller"
+  ],
+  "progress": 21,
+  "completed": false,
+  "lectures": 95,
+  "hours": 10.5,
+  "enrolledDate": "2026-09-14",
+  "archived": false,
+  "certificate": null,
+  "category": "Kubernetes & Containers",
+  "role": "student",
+  "stack": [
+    "kubernetes",
+    "helm"
+  ],
+  "generated": true
+}

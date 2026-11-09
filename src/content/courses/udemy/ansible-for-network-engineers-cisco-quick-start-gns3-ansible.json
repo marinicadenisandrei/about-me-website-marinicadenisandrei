@@ -1,0 +1,28 @@
+{
+  "title": "Ansible for Network Engineers: Quick Start GNS3 & Ansible",
+  "url": "https://www.udemy.com/course/ansible-for-network-engineers-cisco-quick-start-gns3-ansible/",
+  "provider": "udemy",
+  "instructors": [
+    "David Bombal",
+    "Experts with David Bombal"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 73,
+  "hours": 5,
+  "enrolledDate": "2024-09-03",
+  "archived": true,
+  "certificate": {
+    "id": "UC-89d46106-8905-4890-96bf-6467647d3db1",
+    "date": "2025-03-13",
+    "url": "https://www.udemy.com/certificate/UC-89d46106-8905-4890-96bf-6467647d3db1/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-89d46106-8905-4890-96bf-6467647d3db1.pdf"
+  },
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "ansible",
+    "networking"
+  ],
+  "generated": true
+}

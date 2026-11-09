@@ -1,0 +1,13 @@
+{
+  "name": "Automotive Information and Cybersecurity",
+  "issuer": "Continental",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "cybersecurity"
+  ],
+  "order": 80,
+  "credentialUrl": "https://drive.google.com/file/d/1mpGLr_bvLt1GI0o7Iu6mCjeucjK1APwc/view?usp=sharing",
+  "$comment": "TODO: confirm this Google Drive link is meant to be public (or replace with an issuer verification link)"
+}

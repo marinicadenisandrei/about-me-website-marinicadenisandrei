@@ -1,0 +1,21 @@
+{
+  "title": "Full Cybersecurity Course From 0: Ethical Hacking & Defense",
+  "url": "https://www.udemy.com/course/hands-on-cyber-security-and-ethical-hacking-from-0/",
+  "provider": "udemy",
+  "instructors": [
+    "Sunny dimalu"
+  ],
+  "progress": 54,
+  "completed": false,
+  "lectures": 333,
+  "hours": 30,
+  "enrolledDate": "2026-03-15",
+  "archived": false,
+  "certificate": null,
+  "category": "Security",
+  "role": "student",
+  "stack": [
+    "cybersecurity"
+  ],
+  "generated": true
+}

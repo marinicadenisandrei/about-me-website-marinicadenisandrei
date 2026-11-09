@@ -1,0 +1,82 @@
+---
+/** Luminary FAQ accordion with staggered "expand all", rendered from the faq collection. Items are GlassCards. */
+import { site } from '@config/site';
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+interface Props { items: CollectionEntry<'faq'>[]; tint?: string }
+const { items, tint = 'freelance' } = Astro.props;
+const rendered = await Promise.all(items.map(async (i) => ({ ...i, Content: (await render(i)).Content })));
+---
+
+<div class="faq-list reveal reveal-d2" data-tint={tint} data-faq>
+  <div class="faq-controls">
+    <button class="faq-toggle-all btn btn--ghost btn--sm" type="button" data-faq-all data-expand={site.ui.faq.expandAll} data-collapse={site.ui.faq.collapseAll}>{site.ui.faq.expandAll}</button>
+  </div>
+  {rendered.map(({ id, data, Content }) => (
+    <div class="faq-item glass glass--thin glass--sm" data-faq-item>
+      <h3>
+        <button class="faq-question" type="button" aria-expanded="false" aria-controls={`faq-${id}`} id={`faq-q-${id}`}>
+          {data.question}<span class="faq-icon" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="faq-answer" id={`faq-${id}`} role="region" aria-labelledby={`faq-q-${id}`}>
+        <div class="faq-answer-inner prose"><Content /></div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+  .faq-controls { display: flex; justify-content: flex-end; margin-bottom: 6px; }
+  .faq-item { overflow: hidden; }
+  .faq-item h3 { margin: 0; font: inherit; }
+  .faq-question {
+    width: 100%; background: none; border: none; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 20px;
+    cursor: pointer; font-family: var(--font-ui); font-size: 0.95rem; font-weight: 500; color: var(--fg); text-align: left;
+    transition: color 0.6s var(--silk-ease);
+  }
+  .faq-question:hover { color: hsl(var(--tint-h) 70% 70%); }
+  .faq-icon { width: 20px; height: 20px; position: relative; flex-shrink: 0; }
+  .faq-icon::before, .faq-icon::after { content: ''; position: absolute; background: var(--fg-subtle); transition: transform 0.6s var(--silk-ease), opacity 0.4s ease; }
+  .faq-icon::before { width: 12px; height: 1px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .faq-icon::after { width: 1px; height: 12px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .faq-item.open .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+  .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 1s var(--silk-ease); }
+  .faq-answer-inner { overflow: hidden; padding: 0 24px; font-size: 0.9rem; transition: padding 0.8s var(--silk-ease); }
+  .faq-answer-inner :global(p:last-child) { margin-bottom: 0; }
+  .faq-item.open .faq-answer { grid-template-rows: 1fr; }
+  .faq-item.open .faq-answer-inner { padding: 0 24px 22px; }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+  document.querySelectorAll<HTMLElement>('[data-faq]:not([data-bound])').forEach((list) => {
+    list.dataset.bound = '';
+    const items = [...list.querySelectorAll<HTMLElement>('[data-faq-item]')];
+    const all = list.querySelector<HTMLButtonElement>('[data-faq-all]');
+    const setOpen = (item: HTMLElement, open: boolean) => {
+      item.classList.toggle('open', open);
+      item.querySelector('.faq-question')?.setAttribute('aria-expanded', String(open));
+    };
+    const updateLabel = () => {
+      if (!all) return;
+      const allOpen = items.every((i) => i.classList.contains('open'));
+      all.textContent = allOpen ? all.dataset.collapse ?? '' : all.dataset.expand ?? '';
+      all.dataset.state = allOpen ? 'open' : 'closed';
+    };
+    items.forEach((item) => {
+      item.querySelector('.faq-question')?.addEventListener('click', () => { setOpen(item, !item.classList.contains('open')); updateLabel(); });
+    });
+    all?.addEventListener('click', () => {
+      const expand = all.dataset.state !== 'open';
+      if (expand) items.forEach((item, i) => setTimeout(() => setOpen(item, true), i * 220));
+      else items.forEach((item, i) => setTimeout(() => setOpen(item, false), (items.length - 1 - i) * 60));
+      setTimeout(updateLabel, items.length * 220 + 100);
+      all.dataset.state = expand ? 'open' : 'closed';
+      all.textContent = expand ? all.dataset.collapse ?? '' : all.dataset.expand ?? '';
+    });
+    updateLabel();
+  });
+  });
+</script>

@@ -1,0 +1,15 @@
+---
+/** "See all →" link that closes every overview block on Home. */
+import Link from '@components/Link.astro';
+interface Props { href: string; label?: string; class?: string }
+const { href, label = 'See all', class: cls } = Astro.props;
+---
+
+<p class:list={['see-all', cls]}><Link href={href} class="see-all-link">{label} <span aria-hidden="true">→</span></Link></p>
+
+<style>
+  .see-all { margin-top: 28px; }
+  .see-all-link { font-family: var(--font-display); font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-muted); text-decoration: none; display: inline-flex; gap: 8px; align-items: center; transition: color var(--dur-smooth) var(--spring-smooth), gap var(--dur-smooth) var(--spring-smooth); }
+  .see-all-link:hover { color: var(--fg); gap: 14px; }
+  :global(.section-center) .see-all { text-align: center; }
+</style>

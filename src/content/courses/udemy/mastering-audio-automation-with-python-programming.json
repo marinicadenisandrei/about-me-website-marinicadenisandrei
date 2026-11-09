@@ -1,0 +1,22 @@
+{
+  "title": "Audio Processing and Automation with Python",
+  "url": "https://www.udemy.com/course/mastering-audio-automation-with-python-programming/",
+  "provider": "udemy",
+  "instructors": [
+    "Faisal Zamir",
+    "Jafri Code"
+  ],
+  "progress": 53,
+  "completed": false,
+  "lectures": 42,
+  "hours": 4.5,
+  "enrolledDate": "2025-02-02",
+  "archived": true,
+  "certificate": null,
+  "category": "Programming Languages",
+  "role": "student",
+  "stack": [
+    "python"
+  ],
+  "generated": true
+}

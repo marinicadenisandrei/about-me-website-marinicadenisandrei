@@ -1,0 +1,14 @@
+{
+  "name": "ISTQB Certified Tester — Foundation Level",
+  "issuer": "Luxoft / ISTQB",
+  "kind": "certification",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "test-automation",
+    "testing"
+  ],
+  "order": 180,
+  "credentialUrl": "https://drive.google.com/file/d/1AscJ6hEeOxOmbztKeaiERiEezrED1g8U/view?usp=sharing",
+  "$comment": "TODO: confirm this Google Drive link is meant to be public (or replace with an issuer verification link)"
+}

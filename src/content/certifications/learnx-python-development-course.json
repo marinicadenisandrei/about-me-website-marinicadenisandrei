@@ -1,0 +1,13 @@
+{
+  "name": "Python Development Course",
+  "issuer": "LearnX",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "python"
+  ],
+  "order": 250,
+  "credentialUrl": "https://drive.google.com/file/d/14O_gKuQ-H_ZDk7JjhNZ8ZnhHB0UxtVHs/view?usp=sharing",
+  "$comment": "TODO: confirm this Google Drive link is meant to be public (or replace with an issuer verification link)"
+}

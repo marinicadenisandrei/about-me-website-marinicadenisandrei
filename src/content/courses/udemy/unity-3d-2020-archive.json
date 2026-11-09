@@ -1,0 +1,24 @@
+{
+  "title": "Complete C# Unity Game Developer 3D (Unity 2020 Archive)",
+  "url": "https://www.udemy.com/course/unity-3d-2020-archive/",
+  "provider": "udemy",
+  "instructors": [
+    "Rick Davidson",
+    "GameDev.tv Team",
+    "Gary Pettie"
+  ],
+  "progress": 61,
+  "completed": false,
+  "lectures": 204,
+  "hours": 30.5,
+  "enrolledDate": "2025-05-22",
+  "archived": true,
+  "certificate": null,
+  "category": "Game Dev & XR",
+  "role": "student",
+  "stack": [
+    "csharp",
+    "unity"
+  ],
+  "generated": true
+}

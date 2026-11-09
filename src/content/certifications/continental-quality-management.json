@@ -1,0 +1,13 @@
+{
+  "name": "Quality Management",
+  "issuer": "Continental",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "quality-management"
+  ],
+  "order": 280,
+  "credentialUrl": "https://drive.google.com/file/d/1Fsvd2Kui9aaXyA2F-KjAFog39x5RclIc/view?usp=sharing",
+  "$comment": "TODO: confirm this Google Drive link is meant to be public (or replace with an issuer verification link)"
+}

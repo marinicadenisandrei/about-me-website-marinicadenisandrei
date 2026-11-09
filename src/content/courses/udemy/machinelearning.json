@@ -1,0 +1,26 @@
+{
+  "title": "Machine Learning A-Z [2026]: ML, DL, AI with AWS, Python & R",
+  "url": "https://www.udemy.com/course/machinelearning/",
+  "provider": "udemy",
+  "instructors": [
+    "Kirill Eremenko",
+    "Hadelin de Ponteves",
+    "SuperDataScience Team",
+    "Ligency ​"
+  ],
+  "progress": 46,
+  "completed": false,
+  "lectures": 474,
+  "hours": 49.5,
+  "enrolledDate": "2024-08-06",
+  "archived": false,
+  "certificate": null,
+  "category": "AI/ML & Computer Vision",
+  "role": "student",
+  "stack": [
+    "aws",
+    "python",
+    "machine-learning"
+  ],
+  "generated": true
+}

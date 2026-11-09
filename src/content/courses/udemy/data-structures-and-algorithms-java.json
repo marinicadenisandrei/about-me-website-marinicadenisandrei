@@ -1,0 +1,21 @@
+{
+  "title": "Java Data Structures & Algorithms + LEETCODE Exercises",
+  "url": "https://www.udemy.com/course/data-structures-and-algorithms-java/",
+  "provider": "udemy",
+  "instructors": [
+    "Scott Barrett"
+  ],
+  "progress": 25,
+  "completed": false,
+  "lectures": 150,
+  "hours": 11,
+  "enrolledDate": "2026-03-10",
+  "archived": false,
+  "certificate": null,
+  "category": "Programming Languages",
+  "role": "student",
+  "stack": [
+    "java"
+  ],
+  "generated": true
+}

@@ -1,0 +1,57 @@
+---
+/**
+ * Glass opacity slider: Clear → Tinted → Opaque. Writes html[data-glass] (persisted in
+ * localStorage via motion.ts). Hidden under prefers-reduced-transparency (then always Opaque).
+ */
+interface Props { class?: string; compact?: boolean }
+const { class: cls, compact = false } = Astro.props;
+const stops = ['Clear', 'Tinted', 'Opaque'];
+---
+
+<div class:list={['glass-slider', { compact }, cls]} data-glass-slider>
+  <label class="gs-label" for="glassRange">Glass</label>
+  <div class="gs-track">
+    <input id="glassRange" class="gs-range" type="range" min="0" max="2" step="1" value="1" aria-valuetext="Tinted" list="glassStops" />
+    <datalist id="glassStops">{stops.map((s, i) => <option value={i} label={s}></option>)}</datalist>
+    <div class="gs-stops" aria-hidden="true">{stops.map((s) => <span>{s}</span>)}</div>
+  </div>
+</div>
+
+<style>
+  .glass-slider { display: inline-flex; align-items: center; gap: 12px; }
+  .gs-label { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-subtle); }
+  .gs-track { position: relative; width: 168px; padding-bottom: 14px; }
+  .gs-range { -webkit-appearance: none; appearance: none; width: 100%; height: 22px; background: transparent; margin: 0; cursor: pointer; }
+  .gs-range::-webkit-slider-runway, .gs-range::-webkit-slider-runnable-track { height: 4px; border-radius: 4px; background: linear-gradient(90deg, transparent, hsl(var(--tint-h) 70% 60% / 0.5), var(--fg-subtle)); border: 1px solid var(--line); }
+  .gs-range::-moz-range-track { height: 4px; border-radius: 4px; background: linear-gradient(90deg, transparent, hsl(var(--tint-h) 70% 60% / 0.5), var(--fg-subtle)); border: 1px solid var(--line); }
+  .gs-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; margin-top: -8px; border-radius: 50%; background: #fff; border: 1px solid rgba(0,0,0,0.12); box-shadow: 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 #fff; transition: transform 0.3s var(--spring-snappy); }
+  .gs-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 1px solid rgba(0,0,0,0.12); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+  .gs-range:active::-webkit-slider-thumb { transform: scale(1.15); }
+  .gs-stops { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; font-family: var(--font-display); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-subtle); }
+  .gs-stops span:nth-child(2) { transform: translateX(0); }
+  .compact .gs-label { display: none; }
+  .compact .gs-track { width: 132px; }
+</style>
+
+<script>
+  import { GLASS_MODES, readGlass, setGlass } from '@/scripts/motion';
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLElement>('[data-glass-slider]:not([data-bound])').forEach((el) => {
+      el.dataset.bound = '';
+      const input = el.querySelector<HTMLInputElement>('input');
+      if (!input) return;
+      const sync = () => {
+        const i = GLASS_MODES.indexOf(readGlass());
+        input.value = String(i);
+        input.setAttribute('aria-valuetext', GLASS_MODES[i] ?? 'tinted');
+      };
+      sync();
+      input.addEventListener('input', () => {
+        const mode = GLASS_MODES[Number(input.value)] ?? 'tinted';
+        setGlass(mode);
+        input.setAttribute('aria-valuetext', mode);
+      });
+      document.addEventListener('glass:change', sync);
+    });
+  });
+</script>

@@ -1,0 +1,15 @@
+---
+/**
+ * SVG displacement filter for "lensing" (edge refraction) on glass — Chromium only
+ * (backdrop-filter: url() is unsupported elsewhere). Enabled by motion.ts adding
+ * html.has-lens after feature-detecting; CSS stays behind @supports as a second gate.
+ */
+import map from '@assets/brand/lens-map.b64?raw';
+---
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <filter id="glass-lens" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+    <feImage href={`data:image/png;base64,${map}`} x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="map" />
+    <feDisplacementMap in="SourceGraphic" in2="map" scale="0.035" xChannelSelector="R" yChannelSelector="G" />
+  </filter>
+</svg>

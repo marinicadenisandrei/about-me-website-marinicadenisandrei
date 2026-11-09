@@ -1,0 +1,23 @@
+{
+  "title": "GitHub Actions - The Complete Guide",
+  "url": "https://www.udemy.com/course/github-actions-the-complete-guide/",
+  "provider": "udemy",
+  "instructors": [
+    "Academind by Maximilian Schwarzmüller",
+    "Maximilian Schwarzmüller"
+  ],
+  "progress": 67,
+  "completed": false,
+  "lectures": 143,
+  "hours": 10.5,
+  "enrolledDate": "2025-08-04",
+  "archived": false,
+  "certificate": null,
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "github-actions",
+    "git"
+  ],
+  "generated": true
+}

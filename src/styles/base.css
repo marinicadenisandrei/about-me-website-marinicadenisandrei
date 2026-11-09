@@ -1,0 +1,88 @@
+/*
+ * Shared structural styles ported from the Luminary template: grain, atmosphere,
+ * container, section rhythm, typographic hierarchy, reveal animations, dividers.
+ * Component-specific CSS lives next to each component.
+ */
+
+/* ── Grain ── */
+.grain { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.028; mix-blend-mode: overlay; }
+:root[data-theme='light'] .grain { opacity: 0.05; mix-blend-mode: multiply; }
+
+/* ── Atmosphere + mesh-gradient orbs ── */
+.atmosphere { position: fixed; inset: 0; z-index: 0; background: var(--atmosphere); overflow: hidden; transition: background 0.8s var(--silk-ease); }
+.orb {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  filter: blur(var(--orb-blur)); opacity: var(--orb-opacity);
+  will-change: transform;
+  animation: orb-drift 38s ease-in-out infinite alternate;
+}
+.orb-1 { width: 58vw; height: 58vw; left: -14vw; top: -18vw; background: var(--orb-1); }
+.orb-2 { width: 52vw; height: 52vw; right: -16vw; top: 6vw; background: var(--orb-2); animation-duration: 46s; animation-delay: -12s; }
+.orb-3 { width: 48vw; height: 48vw; left: 18vw; bottom: -22vw; background: var(--orb-3); animation-duration: 52s; animation-delay: -25s; }
+.orb-4 { width: 36vw; height: 36vw; right: 8vw; bottom: -8vw; background: var(--orb-4); animation-duration: 42s; animation-delay: -6s; }
+@keyframes orb-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(6vw, -4vw, 0) scale(1.08); }
+  100% { transform: translate3d(-5vw, 5vw, 0) scale(0.96); }
+}
+@media (prefers-reduced-motion: reduce) { .orb { animation: none; } }
+@media (max-width: 768px) { .orb { --orb-blur: 60px; } }
+
+/* ── Container ── */
+.main { position: relative; z-index: 10; max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+.skip-link { position: absolute; left: -999px; top: 12px; z-index: 1000; padding: 10px 18px; border-radius: 100px; background: var(--fg); color: var(--bg); font-family: var(--font-display); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+.skip-link:focus { left: 12px; }
+
+/* ── Section rhythm + typographic hierarchy ── */
+.section { padding: 120px 0; position: relative; }
+.section--tight { padding: 72px 0; }
+.section-tag {
+  font-family: var(--font-display); font-size: 9px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--fg-subtle); opacity: 0.8; margin-bottom: 20px;
+}
+.section-title {
+  font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 300;
+  letter-spacing: -0.04em; line-height: 1.15; color: var(--fg); margin-bottom: 20px;
+}
+.section-title strong { font-weight: 600; }
+.section-body { font-size: 0.95rem; font-weight: 300; line-height: 1.8; color: var(--fg-muted); max-width: 540px; }
+.section-center { text-align: center; }
+.section-center .section-body { margin: 0 auto; }
+.silk-divider { width: 100px; height: 1px; background: linear-gradient(90deg, transparent, var(--line-strong), transparent); margin: 0 auto; }
+
+/* page header (inner pages) */
+.page-head { padding: 160px 0 48px; }
+.page-head .section-body { max-width: 640px; }
+
+/* ── Reveal ── */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity 1.2s var(--silk-ease), transform 1.2s var(--silk-ease); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+.no-js .reveal { opacity: 1; transform: none; }
+
+/* ── Prose (MDX bodies) ── */
+.prose { font-size: 0.98rem; line-height: 1.85; color: var(--fg-muted); max-width: 72ch; }
+.prose h2 { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.02em; color: var(--fg); margin: 2.2em 0 0.8em; }
+.prose h3 { font-size: 1.05rem; font-weight: 600; color: var(--fg); margin: 1.8em 0 0.6em; }
+.prose p, .prose ul, .prose ol { margin-bottom: 1.1em; }
+.prose ul, .prose ol { padding-left: 1.3em; }
+.prose li { margin-bottom: 0.4em; }
+.prose strong { color: var(--fg); font-weight: 600; }
+.prose a { color: var(--fg); text-decoration-color: hsl(var(--tint-h) 70% 60% / 0.6); text-underline-offset: 3px; }
+.prose code { font-family: var(--font-mono); font-size: 0.85em; background: var(--panel-bg); border: 1px solid var(--line); padding: 2px 6px; border-radius: 6px; }
+.prose pre { background: var(--panel-bg); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 18px 20px; overflow-x: auto; margin-bottom: 1.4em; }
+.prose pre code { background: none; border: 0; padding: 0; }
+.prose img { border-radius: var(--radius-md); border: 1px solid var(--line); }
+.prose blockquote { border-left: 2px solid hsl(var(--tint-h) 70% 60% / 0.6); padding-left: 18px; color: var(--fg-muted); font-style: italic; }
+
+/* ── Utilities ── */
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.todo { font-family: var(--font-mono); font-size: 0.75rem; color: hsl(38 90% 60%); background: hsl(38 90% 50% / 0.12); border: 1px dashed hsl(38 90% 55% / 0.5); padding: 2px 8px; border-radius: 6px; }
+
+@media (max-width: 1024px) { .main { padding: 0 32px; } }
+@media (max-width: 768px) { .main { padding: 0 20px; } .section { padding: 80px 0; } .page-head { padding: 128px 0 32px; } }
+@media (max-width: 420px) { .section-title { font-size: 1.7rem; } }

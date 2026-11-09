@@ -1,0 +1,13 @@
+{
+  "name": "Python Basics",
+  "issuer": "Luxoft",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "python"
+  ],
+  "order": 230,
+  "credentialUrl": "https://drive.google.com/file/d/1GCaIi7EbYJADXXTtJxLaY3L98jPVf8ee/view?usp=sharing",
+  "$comment": "TODO: confirm this Google Drive link is meant to be public (or replace with an issuer verification link)"
+}

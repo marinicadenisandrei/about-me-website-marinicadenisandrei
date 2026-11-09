@@ -1,0 +1,28 @@
+{
+  "title": "Docker Mastery: with Kubernetes +Swarm from a Docker Captain",
+  "url": "https://www.udemy.com/course/docker-mastery/",
+  "provider": "udemy",
+  "instructors": [
+    "Bret Fisher",
+    "Docker Captain Program"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 225,
+  "hours": 23,
+  "enrolledDate": "2024-08-20",
+  "archived": false,
+  "certificate": {
+    "id": "UC-2eba4e0a-09f8-4e85-bc13-3e327bdf5075",
+    "date": "2026-09-14",
+    "url": "https://www.udemy.com/certificate/UC-2eba4e0a-09f8-4e85-bc13-3e327bdf5075/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-2eba4e0a-09f8-4e85-bc13-3e327bdf5075.pdf"
+  },
+  "category": "Kubernetes & Containers",
+  "role": "student",
+  "stack": [
+    "kubernetes",
+    "docker"
+  ],
+  "generated": true
+}

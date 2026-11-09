@@ -1,0 +1,22 @@
+{
+  "title": "Complete React, Next.js & TypeScript Projects Course 2025",
+  "url": "https://www.udemy.com/course/react-tutorial-and-projects-course/",
+  "provider": "udemy",
+  "instructors": [
+    "Yanis Smilga"
+  ],
+  "progress": 4,
+  "completed": false,
+  "lectures": 772,
+  "hours": 109,
+  "enrolledDate": "2026-09-03",
+  "archived": false,
+  "certificate": null,
+  "category": "Web Development",
+  "role": "student",
+  "stack": [
+    "react",
+    "nextjs"
+  ],
+  "generated": true
+}

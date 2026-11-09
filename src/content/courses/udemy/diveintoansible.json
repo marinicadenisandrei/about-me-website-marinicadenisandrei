@@ -1,0 +1,27 @@
+{
+  "title": "Dive Into Ansible - Beginner to Expert in Ansible - DevOps",
+  "url": "https://www.udemy.com/course/diveintoansible/",
+  "provider": "udemy",
+  "instructors": [
+    "James Spurin (Docker Captain / CNCF Ambassador / Kubestronaut)",
+    "DiveInto Training"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 37,
+  "hours": 7.5,
+  "enrolledDate": "2024-08-06",
+  "archived": true,
+  "certificate": {
+    "id": "UC-f0bc59df-18de-4fb5-94f2-29345b4eac56",
+    "date": "2024-11-08",
+    "url": "https://www.udemy.com/certificate/UC-f0bc59df-18de-4fb5-94f2-29345b4eac56/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-f0bc59df-18de-4fb5-94f2-29345b4eac56.pdf"
+  },
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "ansible"
+  ],
+  "generated": true
+}

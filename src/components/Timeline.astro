@@ -1,0 +1,13 @@
+---
+/** Vertical timeline wrapper; children are <TimelineItem>. */
+interface Props { class?: string }
+const { class: cls } = Astro.props;
+---
+
+<ol class:list={['timeline', cls]}><slot /></ol>
+
+<style>
+  .timeline { list-style: none; position: relative; padding-left: 36px; }
+  .timeline::before { content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(to bottom, hsl(var(--tint-h) 70% 60% / 0.6), var(--line) 30%, var(--line) 70%, transparent); }
+  @media (max-width: 640px) { .timeline { padding-left: 28px; } }
+</style>

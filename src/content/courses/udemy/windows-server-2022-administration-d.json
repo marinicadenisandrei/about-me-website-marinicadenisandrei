@@ -1,0 +1,21 @@
+{
+  "title": "Windows Server 2022 Administration",
+  "url": "https://www.udemy.com/course/windows-server-2022-administration-d/",
+  "provider": "udemy",
+  "instructors": [
+    "Kevin Brown"
+  ],
+  "progress": 78,
+  "completed": false,
+  "lectures": 256,
+  "hours": 26,
+  "enrolledDate": "2024-06-10",
+  "archived": false,
+  "certificate": null,
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "windows-server"
+  ],
+  "generated": true
+}

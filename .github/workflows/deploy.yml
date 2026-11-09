@@ -1,0 +1,162 @@
+name: Build & Deploy (GitHub Pages)
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+env:
+  NODE_OPTIONS: --max-old-space-size=4096
+
+jobs:
+  # ──────────────────────────────────────────────────────────────────────────
+  # Build + validate on EVERY branch / PR. Only `main` is deployed (see below).
+  # ──────────────────────────────────────────────────────────────────────────
+  build:
+    name: Build & validate
+    runs-on: ubuntu-latest
+    outputs:
+      site_url: ${{ steps.pages-config.outputs.site_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node (LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc   # pinned to Astro's engines requirement
+          cache: npm
+
+      # Derive SITE_URL / BASE_PATH from the repository name so no config is needed:
+      #   <user>/<user>.github.io  → https://<user>.github.io        base "/"
+      #   <user>/<repo>            → https://<user>.github.io/<repo> base "/<repo>"
+      #   public/CNAME present     → https://<custom-domain>         base "/"
+      - name: Resolve Pages URL and base path
+        id: pages-config
+        shell: bash
+        run: |
+          OWNER="${GITHUB_REPOSITORY_OWNER,,}"
+          REPO="${GITHUB_REPOSITORY#*/}"
+          if [ -s public/CNAME ]; then
+            SITE_URL="https://$(tr -d '[:space:]' < public/CNAME)"
+            BASE_PATH="/"
+          elif [ "${REPO,,}" = "${OWNER}.github.io" ]; then
+            SITE_URL="https://${OWNER}.github.io"
+            BASE_PATH="/"
+          else
+            SITE_URL="https://${OWNER}.github.io"
+            BASE_PATH="/${REPO}"
+          fi
+          echo "SITE_URL=${SITE_URL}"   >> "$GITHUB_ENV"
+          echo "BASE_PATH=${BASE_PATH}" >> "$GITHUB_ENV"
+          echo "site_url=${SITE_URL}${BASE_PATH%/}/" >> "$GITHUB_OUTPUT"
+          echo "::notice title=Pages target::${SITE_URL}${BASE_PATH%/}/"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Import Udemy courses from CSV
+        run: npm run import:udemy
+
+      - name: Generate Open Graph images (default + one per project)
+        run: |
+          python3 -m pip install --quiet pillow fonttools brotli
+          python3 scripts/make-og.py
+          python3 scripts/make-og.py --projects
+
+      - name: Type-check (astro check)
+        run: npm run check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        # Public build-time variables (safe to expose — they end up in the HTML anyway):
+        #   Settings → Secrets and variables → Actions → Variables → PUBLIC_WEB3FORMS_KEY
+        env:
+          PUBLIC_WEB3FORMS_KEY: ${{ vars.PUBLIC_WEB3FORMS_KEY }}
+        run: npm run build   # postbuild: prune dev assets + base-path/broken-link check
+
+      - name: Broken-link check
+        run: npm run test:links
+
+      - name: Privacy check (no personal-data patterns in repo or dist)
+        run: npm run privacy
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Deploy — only pushes to `main`. GitHub Pages has one live site per repo,
+  # so deploying from other branches would overwrite production.
+  # ──────────────────────────────────────────────────────────────────────────
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Lighthouse CI against the LIVE site after deploy. All categories ≥ 95.
+  # ──────────────────────────────────────────────────────────────────────────
+  lighthouse:
+    name: Lighthouse CI
+    needs: [build, deploy]
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Wait for the new deployment to propagate
+        run: sleep 30
+
+      # Desktop preset (lighthouserc.json) for every URL — 3 runs, median asserted.
+      - name: Lighthouse — desktop (home, /projects, a project, /learning, /contact)
+        id: lhci-desktop
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: ./lighthouserc.json
+          urls: |
+            ${{ needs.build.outputs.site_url }}
+            ${{ needs.build.outputs.site_url }}projects/
+            ${{ needs.build.outputs.site_url }}projects/hria/
+            ${{ needs.build.outputs.site_url }}learning/
+            ${{ needs.build.outputs.site_url }}contact/
+          uploadArtifacts: true
+          artifactName: lighthouse-desktop
+          temporaryPublicStorage: false
+          runs: 3
+
+      # Mobile preset (Lighthouse default: Moto G Power emulation, slow 4G) for the home page only.
+      - name: Lighthouse — mobile (home)
+        id: lhci-mobile
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: ./lighthouserc.mobile.json
+          urls: |
+            ${{ needs.build.outputs.site_url }}
+          uploadArtifacts: true
+          artifactName: lighthouse-mobile
+          temporaryPublicStorage: false
+          runs: 3

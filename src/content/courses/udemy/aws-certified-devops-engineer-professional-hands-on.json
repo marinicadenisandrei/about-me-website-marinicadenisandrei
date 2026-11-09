@@ -1,0 +1,23 @@
+{
+  "title": "AWS Certified DevOps Engineer Professional 2026 - DOP-C02",
+  "url": "https://www.udemy.com/course/aws-certified-devops-engineer-professional-hands-on/",
+  "provider": "udemy",
+  "instructors": [
+    "Stephane Maarek",
+    "Solutions Architect",
+    "Developer"
+  ],
+  "progress": 83,
+  "completed": false,
+  "lectures": 244,
+  "hours": 17,
+  "enrolledDate": "2024-02-20",
+  "archived": false,
+  "certificate": null,
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "aws"
+  ],
+  "generated": true
+}

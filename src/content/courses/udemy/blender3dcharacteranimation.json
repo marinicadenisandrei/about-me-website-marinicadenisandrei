@@ -1,0 +1,21 @@
+{
+  "title": "Ultimate Blender 3D Character Creation & Animation Course",
+  "url": "https://www.udemy.com/course/blender3dcharacteranimation/",
+  "provider": "udemy",
+  "instructors": [
+    "Alex Cordebard"
+  ],
+  "progress": 0,
+  "completed": false,
+  "lectures": 168,
+  "hours": 35.5,
+  "enrolledDate": "2026-01-11",
+  "archived": true,
+  "certificate": null,
+  "category": "Game Dev & XR",
+  "role": "student",
+  "stack": [
+    "blender"
+  ],
+  "generated": true
+}

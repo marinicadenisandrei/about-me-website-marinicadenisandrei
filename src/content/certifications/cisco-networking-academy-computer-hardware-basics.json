@@ -1,0 +1,12 @@
+{
+  "name": "Computer Hardware Basics",
+  "issuer": "Cisco Networking Academy (Credly)",
+  "kind": "badge",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "hardware"
+  ],
+  "order": 110,
+  "credentialUrl": "https://www.credly.com/badges/61fce2b1-c2ca-49ff-b79e-70b9cdb1b612/public_url"
+}

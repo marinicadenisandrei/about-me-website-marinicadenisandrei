@@ -1,0 +1,22 @@
+{
+  "title": "Argo CD and Argo Rollouts for GitOps: The Definitive Guide",
+  "url": "https://www.udemy.com/course/argo-cd-rollouts-gitops/",
+  "provider": "udemy",
+  "instructors": [
+    "Lauro Fialho Müller"
+  ],
+  "progress": 37,
+  "completed": false,
+  "lectures": 113,
+  "hours": 9.5,
+  "enrolledDate": "2026-05-12",
+  "archived": false,
+  "certificate": null,
+  "category": "Kubernetes & Containers",
+  "role": "student",
+  "stack": [
+    "kubernetes",
+    "argo-cd"
+  ],
+  "generated": true
+}

@@ -1,0 +1,21 @@
+{
+  "title": "The Complete ServiceNow System Administrator Course",
+  "url": "https://www.udemy.com/course/the-complete-servicenow-system-administrator-course/",
+  "provider": "udemy",
+  "instructors": [
+    "Mark Miller"
+  ],
+  "progress": 22,
+  "completed": false,
+  "lectures": 55,
+  "hours": 11,
+  "enrolledDate": "2026-01-27",
+  "archived": true,
+  "certificate": null,
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "servicenow"
+  ],
+  "generated": true
+}

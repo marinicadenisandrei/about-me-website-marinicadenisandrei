@@ -1,0 +1,188 @@
+/*
+ * Design tokens.
+ * Base palette, easing and typography come from the Luminary template (templatemo 621);
+ * radii, orbs and tint are the tinted-glass layer (see glass.css).
+ *
+ * Theme: dark by default, follows prefers-color-scheme; `html[data-theme="light|dark"]`
+ * (set by the ThemeToggle, stored in localStorage) overrides it.
+ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* ── Luminary dark palette ── */
+  --base-deep: #0F1115;
+  --base-mid: #161A20;
+  --base-soft: #1C2128;
+  --slate-warm: #6B7280;
+  --slate-light: #9CA3AF;
+  --graphite: #2A2E35;
+  --graphite-soft: #3D424A;
+  --ivory: #E5E7EB;
+  --ivory-muted: #C9CDD4;
+  --silver: #B0B8C4;
+  --panel-bg: rgba(22, 26, 32, 0.55);
+  --panel-border: rgba(156, 163, 175, 0.08);
+  --silk-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ── semantic aliases (what components use) ── */
+  --bg: var(--base-deep);
+  --fg: var(--ivory);
+  --fg-muted: var(--slate-light);
+  --fg-subtle: #8B93A3;              /* lifted from the template's #6B7280 for AA on glass */
+  --accent: var(--silver);
+  --accent-contrast: var(--base-deep);
+  --line: var(--panel-border);
+  --line-strong: rgba(156, 163, 175, 0.2);
+  --grid-line: rgba(156, 163, 175, 0.22);
+  --atmosphere: linear-gradient(180deg, #0F1115 0%, #161A20 35%, #1C2128 70%, #0D0F13 100%);
+
+  /* ── typography ── */
+  --font-display: 'Montserrat', sans-serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* ── radii (continuous corners) ── */
+  --radius-lg: 28px;
+  --radius-md: 20px;
+  --radius-sm: 14px;
+  --radius-full: 100px;
+
+  /* ── mesh-gradient orbs (dark: low saturation, restrained) ── */
+  --orb-1: hsl(232 48% 34%);   /* indigo */
+  --orb-2: hsl(212 55% 36%);   /* blue */
+  --orb-3: hsl(176 40% 30%);   /* teal */
+  --orb-4: hsl(268 38% 32%);   /* violet */
+  --orb-opacity: 0.55;
+  --orb-blur: 90px;
+
+  /* ── glass material ── */
+  --tint-h: 215;                       /* per-context hue, overridden by [data-tint] */
+  --glass-tint-s: 70%;
+  --glass-tint-l: 60%;
+  --glass-tint-a: 0.16;
+  --glass-tint: hsl(var(--tint-h) var(--glass-tint-s) var(--glass-tint-l) / var(--glass-tint-a));
+  --glass-hi: rgba(255, 255, 255, 0.14);
+  --glass-lo: rgba(255, 255, 255, 0.04);
+  --glass-border: color-mix(in srgb, rgba(255, 255, 255, 0.16) 70%, hsl(var(--tint-h) 70% 65% / 0.5));
+  --glass-inner: rgba(255, 255, 255, 0.25);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  --glass-blur: 32px;
+  --glass-sat: 175%;
+  --glass-fallback: var(--base-mid);
+  --spot: rgba(255, 255, 255, 0.08);   /* cursor-follow radial highlight */
+  --em-l1: 74%;                        /* heading gradient lightness (hero <em>) */
+  --em-l2: 70%;
+
+  /* ── tinted primary surface (buttons, CTA). Lightness + ink are tuned per hue so text stays ≥ 4.5:1 ── */
+  --tint-l1: 46%;
+  --tint-l2: 36%;
+  --tint-ink: #FFFFFF;
+  --tint-grad: linear-gradient(135deg, hsl(var(--tint-h) 70% var(--tint-l1)), hsl(calc(var(--tint-h) + 28) 65% var(--tint-l2)));
+
+  /* ── category hues (also exported from src/config/categories.ts) ── */
+  --hue-industry: 215;
+  --hue-academia: 268;
+  --hue-freelance: 174;
+  --hue-learning: 38;
+  --hue-personal: 330;
+
+  color-scheme: dark;
+}
+
+/* ── Light theme (macOS light): white glass, graphite text, pastel orbs ── */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) { --is-light: 1; }
+}
+:root[data-theme='light'] { --is-light: 1; }
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    color-scheme: light;
+    --bg: #F4F5F7;
+    --fg: #1C1F26;
+    --fg-muted: #4B5160;
+    --fg-subtle: #596071;
+    --accent: #2A2E35;
+    --accent-contrast: #FFFFFF;
+    --line: rgba(28, 31, 38, 0.08);
+    --line-strong: rgba(28, 31, 38, 0.18);
+    --grid-line: rgba(28, 31, 38, 0.14);
+    --panel-bg: rgba(255, 255, 255, 0.55);
+    --panel-border: rgba(28, 31, 38, 0.08);
+    --atmosphere: linear-gradient(180deg, #F6F7F9 0%, #EEF0F4 40%, #E9ECF2 70%, #F2F3F6 100%);
+    --orb-1: hsl(232 70% 78%);
+    --orb-2: hsl(212 75% 80%);
+    --orb-3: hsl(176 55% 76%);
+    --orb-4: hsl(268 60% 82%);
+    --orb-opacity: 0.8;
+    --glass-hi: rgba(255, 255, 255, 0.72);
+    --glass-lo: rgba(255, 255, 255, 0.48);
+    --glass-border: rgba(255, 255, 255, 0.85);
+    --glass-inner: rgba(255, 255, 255, 0.9);
+    --glass-shadow: 0 8px 32px rgba(28, 31, 38, 0.10);
+    --glass-tint-a: 0.14;
+    --glass-fallback: #FFFFFF;
+    --spot: rgba(255, 255, 255, 0.55);
+    --em-l1: 46%;
+    --em-l2: 44%;
+  }
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #F4F5F7;
+  --fg: #1C1F26;
+  --fg-muted: #4B5160;
+  --fg-subtle: #596071;
+  --accent: #2A2E35;
+  --accent-contrast: #FFFFFF;
+  --line: rgba(28, 31, 38, 0.08);
+  --line-strong: rgba(28, 31, 38, 0.18);
+  --grid-line: rgba(28, 31, 38, 0.14);
+  --panel-bg: rgba(255, 255, 255, 0.55);
+  --panel-border: rgba(28, 31, 38, 0.08);
+  --atmosphere: linear-gradient(180deg, #F6F7F9 0%, #EEF0F4 40%, #E9ECF2 70%, #F2F3F6 100%);
+  --orb-1: hsl(232 70% 78%);
+  --orb-2: hsl(212 75% 80%);
+  --orb-3: hsl(176 55% 76%);
+  --orb-4: hsl(268 60% 82%);
+  --orb-opacity: 0.8;
+  --glass-hi: rgba(255, 255, 255, 0.72);
+  --glass-lo: rgba(255, 255, 255, 0.48);
+  --glass-border: rgba(255, 255, 255, 0.85);
+  --glass-inner: rgba(255, 255, 255, 0.9);
+  --glass-shadow: 0 8px 32px rgba(28, 31, 38, 0.10);
+  --glass-tint-a: 0.14;
+  --glass-fallback: #FFFFFF;
+  --spot: rgba(255, 255, 255, 0.55);
+  --em-l1: 46%;
+  --em-l2: 44%;
+}
+
+/* ── per-context tint: any element with data-tint inherits the hue to its subtree ──
+   var() inside a custom property resolves where it is declared, so the gradient is re-declared here. */
+[data-tint] { --tint-grad: linear-gradient(135deg, hsl(var(--tint-h) 70% var(--tint-l1)), hsl(calc(var(--tint-h) + 28) 65% var(--tint-l2))); --glass-tint: hsl(var(--tint-h) var(--glass-tint-s) var(--glass-tint-l) / var(--glass-tint-a)); }
+[data-tint='industry'], [data-tint='employment'] { --tint-h: var(--hue-industry); }
+[data-tint='academia'], [data-tint='research'], [data-tint='academic'] { --tint-h: var(--hue-academia); }
+/* teal and amber are too light for white text → dark ink on a lighter gradient */
+[data-tint='freelance'] { --tint-h: var(--hue-freelance); --tint-l1: 58%; --tint-l2: 50%; --tint-ink: var(--base-deep); }
+[data-tint='learning'] { --tint-h: var(--hue-learning); --tint-l1: 58%; --tint-l2: 50%; --tint-ink: var(--base-deep); }
+[data-tint='personal'] { --tint-h: var(--hue-personal); }
+
+html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 96px; }
+body {
+  font-family: var(--font-ui);
+  background: var(--bg);
+  color: var(--fg);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.8s var(--silk-ease), color 0.8s var(--silk-ease);
+}
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
+img, svg, video { max-width: 100%; display: block; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

@@ -1,0 +1,25 @@
+---
+/** Luminary section header: section-tag → section-title (<strong> emphasis via set:html) → section-body. */
+interface Props {
+  tag?: string;
+  title: string;          // may contain <strong>…</strong> / <em>
+  body?: string;
+  center?: boolean;
+  as?: 'h1' | 'h2' | 'h3';
+  reveal?: boolean;
+  class?: string;
+}
+const { tag, title, body, center = false, as: Tag = 'h2', reveal = true, class: cls } = Astro.props;
+const r = (d = '') => (reveal ? `reveal ${d}` : '');
+---
+
+<div class:list={['section-head', { 'section-center': center }, cls]}>
+  {tag && <p class:list={['section-tag', r()]}>{tag}</p>}
+  <Tag class:list={['section-title', r('reveal-d1')]} set:html={title} />
+  {body && <p class:list={['section-body', r('reveal-d2')]} set:html={body} />}
+  <slot />
+</div>
+
+<style>
+  .section-head { margin-bottom: 48px; }
+</style>

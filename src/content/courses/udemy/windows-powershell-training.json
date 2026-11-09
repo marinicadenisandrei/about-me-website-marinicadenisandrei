@@ -1,0 +1,27 @@
+{
+  "title": "Introduction to Windows PowerShell 5.1",
+  "url": "https://www.udemy.com/course/windows-powershell-training/",
+  "provider": "udemy",
+  "instructors": [
+    "Paul Hill",
+    "Robert Hill"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 123,
+  "hours": 11,
+  "enrolledDate": "2024-06-03",
+  "archived": true,
+  "certificate": {
+    "id": "UC-6c6d4baa-05c9-46ce-a6f4-6e4a056be191",
+    "date": "2025-03-26",
+    "url": "https://www.udemy.com/certificate/UC-6c6d4baa-05c9-46ce-a6f4-6e4a056be191/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-6c6d4baa-05c9-46ce-a6f4-6e4a056be191.pdf"
+  },
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "powershell"
+  ],
+  "generated": true
+}

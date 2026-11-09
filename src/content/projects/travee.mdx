@@ -1,0 +1,46 @@
+---
+title: TRAVEE — VR neuro-rehabilitation platform
+category: research
+role: Software Developer with DevOps
+organization: ACS-UPB
+research: travee
+status: active
+startDate: 2025-06-01
+endDate: null
+summary: Unity serious games fused with EEG, FES and haptic feedback, plus AI analytics, to accelerate post-stroke recovery in clinics and at home — with a full CI/CD and cloud backbone on AKS.
+problem: Stroke rehabilitation needs engaging, measurable, personalised exercise — and clinicians need remote visibility into session quality and adherence.
+solution: A VR platform of therapeutic mini-games driven by a state machine that adapts difficulty to live performance, synchronised with EEG (Emotiv/OpenBCI), FES stimulators and haptic gloves, backed by ASP.NET Core APIs and a containerised cloud backend.
+myContribution:
+  - Built Unity (C#) mini-games for reach, balance, gait and coordination with OpenXR, Quest and Windows MR support.
+  - Engineered data handlers synchronising EEG, FES and haptic streams into a state machine that auto-tunes difficulty from real-time performance metrics.
+  - Modularised the Unity codebase into packages/ScriptableObjects; exposed REST and WebSocket APIs (ASP.NET Core) for profiles, session logs and remote progress; OAuth2/SAML auth and AES-256 encryption.
+  - GitLab CI for PlayMode/EditMode tests, asset validation and multi-platform builds (Windows, Android, WebGL), scaled with Jenkins/TeamCity agents; Snyk + SonarQube gates.
+  - Dockerised micro-services deployed with Helm on AKS; Terraform (Azure & AWS), Vault/Ansible secrets; Prometheus/Grafana and ELK with Slack alerts.
+outcomes: []
+stack: [unity, csharp, dotnet, openxr, python, gitlab-ci, jenkins, teamcity, nunit, snyk, sonarqube, docker, kubernetes, helm, terraform, ansible, azure, aws, vault, prometheus, grafana, elk, jira, confluence]
+links:
+  live: https://travee.upb.ro/ro/pagina-principala/
+featured: true
+order: 40
+---
+
+## VR and game development
+
+Therapeutic mini-games in Unity (C#) — object reach, balance, gait training and coordination — with OpenXR, Oculus/Quest SDKs and Windows Mixed Reality support. Custom data-stream handlers for EEG sensors (Emotiv, OpenBCI), FES controllers and haptic gloves synchronise visual, audio and tactile feedback. State-machine-driven exercise workflows adjust difficulty dynamically from patient performance metrics.
+
+## Analytics
+
+Movement-analysis algorithms (Kalman filtering, ML classifiers) for fatigue detection and motor-pattern recognition, developed with neuroscientists; telemetry dashboards (Unity Analytics, custom WebGL) so clinicians can monitor session quality, success rates and adherence.
+
+## Architecture and integrations
+
+Modular Unity packages and ScriptableObjects for rapid prototyping of new therapy modules; REST and WebSocket APIs in ASP.NET Core for user profiles, session logging and remote progress tracking; OAuth2/SAML authentication and GDPR-compliant AES-256 encryption.
+
+## DevOps
+
+- **CI/CD** — GitLab CI runs Unity PlayMode/EditMode tests, asset validation and platform builds (Windows, Android APK, WebGL); Jenkins and TeamCity agents for parallel builds and smoke tests.
+- **Containers** — session manager, analytics API and notification service as Docker micro-services on AKS, released with Helm across dev/test/prod.
+- **IaC and secrets** — Terraform modules for Azure and AWS (VPCs, Azure SQL / RDS, storage, load balancers); Ansible and HashiCorp Vault.
+- **Observability and security** — Prometheus/Grafana health and performance alerting, ELK with Kibana dashboards; Snyk and SonarQube gates in CI; RBAC across Git repositories and Kubernetes namespaces.
+
+{/* TODO: image — screenshots of the VR games; architecture diagram */}

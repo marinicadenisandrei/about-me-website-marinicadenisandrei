@@ -1,0 +1,42 @@
+---
+/** Luminary `features` row (alternating text/visual) → the three roles. Visual is a tinted GlassCard with a TODO image placeholder or a slot. */
+import Link from '@components/Link.astro';
+import GlassCard from '@components/GlassCard.astro';
+interface Props { number: string; tag: string; title: string; body: string; href: string; cta: string; tint: string; reverse?: boolean; image?: string; imageAlt?: string }
+const { number, tag, title, body, href, cta, tint, reverse = false, image, imageAlt = '' } = Astro.props;
+---
+
+<div class:list={['feature', 'reveal', { reverse }]} data-tint={tint}>
+  <GlassCard class="feature-visual" padding="none" radius="lg" lift={false}>
+    {image ? <img src={image} alt={imageAlt} loading="lazy" /> : (
+      <div class="feature-placeholder">
+        <slot name="visual">
+          <span class="todo">TODO: image</span>
+        </slot>
+      </div>
+    )}
+  </GlassCard>
+  <div class="feature-content">
+    <div class="feature-number">{number}</div>
+    <p class="section-tag">{tag}</p>
+    <h2 class="section-title" set:html={title} />
+    <p class="section-body" set:html={body} />
+    <Link href={href} class="btn btn--secondary btn--sm feature-cta">{cta}</Link>
+  </div>
+</div>
+
+<style>
+  .feature { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; padding: 72px 0; }
+  .feature.reverse { direction: rtl; }
+  .feature.reverse > :global(*) { direction: ltr; }
+  :global(.feature-visual) { height: 320px; overflow: hidden; }
+  .feature-visual img { width: 100%; height: 100%; object-fit: cover; }
+  .feature-placeholder { height: 100%; display: grid; place-items: center; background: radial-gradient(120% 90% at 20% 10%, hsl(var(--tint-h) 70% 60% / 0.25), transparent 60%), radial-gradient(90% 90% at 90% 90%, hsl(calc(var(--tint-h) + 40) 60% 55% / 0.2), transparent 60%); }
+  .feature-number { font-family: var(--font-display); font-size: 3rem; font-weight: 200; letter-spacing: -0.04em; color: hsl(var(--tint-h) 70% 70% / 0.18); line-height: 1; margin-bottom: 12px; font-variant-numeric: tabular-nums; }
+  .feature-cta { margin-top: 24px; }
+  @media (max-width: 1024px) {
+    .feature { grid-template-columns: 1fr; gap: 40px; padding: 48px 0; }
+    .feature.reverse { direction: ltr; }
+    :global(.feature-visual) { height: 240px; }
+  }
+</style>

@@ -1,0 +1,26 @@
+{
+  "title": "Haptic Design for XR using Unity3d & Interhaptics",
+  "url": "https://www.udemy.com/course/haptic-design-for-xr-in-unity3d/",
+  "provider": "udemy",
+  "instructors": [
+    "Interhaptics - Haptics & Interactions for XR"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 9,
+  "hours": 1,
+  "enrolledDate": "2025-02-02",
+  "archived": true,
+  "certificate": {
+    "id": "UC-6afd72a5-cc84-4eb6-80d7-8df0efe7a3f9",
+    "date": "2025-02-12",
+    "url": "https://www.udemy.com/certificate/UC-6afd72a5-cc84-4eb6-80d7-8df0efe7a3f9/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-6afd72a5-cc84-4eb6-80d7-8df0efe7a3f9.pdf"
+  },
+  "category": "Game Dev & XR",
+  "role": "student",
+  "stack": [
+    "unity"
+  ],
+  "generated": true
+}

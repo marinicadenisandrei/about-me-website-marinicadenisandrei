@@ -1,0 +1,135 @@
+---
+/**
+ * Services / Work with me: engagement models (pricing cards + segmented audience filter),
+ * capabilities, how I work, clients with public consent, testimonials, FAQ, booking CTA.
+ */
+import { render } from 'astro:content';
+import Base from '@layouts/Base.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import SegmentedControl from '@components/SegmentedControl.astro';
+import EngagementCard from '@components/EngagementCard.astro';
+import GlassCard from '@components/GlassCard.astro';
+import Grid from '@components/Grid.astro';
+import TechPill from '@components/TechPill.astro';
+import Faq from '@components/Faq.astro';
+import BookCall from '@components/BookCall.astro';
+import Link from '@components/Link.astro';
+import { site } from '@config/site';
+import { professionalServiceJsonLd } from '@lib/jsonld';
+import { getServices, getEngagementModels, getPublicClients, getTestimonials, getFaq, uniqueTech } from '@lib/content';
+
+const ui = site.ui.services;
+const engagements = await getEngagementModels();
+const capabilities = (await getServices()).filter((s) => !s.data.engagement);
+const capBodies = await Promise.all(capabilities.map(async (c) => ({ ...c, Content: (await render(c)).Content, hasBody: !!c.body?.trim() })));
+const clients = await getPublicClients();
+const testimonials = await getTestimonials();
+const faq = (await getFaq()).filter((f) => f.data.audience === 'clients' || f.data.audience === 'all');
+---
+
+<Base title="Services" description={`Freelance DevOps, cloud, MLOps and software development by ${site.name}: consulting and audits, scoped projects and monthly retainers.`} tint="freelance" hideCta jsonLd={[professionalServiceJsonLd(Astro.site)]}>
+  <section class="page-head" data-label="Services">
+    <SectionHeader tag={ui.tag} title={ui.title} body="Senior DevOps, cloud and MLOps engineering through my own practice — scoped, delivered as code in your repositories, documented and handed over." as="h1" reveal={false} />
+    <div class="svc-filter reveal reveal-d2">
+      <SegmentedControl group="audience" label="Audience" value="companies" options={[{ value: 'companies', label: ui.segment.companies }, { value: 'startups-academia', label: ui.segment.startupsAcademia }]} />
+    </div>
+  </section>
+
+  <section class="section--tight" id="engagements" data-label="Engagement models" data-engagements>
+    <Grid cols={3}>{engagements.map((s, i) => <EngagementCard service={s} reveal={`reveal reveal-d${i + 1}`} />)}</Grid>
+    <div class="svc-book reveal">
+      <BookCall page="services" variant="primary" label={site.booking.label} disclosure="full" />
+      <Link href="/contact" class="btn btn--secondary">{site.ui.ctaSendMessage}</Link>
+    </div>
+  </section>
+
+  <div class="silk-divider reveal"></div>
+
+  <section class="section" id="capabilities" data-label="What I do">
+    <SectionHeader tag="What I do" title="Three <strong>capabilities</strong>" />
+    <Grid cols={3}>
+      {capBodies.map((c, i) => (
+        <GlassCard tint="freelance" as="article" lift={false} class:list={['reveal', `reveal-d${i + 1}`]}>
+          <h3 class="cap-title">{c.data.title}</h3>
+          <p class="cap-desc">{c.data.description}</p>
+          <ul class="cap-list">{c.data.deliverables.map((d) => <li>{d}</li>)}</ul>
+          <div class="cap-stack">{uniqueTech(c.data.stack).slice(0, 6).map((s) => <TechPill slug={s} />)}</div>
+        </GlassCard>
+      ))}
+    </Grid>
+  </section>
+
+  <div class="silk-divider reveal"></div>
+
+  <section class="section" id="how" data-label="How I work">
+    <SectionHeader tag={ui.howIWork} title="Scoped, in your repos, <strong>handed over</strong>" />
+    <Grid cols={4} min="220px">
+      {[
+        ['01', 'Discovery call', '30 minutes to understand the system, the constraint and what "done" means.'],
+        ['02', 'Written scope', 'Milestones, deliverables and an estimate — you keep the document either way.'],
+        ['03', 'Delivery as code', 'Infrastructure, pipelines and docs land in your repositories with weekly demos.'],
+        ['04', 'Handover', 'Recorded walkthrough, runbooks, and 30 days of post-delivery support on projects.'],
+      ].map(([n, t, b], i) => (
+        <GlassCard variant="thin" tint="freelance" lift={false} padding="sm" class:list={['reveal', `reveal-d${(i % 3) + 1}`]}>
+          <p class="how-n">{n}</p><h3 class="how-t">{t}</h3><p class="how-b">{b}</p>
+        </GlassCard>
+      ))}
+    </Grid>
+  </section>
+
+  {clients.length > 0 && (
+    <section class="section section-center" id="clients" data-label="Clients">
+      <SectionHeader tag={ui.clients} title="Teams I've <strong>worked with</strong>" center />
+      <div class="client-strip reveal">{clients.map((c) => <span class="pill pill--neutral">{c.data.name}</span>)}</div>
+    </section>
+  )}
+
+  {testimonials.length > 0 && (
+    <section class="section section-center" id="testimonials" data-label="Testimonials">
+      <SectionHeader tag={site.ui.testimonials.tag} title={site.ui.testimonials.title} center />
+      <Grid cols={3}>
+        {testimonials.map((t) => (
+          <GlassCard tint="freelance" as="blockquote" class="reveal tq">
+            <p class="tq-quote">“{t.quote}”</p>
+            <footer class="tq-foot"><strong>{t.author}</strong>{t.authorRole && <span> · {t.authorRole}</span>}</footer>
+          </GlassCard>
+        ))}
+      </Grid>
+    </section>
+  )}
+
+  <div class="silk-divider reveal"></div>
+
+  <section class="section section-center" id="faq" data-label="FAQ">
+    <SectionHeader tag={site.ui.faq.tag} title={site.ui.faq.title} center />
+    <Faq items={faq} />
+  </section>
+</Base>
+
+<style>
+  .svc-filter { margin-top: 8px; }
+  .svc-book { display: flex; justify-content: center; align-items: flex-start; gap: 14px; flex-wrap: wrap; margin-top: 40px; }
+  .cap-title { font-size: 1.05rem; font-weight: 500; color: var(--fg); margin-bottom: 10px; }
+  .cap-desc { font-size: 0.88rem; line-height: 1.65; color: var(--fg-muted); margin-bottom: 16px; }
+  .cap-list { list-style: none; display: grid; gap: 6px; margin-bottom: 18px; font-size: 0.84rem; color: var(--fg-muted); }
+  .cap-list li { display: flex; gap: 10px; }
+  .cap-list li::before { content: ''; flex-shrink: 0; width: 4px; height: 4px; border-radius: 50%; background: hsl(var(--tint-h) 70% 60%); margin-top: 9px; }
+  .cap-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .how-n { font-family: var(--font-display); font-size: 1.6rem; font-weight: 200; color: hsl(var(--tint-h) 70% 70% / 0.5); margin-bottom: 8px; }
+  .how-t { font-size: 0.98rem; font-weight: 500; color: var(--fg); margin-bottom: 8px; }
+  .how-b { font-size: 0.84rem; line-height: 1.6; color: var(--fg-muted); }
+  .client-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .tq-quote { font-size: 0.92rem; font-style: italic; line-height: 1.75; color: var(--fg-muted); margin-bottom: 18px; text-align: left; }
+  .tq-foot { font-size: 0.8rem; color: var(--fg-subtle); text-align: left; }
+  .tq-foot strong { color: var(--fg); font-weight: 500; }
+  /* audience filter: hide engagement cards that don't target the selected audience */
+  [data-engagements][data-audience='companies'] :global(.eng:not([data-audience~='companies'])),
+  [data-engagements][data-audience='startups-academia'] :global(.eng:not([data-audience~='startups-academia'])) { display: none; }
+</style>
+
+<script>
+  document.addEventListener('segmented:change', (e) => {
+    const d = (e as CustomEvent).detail;
+    if (d.group === 'audience') document.querySelector<HTMLElement>('[data-engagements]')?.setAttribute('data-audience', d.value);
+  });
+</script>

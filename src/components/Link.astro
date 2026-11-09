@@ -1,0 +1,26 @@
+---
+/**
+ * Internal link that always applies the base path. Use this (or withBase())
+ * for EVERY internal href — scripts/check-links.mjs fails the build otherwise.
+ */
+import type { HTMLAttributes } from 'astro/types';
+import { withBase, isActivePath } from '@lib/url';
+
+interface Props extends HTMLAttributes<'a'> {
+  href: string;
+  /** Adds `aria-current="page"` + class "active" when the current URL is under href. */
+  activeMatch?: boolean;
+}
+const { href, activeMatch = false, class: className, ...rest } = Astro.props;
+const resolved = withBase(href);
+const external = /^(https?:)?\/\//.test(href);
+const active = activeMatch && isActivePath(Astro.url.pathname, href);
+---
+
+<a
+  href={resolved}
+  class:list={[className, { active }]}
+  aria-current={active ? 'page' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+  target={external ? '_blank' : undefined}
+  {...rest}><slot /></a>

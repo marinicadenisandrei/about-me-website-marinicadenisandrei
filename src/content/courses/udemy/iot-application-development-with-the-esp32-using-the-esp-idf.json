@@ -1,0 +1,21 @@
+{
+  "title": "IoT Application Development with the ESP32 Using the ESP-IDF",
+  "url": "https://www.udemy.com/course/iot-application-development-with-the-esp32-using-the-esp-idf/",
+  "provider": "udemy",
+  "instructors": [
+    "Kevin Aguilar"
+  ],
+  "progress": 54,
+  "completed": false,
+  "lectures": 56,
+  "hours": 9,
+  "enrolledDate": "2025-04-23",
+  "archived": true,
+  "certificate": null,
+  "category": "Embedded & IoT",
+  "role": "student",
+  "stack": [
+    "esp32"
+  ],
+  "generated": true
+}

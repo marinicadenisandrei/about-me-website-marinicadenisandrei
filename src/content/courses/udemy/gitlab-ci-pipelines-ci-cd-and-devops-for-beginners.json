@@ -1,0 +1,22 @@
+{
+  "title": "GitLab CI/CD: Pipelines, CI/CD and DevOps for Beginners",
+  "url": "https://www.udemy.com/course/gitlab-ci-pipelines-ci-cd-and-devops-for-beginners/",
+  "provider": "udemy",
+  "instructors": [
+    "Valentin Despa",
+    "Valentin Despa - Support"
+  ],
+  "progress": 95,
+  "completed": false,
+  "lectures": 155,
+  "hours": 14,
+  "enrolledDate": "2025-10-03",
+  "archived": false,
+  "certificate": null,
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "gitlab-ci"
+  ],
+  "generated": true
+}

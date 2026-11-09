@@ -1,0 +1,12 @@
+{
+  "$comment": "Copy to <issuer>-<name>.json. kind: certification | course-certificate | skill-assessment | badge. date may be null when unknown. badgeImage is relative to this file (e.g. ../../assets/badges/aws-dva.png).",
+  "name": "AWS Certified Developer – Associate",
+  "issuer": "Amazon Web Services",
+  "kind": "certification",
+  "date": "2025-05-01",   
+  "expires": null,
+  "credentialId": "ABC123",
+  "credentialUrl": "https://www.credly.com/badges/…",
+  "skills": ["aws", "lambda", "dynamodb"],
+  "order": 100
+}

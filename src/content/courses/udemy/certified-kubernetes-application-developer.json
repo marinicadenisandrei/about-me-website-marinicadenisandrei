@@ -1,0 +1,23 @@
+{
+  "title": "Kubernetes Certified Application Developer (CKAD) with Tests",
+  "url": "https://www.udemy.com/course/certified-kubernetes-application-developer/",
+  "provider": "udemy",
+  "instructors": [
+    "Mumshad Mannambeth",
+    "KodeKloud Training",
+    "Vijin Palazhi"
+  ],
+  "progress": 62,
+  "completed": false,
+  "lectures": 213,
+  "hours": 16.5,
+  "enrolledDate": "2025-08-04",
+  "archived": false,
+  "certificate": null,
+  "category": "Kubernetes & Containers",
+  "role": "student",
+  "stack": [
+    "kubernetes"
+  ],
+  "generated": true
+}

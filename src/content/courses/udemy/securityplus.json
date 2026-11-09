@@ -1,0 +1,22 @@
+{
+  "title": "CompTIA Security+ (SY0-701) Complete Course & Practice Exam",
+  "url": "https://www.udemy.com/course/securityplus/",
+  "provider": "udemy",
+  "instructors": [
+    "Jason Dion",
+    "Dion Training Solutions"
+  ],
+  "progress": 51,
+  "completed": false,
+  "lectures": 265,
+  "hours": 31,
+  "enrolledDate": "2026-02-23",
+  "archived": false,
+  "certificate": null,
+  "category": "Security",
+  "role": "student",
+  "stack": [
+    "cybersecurity"
+  ],
+  "generated": true
+}

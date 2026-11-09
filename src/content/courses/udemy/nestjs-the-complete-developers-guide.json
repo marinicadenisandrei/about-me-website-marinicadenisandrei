@@ -1,0 +1,21 @@
+{
+  "title": "NestJS: The Complete Developer's Guide",
+  "url": "https://www.udemy.com/course/nestjs-the-complete-developers-guide/",
+  "provider": "udemy",
+  "instructors": [
+    "Stephen Grider"
+  ],
+  "progress": 5,
+  "completed": false,
+  "lectures": 245,
+  "hours": 20,
+  "enrolledDate": "2026-09-03",
+  "archived": false,
+  "certificate": null,
+  "category": "Web Development",
+  "role": "student",
+  "stack": [
+    "nestjs"
+  ],
+  "generated": true
+}

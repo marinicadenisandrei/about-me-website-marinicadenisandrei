@@ -1,0 +1,24 @@
+{
+  "title": "Java Masterclass 2025: 130+ Hours of Expert Lessons",
+  "url": "https://www.udemy.com/course/java-the-complete-java-developer-course/",
+  "provider": "udemy",
+  "instructors": [
+    "Tim Buchalka",
+    "Tim Buchalka's Learn Programming Academy",
+    "Edwin Einsen Vásquez Velásquez",
+    "Igor Popovic"
+  ],
+  "progress": 43,
+  "completed": false,
+  "lectures": 739,
+  "hours": 135.5,
+  "enrolledDate": "2023-11-01",
+  "archived": false,
+  "certificate": null,
+  "category": "Programming Languages",
+  "role": "student",
+  "stack": [
+    "java"
+  ],
+  "generated": true
+}

@@ -1,0 +1,25 @@
+{
+  "title": "The Complete Foundation Stock Trading Course",
+  "url": "https://www.udemy.com/course/foundation-course/",
+  "provider": "udemy",
+  "instructors": [
+    "Mohsen Hassan",
+    "bloom team"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 41,
+  "hours": 9.5,
+  "enrolledDate": "2026-05-20",
+  "archived": true,
+  "certificate": {
+    "id": "UC-3527e97b-0560-4e76-bfc7-9fd8684ee7cf",
+    "date": "2026-07-01",
+    "url": "https://www.udemy.com/certificate/UC-3527e97b-0560-4e76-bfc7-9fd8684ee7cf/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-3527e97b-0560-4e76-bfc7-9fd8684ee7cf.pdf"
+  },
+  "category": "Other",
+  "role": "student",
+  "stack": [],
+  "generated": true
+}

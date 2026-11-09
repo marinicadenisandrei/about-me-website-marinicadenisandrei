@@ -1,0 +1,14 @@
+{
+  "name": "Test Automation — Certificate of Completion",
+  "issuer": "HIL Academy",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "python",
+    "pytest",
+    "test-automation"
+  ],
+  "order": 10,
+  "credentialUrl": "https://hil.academy/certificate-verification/138F40B39-138F4A71D-12D36118E/"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "Project Management",
+  "issuer": "Continental",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "project-management"
+  ],
+  "order": 220,
+  "credentialUrl": "https://drive.google.com/file/d/14tg1tNk_G9YsDLmPhob5-v1DzVmoWW4O/view?usp=sharing",
+  "$comment": "TODO: confirm this Google Drive link is meant to be public (or replace with an issuer verification link)"
+}

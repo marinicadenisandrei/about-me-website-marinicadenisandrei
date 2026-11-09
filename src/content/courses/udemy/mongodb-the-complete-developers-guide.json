@@ -1,0 +1,22 @@
+{
+  "title": "MongoDB - The Complete Developer's Guide",
+  "url": "https://www.udemy.com/course/mongodb-the-complete-developers-guide/",
+  "provider": "udemy",
+  "instructors": [
+    "Academind by Maximilian Schwarzmüller",
+    "Maximilian Schwarzmüller"
+  ],
+  "progress": 55,
+  "completed": false,
+  "lectures": 266,
+  "hours": 17.5,
+  "enrolledDate": "2024-11-28",
+  "archived": false,
+  "certificate": null,
+  "category": "Web Development",
+  "role": "student",
+  "stack": [
+    "mongodb"
+  ],
+  "generated": true
+}

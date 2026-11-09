@@ -1,0 +1,21 @@
+{
+  "title": "The Complete Networking Fundamentals Course. Your CCNA start",
+  "url": "https://www.udemy.com/course/complete-networking-fundamentals-course-ccna-start/",
+  "provider": "udemy",
+  "instructors": [
+    "David Bombal"
+  ],
+  "progress": 41,
+  "completed": false,
+  "lectures": 580,
+  "hours": 73,
+  "enrolledDate": "2023-11-06",
+  "archived": false,
+  "certificate": null,
+  "category": "Networking",
+  "role": "student",
+  "stack": [
+    "networking"
+  ],
+  "generated": true
+}

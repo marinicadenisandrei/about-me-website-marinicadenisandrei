@@ -1,0 +1,13 @@
+{
+  "name": "Requirements Management",
+  "issuer": "Continental",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "requirements-management"
+  ],
+  "order": 290,
+  "credentialUrl": "https://drive.google.com/file/d/1XERQeQadKBOynHxdiJ689CIqgIkTV8aW/view?usp=sharing",
+  "$comment": "TODO: confirm this Google Drive link is meant to be public (or replace with an issuer verification link)"
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Computer Vision by using C++ and OpenCV with GPU support",
+  "url": "https://www.udemy.com/course/computer-vision-by-using-cpp-and-opencv-with-gpu-support/",
+  "provider": "udemy",
+  "instructors": [
+    "Ibrahim Delibasoglu"
+  ],
+  "progress": 7,
+  "completed": false,
+  "lectures": 27,
+  "hours": 3.5,
+  "enrolledDate": "2025-12-16",
+  "archived": true,
+  "certificate": null,
+  "category": "AI/ML & Computer Vision",
+  "role": "student",
+  "stack": [
+    "cpp",
+    "opencv"
+  ],
+  "generated": true
+}

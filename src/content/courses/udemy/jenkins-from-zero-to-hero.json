@@ -1,0 +1,26 @@
+{
+  "title": "Jenkins, From Zero To Hero: Become a DevOps Jenkins Master",
+  "url": "https://www.udemy.com/course/jenkins-from-zero-to-hero/",
+  "provider": "udemy",
+  "instructors": [
+    "Ricardo Andre Gonzalez Gomez"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 187,
+  "hours": 11,
+  "enrolledDate": "2024-08-06",
+  "archived": true,
+  "certificate": {
+    "id": "UC-a081e5ac-722e-4cc2-bc6c-231dcd7e0b39",
+    "date": "2026-05-12",
+    "url": "https://www.udemy.com/certificate/UC-a081e5ac-722e-4cc2-bc6c-231dcd7e0b39/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-a081e5ac-722e-4cc2-bc6c-231dcd7e0b39.pdf"
+  },
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "jenkins"
+  ],
+  "generated": true
+}

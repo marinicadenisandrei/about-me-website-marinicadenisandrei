@@ -1,0 +1,22 @@
+{
+  "title": "Microcontroller Embedded C Programming: Absolute Beginners",
+  "url": "https://www.udemy.com/course/microcontroller-embedded-c-programming/",
+  "provider": "udemy",
+  "instructors": [
+    "FastBit Embedded Brain Academy",
+    "Kiran Nayak"
+  ],
+  "progress": 97,
+  "completed": false,
+  "lectures": 193,
+  "hours": 16.5,
+  "enrolledDate": "2024-08-13",
+  "archived": false,
+  "certificate": null,
+  "category": "Embedded & IoT",
+  "role": "student",
+  "stack": [
+    "c"
+  ],
+  "generated": true
+}

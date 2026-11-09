@@ -1,0 +1,14 @@
+{
+  "name": "HEP Agile Engineering Project Management with JIRA and Jazz",
+  "issuer": "Continental",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "agile",
+    "jira"
+  ],
+  "order": 130,
+  "credentialUrl": "https://drive.google.com/file/d/146xqNfwZX2EbCmLfHUqL5YOFGtCOxNfi/view?usp=sharing",
+  "$comment": "TODO: confirm this Google Drive link is meant to be public (or replace with an issuer verification link)"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "Industrial Process Automation",
+  "issuer": "Honeywell",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "plc",
+    "scada"
+  ],
+  "order": 150,
+  "credentialUrl": "https://drive.google.com/file/d/1bjmbxRCcNKSRJvrl0pSuIBXsyh32S_bF/view?usp=sharing",
+  "$comment": "TODO: confirm this Google Drive link is meant to be public (or replace with an issuer verification link)"
+}

@@ -1,0 +1,27 @@
+{
+  "title": "Ansible Advanced - Hands-On - DevOps",
+  "url": "https://www.udemy.com/course/learn-ansible-advanced/",
+  "provider": "udemy",
+  "instructors": [
+    "Mumshad Mannambeth",
+    "KodeKloud Training"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 30,
+  "hours": 4,
+  "enrolledDate": "2024-11-08",
+  "archived": true,
+  "certificate": {
+    "id": "UC-3f3eac57-a7c4-45d2-8017-3685394a02c3",
+    "date": "2025-05-08",
+    "url": "https://www.udemy.com/certificate/UC-3f3eac57-a7c4-45d2-8017-3685394a02c3/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-3f3eac57-a7c4-45d2-8017-3685394a02c3.pdf"
+  },
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "ansible"
+  ],
+  "generated": true
+}

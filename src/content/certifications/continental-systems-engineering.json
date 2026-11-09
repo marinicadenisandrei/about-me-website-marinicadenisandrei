@@ -1,0 +1,13 @@
+{
+  "name": "Systems Engineering",
+  "issuer": "Continental",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "systems-engineering"
+  ],
+  "order": 320,
+  "credentialUrl": "https://drive.google.com/file/d/1bwDvO8Ildy5RRP3jVcJsJ5GdZa3sDPvL/view?usp=sharing",
+  "$comment": "TODO: confirm this Google Drive link is meant to be public (or replace with an issuer verification link)"
+}

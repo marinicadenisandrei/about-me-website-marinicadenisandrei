@@ -1,0 +1,28 @@
+{
+  "title": "Deep Learning: Advanced Computer Vision (GANs, SSD, +More!)",
+  "url": "https://www.udemy.com/course/advanced-computer-vision/",
+  "provider": "udemy",
+  "instructors": [
+    "Lazy Programmer Inc.",
+    "Lazy Programmer Team"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 115,
+  "hours": 17,
+  "enrolledDate": "2025-01-21",
+  "archived": false,
+  "certificate": {
+    "id": "UC-3b7d9956-cd55-4dba-9d69-79e7ede659d3",
+    "date": "2026-10-23",
+    "url": "https://www.udemy.com/certificate/UC-3b7d9956-cd55-4dba-9d69-79e7ede659d3/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-3b7d9956-cd55-4dba-9d69-79e7ede659d3.pdf"
+  },
+  "category": "AI/ML & Computer Vision",
+  "role": "student",
+  "stack": [
+    "opencv",
+    "machine-learning"
+  ],
+  "generated": true
+}

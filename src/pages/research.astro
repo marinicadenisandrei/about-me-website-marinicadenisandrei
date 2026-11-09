@@ -1,0 +1,139 @@
+---
+/** Research & Teaching: thesis, research projects (→ linked project pages), publications (only when ≥1, with BibTeX), courses taught. */
+import { render } from 'astro:content';
+import Base from '@layouts/Base.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import GlassCard from '@components/GlassCard.astro';
+import Grid from '@components/Grid.astro';
+import Pill from '@components/Pill.astro';
+import TechPill from '@components/TechPill.astro';
+import Link from '@components/Link.astro';
+import { site } from '@config/site';
+import { getResearch, getPublications, getTeaching, getProjects, projectSlug, uniqueTech } from '@lib/content';
+import { formatRange } from '@lib/format';
+
+const ui = site.ui.research;
+const research = await getResearch();
+const thesis = research.find((r) => r.data.type === 'thesis');
+const grants = research.filter((r) => r.data.type !== 'thesis');
+const publications = await getPublications();
+const teaching = await getTeaching();
+const projects = await getProjects();
+const thesisBody = thesis ? (await render(thesis)).Content : null;
+const teachingBodies = await Promise.all(teaching.map(async (t) => ({ t, Content: (await render(t)).Content, hasBody: !!t.body?.trim() })));
+const bib = publications.map((p) => p.data.bibtex?.trim()).filter(Boolean).join('\n\n');
+---
+
+<Base title="Research & Teaching" description={`Research, PhD thesis and university teaching of ${site.name} at ACS-UNSTPB: HRIA, Sound of Vision, TRAVEE, GLOBE-CoP, GREENUS, ROSPIN.`} tint="academia">
+  <section class="page-head" data-label="Research & Teaching">
+    <SectionHeader tag={ui.tag} title={ui.title} body="PhD candidate and AI research engineer at the Faculty of Automatic Control and Computers, and teaching assistant for two courses." as="h1" reveal={false} />
+  </section>
+
+  {thesis && (
+    <section class="section--tight" id="thesis" data-label={ui.thesis}>
+      <p class="section-tag reveal">{ui.thesis}</p>
+      <GlassCard tint="academia" variant="thick" radius="lg" padding="lg" lift={false} class="reveal reveal-d1" as="article">
+        <p class="rs-k">{thesis.data.role} · {thesis.data.organization} · {formatRange(thesis.data.period.start, thesis.data.period.end)}</p>
+        <h2 class="rs-title">{thesis.data.title}</h2>
+        <p class="rs-desc">{thesis.data.description}</p>
+        {thesisBody && <div class="prose rs-prose"><thesisBody /></div>}
+        <div class="rs-stack">{uniqueTech(thesis.data.stack).map((s) => <TechPill slug={s} />)}</div>
+      </GlassCard>
+    </section>
+  )}
+
+  <section class="section--tight" id="research" data-label={ui.projects}>
+    <p class="section-tag reveal">{ui.projects} · {grants.length}</p>
+    <Grid cols={2} min="300px">
+      {grants.map((r, i) => {
+        const linked = projects.filter((p) => p.data.research?.id === r.id);
+        return (
+          <GlassCard tint="academia" as="article" lift={false} class:list={['reveal', `reveal-d${(i % 3) + 1}`]}>
+            <div class="rs-top"><Pill dot>{r.data.type}</Pill>{r.data.funder && <span class="rs-funder">{r.data.funder}</span>}</div>
+            <h3 class="rs-h">{r.data.title}</h3>
+            <p class="rs-k">{r.data.role}{r.data.organization && <> · {r.data.organization}</>} · {formatRange(r.data.period.start, r.data.period.end)}</p>
+            <p class="rs-desc">{r.data.description}</p>
+            <p class="rs-links">
+              {linked.map((p) => <Link href={`/projects/${projectSlug(p)}`} class="btn btn--secondary btn--sm">Project page</Link>)}
+              {r.data.link && <a href={r.data.link} target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--sm">Website ↗</a>}
+            </p>
+          </GlassCard>
+        );
+      })}
+    </Grid>
+  </section>
+
+  {publications.length > 0 && (
+    <section class="section--tight" id="publications" data-label={ui.publications}>
+      <div class="rs-pubhead">
+        <p class="section-tag reveal">{ui.publications} · {publications.length}</p>
+        {bib && <a class="btn btn--ghost btn--sm" href={`data:application/x-bibtex;charset=utf-8,${encodeURIComponent(bib)}`} download="marinica-publications.bib">{ui.downloadBibtex}</a>}
+      </div>
+      <ol class="pubs">
+        {publications.map((p) => (
+          <li class="pub glass glass--thin glass--sm reveal">
+            <p class="pub-title">{p.data.url ? <a href={p.data.url} target="_blank" rel="noopener noreferrer">{p.data.title}</a> : p.data.title}</p>
+            <p class="pub-meta">{p.data.authors.join(', ')} · <em>{p.data.venue}</em> · {p.data.year} · {p.data.type}{p.data.doi && <> · DOI <a href={`https://doi.org/${p.data.doi}`} target="_blank" rel="noopener noreferrer">{p.data.doi}</a></>}{p.data.pdf && <> · <a href={p.data.pdf} target="_blank" rel="noopener noreferrer">PDF</a></>}</p>
+            {p.data.bibtex && (
+              <details class="pub-bib"><summary>{ui.bibtex}</summary><pre><code>{p.data.bibtex.trim()}</code></pre><button type="button" class="btn btn--ghost btn--sm" data-copy={p.data.bibtex.trim()}>{ui.copyBibtex}</button></details>
+            )}
+          </li>
+        ))}
+      </ol>
+    </section>
+  )}
+
+  <section class="section--tight" id="teaching" data-label={ui.teaching}>
+    <p class="section-tag reveal">{ui.teaching} · {teaching.length}</p>
+    <Grid cols={2} min="300px">
+      {teachingBodies.map(({ t, Content, hasBody }, i) => (
+        <GlassCard tint="academia" as="article" lift={false} class:list={['reveal', `reveal-d${i + 1}`]}>
+          <div class="rs-top"><Pill dot>{t.data.level}</Pill><span class="rs-funder">{t.data.role}</span></div>
+          <h3 class="rs-h">{t.data.course}</h3>
+          <p class="rs-k">{t.data.faculty}, {t.data.university} · {formatRange(t.data.period.start, t.data.period.end)}</p>
+          <ul class="rs-topics">{t.data.topics.map((x) => <li>{x}</li>)}</ul>
+          {hasBody && <div class="prose rs-prose rs-prose--sm"><Content /></div>}
+          <div class="rs-stack">{uniqueTech(t.data.technologies).map((s) => <TechPill slug={s} />)}</div>
+          {t.data.syllabusLink && <p class="rs-links"><a href={t.data.syllabusLink} target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--sm">Syllabus ↗</a></p>}
+        </GlassCard>
+      ))}
+    </Grid>
+  </section>
+</Base>
+
+<style>
+  .section--tight { padding: 40px 0; }
+  .rs-k { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-subtle); margin-bottom: 10px; line-height: 1.7; }
+  .rs-title { font-size: 1.5rem; font-weight: 500; letter-spacing: -0.02em; color: var(--fg); margin-bottom: 12px; line-height: 1.3; }
+  .rs-h { font-size: 1.08rem; font-weight: 500; color: var(--fg); margin-bottom: 8px; line-height: 1.35; }
+  .rs-desc { font-size: 0.9rem; line-height: 1.65; color: var(--fg-muted); margin-bottom: 14px; }
+  .rs-prose { font-size: 0.9rem; margin-bottom: 16px; }
+  .rs-prose--sm { font-size: 0.85rem; }
+  .rs-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .rs-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .rs-funder { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-subtle); }
+  .rs-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 6px; }
+  .rs-topics { list-style: none; display: grid; gap: 5px; font-size: 0.86rem; color: var(--fg-muted); margin-bottom: 14px; }
+  .rs-topics li { display: flex; gap: 10px; }
+  .rs-topics li::before { content: ''; flex-shrink: 0; width: 4px; height: 4px; border-radius: 50%; background: hsl(var(--tint-h) 70% 60%); margin-top: 9px; }
+  .rs-pubhead { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .pubs { list-style: none; display: grid; gap: 10px; counter-reset: pub; }
+  .pub { padding: 18px 22px; }
+  .pub-title { font-size: 1rem; font-weight: 500; color: var(--fg); margin-bottom: 6px; }
+  .pub-title a { color: inherit; text-decoration: none; }
+  .pub-meta { font-size: 0.84rem; color: var(--fg-muted); }
+  .pub-bib { margin-top: 10px; }
+  .pub-bib summary { cursor: pointer; font-family: var(--font-display); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-subtle); }
+  .pub-bib pre { margin: 10px 0; padding: 14px; background: var(--panel-bg); border: 1px solid var(--line); border-radius: var(--radius-sm); overflow-x: auto; font-size: 0.78rem; }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLButtonElement>('[data-copy]:not([data-bound])').forEach((b) => {
+      b.dataset.bound = '';
+      b.addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(b.dataset.copy ?? ''); const t = b.textContent; b.textContent = 'Copied'; setTimeout(() => (b.textContent = t), 1500); } catch { /* clipboard unavailable */ }
+      });
+    });
+  });
+</script>

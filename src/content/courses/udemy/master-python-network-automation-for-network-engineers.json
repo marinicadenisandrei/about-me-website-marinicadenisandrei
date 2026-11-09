@@ -1,0 +1,23 @@
+{
+  "title": "Master Network Automation with Python for Network Engineers",
+  "url": "https://www.udemy.com/course/master-python-network-automation-for-network-engineers/",
+  "provider": "udemy",
+  "instructors": [
+    "Andrei Dumitrescu",
+    "Crystal Mind Academy"
+  ],
+  "progress": 49,
+  "completed": false,
+  "lectures": 251,
+  "hours": 23.5,
+  "enrolledDate": "2025-03-13",
+  "archived": false,
+  "certificate": null,
+  "category": "Networking",
+  "role": "student",
+  "stack": [
+    "python",
+    "networking"
+  ],
+  "generated": true
+}

@@ -1,0 +1,21 @@
+{
+  "title": "Angular - The Complete Guide",
+  "url": "https://www.udemy.com/course/the-complete-guide-to-angular-2/",
+  "provider": "udemy",
+  "instructors": [
+    "Maximilian Schwarzmüller"
+  ],
+  "progress": 3,
+  "completed": false,
+  "lectures": 762,
+  "hours": 56,
+  "enrolledDate": "2026-09-03",
+  "archived": false,
+  "certificate": null,
+  "category": "Web Development",
+  "role": "student",
+  "stack": [
+    "angular"
+  ],
+  "generated": true
+}

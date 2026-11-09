@@ -1,0 +1,13 @@
+{
+  "name": "HEP Document Management with Jazz SCM",
+  "issuer": "Continental",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "jazz"
+  ],
+  "order": 140,
+  "credentialUrl": "https://drive.google.com/file/d/1tfFtiz8ROljXGgdfhULUN6UFUMtND0zA/view?usp=sharing",
+  "$comment": "TODO: confirm this Google Drive link is meant to be public (or replace with an issuer verification link)"
+}

@@ -1,0 +1,23 @@
+{
+  "title": "Build Your own Self Driving Car | Deep Learning, OpenCV, C++",
+  "url": "https://www.udemy.com/course/selfdrivingcar/",
+  "provider": "udemy",
+  "instructors": [
+    "Rajandeep Singh"
+  ],
+  "progress": 0,
+  "completed": false,
+  "lectures": 47,
+  "hours": 5.5,
+  "enrolledDate": "2025-12-16",
+  "archived": true,
+  "certificate": null,
+  "category": "AI/ML & Computer Vision",
+  "role": "student",
+  "stack": [
+    "cpp",
+    "opencv",
+    "machine-learning"
+  ],
+  "generated": true
+}

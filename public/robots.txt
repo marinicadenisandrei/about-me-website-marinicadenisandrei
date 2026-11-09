@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+# Sitemap URL is injected at build time via <link rel="sitemap">; see astro.config.mjs (site).

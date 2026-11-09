@@ -1,0 +1,12 @@
+---
+/** Technology pill: links to /stack/[tech] when that page exists (≥3 references after aliasing), otherwise plain. */
+import Pill from '@components/Pill.astro';
+import { techLabel, canonicalTech } from '@config/stack';
+import { stackHref } from '@lib/content';
+interface Props { slug: string; tint?: string; neutral?: boolean; raw?: boolean }
+const { slug, tint, neutral = true, raw = false } = Astro.props;
+const href = await stackHref(slug);
+const label = raw ? slug : techLabel(canonicalTech(slug));
+---
+
+<Pill href={href ?? undefined} tint={tint} neutral={neutral} title={href ? `Everything that uses ${label}` : undefined}>{label}</Pill>

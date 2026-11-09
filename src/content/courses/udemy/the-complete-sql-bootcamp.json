@@ -1,0 +1,27 @@
+{
+  "title": "The Complete SQL Bootcamp: Go from Zero to Hero",
+  "url": "https://www.udemy.com/course/the-complete-sql-bootcamp/",
+  "provider": "udemy",
+  "instructors": [
+    "Jose Portilla",
+    "Pierian Training"
+  ],
+  "progress": 100,
+  "completed": true,
+  "lectures": 83,
+  "hours": 9,
+  "enrolledDate": "2024-07-17",
+  "archived": true,
+  "certificate": {
+    "id": "UC-01532489-59f9-413b-ae00-fe85cd113d7a",
+    "date": "2024-12-18",
+    "url": "https://www.udemy.com/certificate/UC-01532489-59f9-413b-ae00-fe85cd113d7a/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-01532489-59f9-413b-ae00-fe85cd113d7a.pdf"
+  },
+  "category": "Web Development",
+  "role": "student",
+  "stack": [
+    "sql"
+  ],
+  "generated": true
+}

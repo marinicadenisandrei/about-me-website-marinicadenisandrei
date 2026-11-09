@@ -1,0 +1,21 @@
+{
+  "title": "Mastering Data Structures & Algorithms using C and C++",
+  "url": "https://www.udemy.com/course/datastructurescncpp/",
+  "provider": "udemy",
+  "instructors": [
+    "Abdul Bari"
+  ],
+  "progress": 76,
+  "completed": false,
+  "lectures": 449,
+  "hours": 76,
+  "enrolledDate": "2023-06-07",
+  "archived": false,
+  "certificate": null,
+  "category": "Programming Languages",
+  "role": "student",
+  "stack": [
+    "cpp"
+  ],
+  "generated": true
+}

@@ -1,0 +1,81 @@
+---
+/**
+ * Stylised cut-out portrait for the Home hero. Sits over the orbs on the right,
+ * bottom edge faded with mask-image, tinted glow behind, gentle scroll/mouse
+ * parallax (transform only, off under prefers-reduced-motion).
+ */
+import { Picture } from 'astro:assets';
+import portrait from '@assets/brand/stylized.png';
+import { site } from '@config/site';
+const alt = `${site.name} — stylised cut-out portrait`;
+---
+
+<div class="portrait" data-parallax aria-hidden="false">
+  <div class="portrait-glow" aria-hidden="true"></div>
+  <Picture
+    src={portrait}
+    alt={alt}
+    widths={[320, 480, 600]}
+    sizes="(max-width: 768px) 60vw, (max-width: 1024px) 40vw, 480px"
+    formats={['avif', 'webp']}
+    quality={80}
+    loading="eager"
+    fetchpriority="high"
+    decoding="async"
+    class="portrait-img"
+    pictureAttributes={{ class: 'portrait-pic' }}
+  />
+</div>
+
+<style>
+  .portrait { position: relative; width: min(480px, 100%); aspect-ratio: 1; margin: 0 auto; --px: 0px; --py: 0px; }
+  .portrait-glow {
+    position: absolute; inset: 8% 4% -4%; border-radius: 50%; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(60% 55% at 45% 40%, hsl(var(--tint-h) 70% 60% / 0.55), transparent 70%),
+      radial-gradient(50% 50% at 70% 70%, var(--orb-4), transparent 70%),
+      radial-gradient(50% 50% at 25% 75%, var(--orb-3), transparent 70%);
+    filter: blur(44px); opacity: 0.8; transform: translate3d(calc(var(--px) * -0.4), calc(var(--py) * -0.4), 0);
+    transition: transform 0.9s var(--silk-ease);
+  }
+  :global(.portrait-pic) { display: block; position: relative; z-index: 1; }
+  .portrait-img {
+    position: relative; z-index: 1; width: 100%; height: auto; display: block;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 68%, rgba(0,0,0,0.6) 84%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 68%, rgba(0,0,0,0.6) 84%, transparent 100%);
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.35));
+    transform: translate3d(var(--px), var(--py), 0);
+    transition: transform 0.9s var(--silk-ease);
+    opacity: 0; animation: portraitIn 1.6s var(--silk-ease) 0.5s forwards;
+  }
+  @keyframes portraitIn { from { opacity: 0; transform: translate3d(var(--px), calc(var(--py) + 24px), 0); } to { opacity: 1; transform: translate3d(var(--px), var(--py), 0); } }
+  :root[data-theme='light'] .portrait-img { filter: drop-shadow(0 20px 40px rgba(28,31,38,0.18)); }
+  @media (prefers-reduced-motion: reduce) {
+    .portrait-img, .portrait-glow { transition: none; animation: none; opacity: 1; transform: none; }
+  }
+</style>
+
+<script>
+  function init() {
+    const el = document.querySelector<HTMLElement>('[data-parallax]:not([data-bound])');
+    if (!el) return;
+    el.dataset.bound = '';
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let mx = 0, my = 0, sy = 0, raf = 0;
+    const apply = () => {
+      raf = 0;
+      el.style.setProperty('--px', `${mx * 14}px`);
+      el.style.setProperty('--py', `${my * 10 + sy}px`);
+    };
+    const schedule = () => { if (!raf) raf = requestAnimationFrame(apply); };
+    if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      document.addEventListener('mousemove', (e) => {
+        mx = (e.clientX / innerWidth - 0.5) * 2;
+        my = (e.clientY / innerHeight - 0.5) * 2;
+        schedule();
+      }, { passive: true });
+    }
+    addEventListener('scroll', () => { sy = Math.min(scrollY, 800) * 0.12; schedule(); }, { passive: true });
+  }
+  document.addEventListener('astro:page-load', init);
+</script>

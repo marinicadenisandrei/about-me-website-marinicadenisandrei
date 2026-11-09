@@ -1,0 +1,12 @@
+{
+  "name": "Scientific Computing with Python",
+  "issuer": "freeCodeCamp",
+  "kind": "certification",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "python"
+  ],
+  "order": 40,
+  "credentialUrl": "https://www.freecodecamp.org/certification/fcca2c830be-7f65-45e3-9762-0cd84396b100/scientific-computing-with-python-v7"
+}

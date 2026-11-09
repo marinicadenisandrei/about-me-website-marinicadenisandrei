@@ -1,0 +1,23 @@
+---
+import GlassCard from '@components/GlassCard.astro';
+interface Props { date: string; duration?: string; tint?: string; current?: boolean; class?: string }
+const { date, duration, tint, current = false, class: cls } = Astro.props;
+---
+
+<li class:list={['tl-item', 'reveal', { current }, cls]} data-tint={tint}>
+  <span class="tl-dot" aria-hidden="true"></span>
+  <div class="tl-meta">
+    <span class="tl-date">{date}</span>
+    {duration && <span class="tl-dur">{duration}</span>}
+  </div>
+  <GlassCard tint={tint} as="article" spot lift={false}><slot /></GlassCard>
+</li>
+
+<style>
+  .tl-item { position: relative; margin-bottom: 28px; }
+  .tl-dot { position: absolute; left: -33px; top: 10px; width: 9px; height: 9px; border-radius: 50%; background: var(--bg); border: 2px solid hsl(var(--tint-h) 70% 60%); box-shadow: 0 0 0 4px var(--bg); }
+  .tl-item.current .tl-dot { background: hsl(var(--tint-h) 70% 60%); box-shadow: 0 0 0 4px var(--bg), 0 0 14px hsl(var(--tint-h) 70% 60% / 0.6); }
+  .tl-meta { display: flex; gap: 12px; align-items: baseline; margin-bottom: 10px; font-family: var(--font-display); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-subtle); }
+  .tl-dur { opacity: 0.6; letter-spacing: 0.1em; }
+  @media (max-width: 640px) { .tl-dot { left: -25px; } }
+</style>

@@ -1,0 +1,21 @@
+{
+  "title": "Recursion, Backtracking and Dynamic Programming in Java",
+  "url": "https://www.udemy.com/course/algorithmic-problems-in-java/",
+  "provider": "udemy",
+  "instructors": [
+    "Holczer Balazs"
+  ],
+  "progress": 41,
+  "completed": false,
+  "lectures": 143,
+  "hours": 15,
+  "enrolledDate": "2025-11-20",
+  "archived": false,
+  "certificate": null,
+  "category": "Programming Languages",
+  "role": "student",
+  "stack": [
+    "java"
+  ],
+  "generated": true
+}

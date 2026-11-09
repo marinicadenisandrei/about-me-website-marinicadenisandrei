@@ -1,0 +1,22 @@
+{
+  "title": "Learn Unity Games Engine & C# By Creating A VR Space Shooter",
+  "url": "https://www.udemy.com/course/draft/2758666/",
+  "provider": "udemy",
+  "instructors": [
+    "Daniel Stringer"
+  ],
+  "progress": 0,
+  "completed": false,
+  "lectures": 43,
+  "hours": 5.5,
+  "enrolledDate": "2024-10-01",
+  "archived": true,
+  "certificate": null,
+  "category": "Game Dev & XR",
+  "role": "student",
+  "stack": [
+    "csharp",
+    "unity"
+  ],
+  "generated": true
+}

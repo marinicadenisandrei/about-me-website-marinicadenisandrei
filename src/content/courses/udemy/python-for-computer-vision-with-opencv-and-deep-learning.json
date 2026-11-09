@@ -1,0 +1,24 @@
+{
+  "title": "Python for Computer Vision with OpenCV and Deep Learning",
+  "url": "https://www.udemy.com/course/python-for-computer-vision-with-opencv-and-deep-learning/",
+  "provider": "udemy",
+  "instructors": [
+    "Jose Portilla",
+    "Pierian Training"
+  ],
+  "progress": 0,
+  "completed": false,
+  "lectures": 92,
+  "hours": 14,
+  "enrolledDate": "2024-10-01",
+  "archived": true,
+  "certificate": null,
+  "category": "AI/ML & Computer Vision",
+  "role": "student",
+  "stack": [
+    "python",
+    "opencv",
+    "machine-learning"
+  ],
+  "generated": true
+}

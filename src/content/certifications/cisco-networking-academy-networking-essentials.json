@@ -1,0 +1,12 @@
+{
+  "name": "Networking Essentials",
+  "issuer": "Cisco Networking Academy (Coursera)",
+  "kind": "course-certificate",
+  "date": null,
+  "expires": null,
+  "skills": [
+    "networking"
+  ],
+  "order": 20,
+  "credentialUrl": "https://coursera.org/share/bd03804925a99b0c66edbdecfcfd261d"
+}

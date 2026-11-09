@@ -1,0 +1,34 @@
+---
+/** Shared shell for /legal pages: header + prose in a glass card + sub-navigation. */
+import Base from '@layouts/Base.astro';
+import Link from '@components/Link.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import { site } from '@config/site';
+interface Props { title: string; description: string; crumb: string; updated?: string }
+const { title, description, crumb, updated = '2026-11-07' } = Astro.props;
+const subnav = [{ label: site.ui.legal.business, href: '/legal' }, { label: site.ui.legal.privacy, href: '/legal/privacy' }, { label: site.ui.legal.cookies, href: '/legal/cookies' }];
+---
+
+<Base title={title} description={description} tint="industry" hideCta>
+  <section class="page-head" data-label={crumb}>
+    <Breadcrumbs items={crumb === 'Legal' ? [{ label: 'Legal' }] : [{ label: 'Legal', href: '/legal' }, { label: crumb }]} />
+    <p class="section-tag">{site.ui.legal.tag}</p>
+    <h1 class="section-title">{title}</h1>
+    <nav class="legal-nav" aria-label="Legal pages">{subnav.map((n) => <Link href={n.href} class="pill pill--neutral" activeMatch>{n.label}</Link>)}</nav>
+    {import.meta.env.DEV && <p class="todo legal-todo">TODO: review the whole Legal section (business details, privacy, cookies) with an accountant/lawyer before launch.</p>}
+  </section>
+  <div class="prose legal-prose"><slot /></div>
+  <p class="legal-updated">Last updated: {updated}</p>
+</Base>
+
+<style>
+  .legal-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .legal-nav :global(.pill.active) { color: var(--fg); border-color: hsl(var(--tint-h) 70% 70% / 0.5); }
+  .legal-todo { display: inline-block; margin-top: 16px; }
+  .legal-prose { padding-bottom: 32px; }
+  .legal-prose :global(.cv-email) { word-break: break-all; }
+  .legal-prose :global(table) { border-collapse: collapse; width: 100%; font-size: 0.88rem; margin: 1em 0 1.6em; }
+  .legal-prose :global(th), .legal-prose :global(td) { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .legal-prose :global(th) { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-subtle); }
+  .legal-updated { font-size: 0.78rem; color: var(--fg-subtle); padding-bottom: 40px; }
+</style>

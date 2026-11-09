@@ -1,0 +1,21 @@
+{
+  "title": "Modern PHP: The Complete Guide - from Beginner to Advanced",
+  "url": "https://www.udemy.com/course/modern-php/",
+  "provider": "udemy",
+  "instructors": [
+    "Jannis Seemann"
+  ],
+  "progress": 14,
+  "completed": false,
+  "lectures": 350,
+  "hours": 45.5,
+  "enrolledDate": "2026-02-28",
+  "archived": false,
+  "certificate": null,
+  "category": "Web Development",
+  "role": "student",
+  "stack": [
+    "php"
+  ],
+  "generated": true
+}

@@ -1,0 +1,44 @@
+---
+/** Luminary pricing card → engagement model (consulting / project / retainer). Middle one `featured`. */
+import GlassCard from '@components/GlassCard.astro';
+import Link from '@components/Link.astro';
+import { site } from '@config/site';
+import type { CollectionEntry } from 'astro:content';
+interface Props { service: CollectionEntry<'services'>; reveal?: string }
+const { service: s, reveal } = Astro.props;
+const e = s.data.engagement!;
+const modelLabel = { consulting: 'Consulting / Audit', project: 'Project', retainer: 'Retainer' }[e.model];
+---
+
+<GlassCard tint="freelance" variant={e.featured ? 'thick' : 'regular'} radius="lg" padding="lg" as="article" class:list={['eng', { featured: e.featured }, reveal]} data-audience={e.audience.join(' ')}>
+  {e.featured && <div class="eng-badge pill pill--dot">Most requested</div>}
+  <div class="eng-tier">{modelLabel}</div>
+  <h3 class="eng-title">{s.data.title}</h3>
+  <div class="eng-price">
+    <span class="eng-amount">{e.price || site.ui.services.onRequest}</span>
+    {e.unit && <span class="eng-unit">{e.unit}</span>}
+  </div>
+  <p class="eng-desc">{s.data.tagline ?? s.data.description}</p>
+  <ul class="eng-features">
+    {s.data.deliverables.map((d) => <li>{d}</li>)}
+    {e.includes.map((d) => <li class="eng-inc">{d}</li>)}
+  </ul>
+  <Link href="/contact" class:list={['btn', 'btn--block', e.featured ? 'btn--primary' : 'btn--secondary']}>{site.ui.ctaContact}</Link>
+</GlassCard>
+
+<style>
+  .eng { position: relative; height: 100%; }
+  .eng.featured { padding-top: 60px; box-shadow: inset 0 1px 0 var(--glass-inner), 0 0 60px hsl(var(--tint-h) 70% 55% / 0.18), var(--glass-shadow); }
+  @media (min-width: 1025px) { .eng.featured { transform: translateY(-12px); } .eng.featured:hover { transform: translateY(-14px); } }
+  .eng-badge { position: absolute; top: 18px; right: 20px; }
+  .eng-tier { font-family: var(--font-display); font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-subtle); margin-bottom: 14px; }
+  .eng-title { font-size: 1.15rem; font-weight: 500; letter-spacing: -0.02em; color: var(--fg); margin-bottom: 18px; }
+  .eng-price { display: flex; align-items: baseline; gap: 6px; padding: 14px 0; border-bottom: 1px solid var(--line); margin-bottom: 18px; }
+  .eng-amount { font-family: var(--font-display); font-size: 1.8rem; font-weight: 300; letter-spacing: -0.03em; color: var(--fg); }
+  .eng-unit { font-size: 0.8rem; color: var(--fg-subtle); }
+  .eng-desc { font-size: 0.88rem; font-weight: 300; line-height: 1.6; color: var(--fg-muted); margin-bottom: 22px; }
+  .eng-features { list-style: none; margin-bottom: 28px; flex: 1; }
+  .eng-features li { font-size: 0.82rem; color: var(--fg-muted); padding: 8px 0; border-bottom: 1px solid var(--line); display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+  .eng-features li::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: hsl(var(--tint-h) 70% 60%); flex-shrink: 0; margin-top: 8px; }
+  .eng-inc { color: var(--fg-subtle); }
+</style>

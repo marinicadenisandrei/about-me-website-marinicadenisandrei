@@ -1,0 +1,22 @@
+{
+  "title": "ESP32 For Arduino Makers",
+  "url": "https://www.udemy.com/course/esp32-for-arduino-makers/",
+  "provider": "udemy",
+  "instructors": [
+    "Dr. Peter Dalmaris"
+  ],
+  "progress": 65,
+  "completed": false,
+  "lectures": 63,
+  "hours": 8,
+  "enrolledDate": "2025-08-20",
+  "archived": false,
+  "certificate": null,
+  "category": "Embedded & IoT",
+  "role": "student",
+  "stack": [
+    "esp32",
+    "arduino"
+  ],
+  "generated": true
+}

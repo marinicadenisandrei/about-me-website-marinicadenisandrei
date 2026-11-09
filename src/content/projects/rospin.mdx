@@ -1,0 +1,52 @@
+---
+title: ROSPIN-SAT-1 — CubeSat on-board computer (ESA Fly Your Satellite!)
+category: research
+role: DevOps & On-Board Computer Software Engineer
+organization: Romanian Space Initiative (ROSPIN) · European Space Agency
+research: rospin
+status: completed
+startDate: 2023-05-01
+endDate: 2025-11-01
+summary: Software, infrastructure and quality strategy for a CubeSat OBC under ESA's Fly Your Satellite! Design Booster — layered RTOS firmware with CCSDS telemetry, an embedded CI/CD lattice, hardware-in-the-loop benches and telemetry anomaly detection.
+problem: Flight software for a CubeSat must be deterministic, testable without the physical hardware most of the time, and delivered by a distributed student/engineer team with ground-segment-grade process discipline.
+solution: A modular firmware stack (bootloader, FreeRTOS/Zephyr, middleware, flight app) with CCSDS-compliant TM/TC, containerised ARM toolchains in Jenkins + GitLab CI, QEMU-based early validation, a self-service HIL reservation platform and unified observability across OBC and ground systems.
+myContribution:
+  - Designed the layered firmware architecture and tuned FreeRTOS/Zephyr scheduling, multi-bus I/O (I²C, SPI, UART, CAN) and packet-based CCSDS TM/TC with error detection, retries and configurable timeouts.
+  - Containerised ARM cross-compilation and built Jenkins + GitLab CI pipelines — static analysis (Cppcheck, Clang-Tidy), unit tests (Unity, Google Test), coverage (gcov/lcov), nightly builds, auto-deploy to remote benches via Ansible with rollback.
+  - Provisioned Debian/Fedora build farms, staging networks and VPN gateways with Terraform + Ansible; hardened with image scans (Trivy/Clair), key-only SSH, SELinux/AppArmor, nftables and VPN/VLAN segmentation.
+  - Delivered a self-service HIL platform — Flask/React reservation portal with SSO/RBAC and board-health metrics, QEMU fault injection, Jenkins + Docker Compose regression suites.
+  - Fluentd + Prometheus + Grafana observability with Alertmanager SLOs; pandas/scikit-learn anomaly detection on historical telemetry; Doxygen/Sphinx living docs and onboarding workshops.
+outcomes:
+  - "TODO: confirm number — workshops halved onboarding time"
+stack: [c, cpp, python, bash, freertos, zephyr, ccsds, docker, kubernetes, k3s, jenkins, gitlab-ci, ansible, terraform, aws, prometheus, grafana, elk, fluentd, qemu, openocd, gdb, cmake, pytest, flask, react, openvpn, nftables, selinux, linux, networking, chef, scikit-learn, pandas]
+links:
+  live: https://rospin.org/
+featured: true
+order: 60
+---
+
+## On-board computer software
+
+- Layered, modular firmware — secure bootloader, RTOS kernel, middleware and flight application — tailored to CubeSat avionics.
+- FreeRTOS/Zephyr integration for deterministic scheduling and inter-task communication over I²C, SPI, UART and CAN.
+- CCSDS-compliant telemetry/telecommand services with error detection, retry logic and configurable timeouts for reliable up/downlink.
+
+## Embedded CI/CD and ground segment
+
+- Dockerised ARM toolchain with Nexus/Artifactory artifact management.
+- Jenkins and GitLab CI pipelines: Cppcheck and Clang-Tidy static analysis, Unity/Google Test unit tests, gcov/lcov coverage, nightly builds and merge-request validation; Ansible deployment to lab benches with rollback and Slack/Teams + Grafana feedback.
+- GitOps guardrails — protected branches, mandatory peer-reviewed merge requests, pre-commit clang-format, semantic-version tagging; pytest + CMake smoke, regression and fuzz suites for the telecommand parsers.
+
+## Infrastructure and security
+
+Terraform + Ansible for Debian/Fedora build farms, staging environments and VPN gateways; Trivy/Clair image scanning, SSH key-only auth with port knocking, SELinux/AppArmor confinement, nftables, and OpenVPN/IPsec with VLAN segmentation isolating development, test and payload networks.
+
+## Hardware-in-the-loop bench
+
+Full-stack reservation platform (Flask backend, React frontend) with SSO, role-based access and live status of multiple embedded boards; QEMU hardware emulation with fault injection for validation before hardware access; HIL regression suites orchestrated with Jenkins + Docker Compose covering sensor simulation and mock telemetry.
+
+## Observability and anomaly detection
+
+Fluentd logging and Prometheus metrics across OBC and ground-station subsystems, Grafana dashboards, Alertmanager SLA/SLO rules; Python (pandas, scikit-learn) models trained on historical telemetry to flag subsystem drift early. Living documentation in Doxygen and Sphinx/ReadTheDocs with Conventional-Commit changelogs.
+
+{/* TODO: image — OBC board / bench photo */}

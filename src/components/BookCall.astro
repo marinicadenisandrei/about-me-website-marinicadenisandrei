@@ -1,0 +1,99 @@
+---
+/**
+ * "Book a call" — click-to-load Calendly facade.
+ * Renders as a plain link (opens Calendly in a new tab) and, when JS runs, lazy-loads
+ * Calendly's popup widget on first click and opens it. Nothing from Calendly is
+ * requested before the click, so Lighthouse/privacy are untouched.
+ *   page → utm_medium, so bookings can be attributed to the page.
+ */
+import { site } from '@config/site';
+import { withBase } from '@lib/url';
+interface Props { page: string; variant?: 'primary' | 'secondary'; size?: 'sm' | 'md'; block?: boolean; label?: string; /** 'full' (contact/services) | 'short' (footer/sheet) | false */ disclosure?: 'full' | 'short' | false; class?: string }
+const { page, variant = 'primary', size = 'md', block = false, label = site.booking.shortLabel, disclosure = 'full', class: cls } = Astro.props;
+const noteId = `book-note-${page}`;
+const privacyHref = withBase(site.booking.privacySectionPath);
+const url = new URL(site.booking.url);
+url.searchParams.set('utm_source', 'website');
+url.searchParams.set('utm_medium', page);
+url.searchParams.set('utm_campaign', 'book-a-call');
+---
+
+<span class:list={['book', { 'book--block': block }, cls]}>
+  <a
+    class:list={['btn', `btn--${variant}`, { 'btn--sm': size === 'sm', 'btn--block': block }]}
+    href={url.toString()}
+    target="_blank"
+    rel="noopener noreferrer"
+    data-book-call
+    data-calendly-url={url.toString()}
+    aria-label={site.booking.label}
+    aria-describedby={disclosure ? noteId : undefined}
+    title={disclosure === 'short' ? site.booking.disclosure : site.booking.label}
+  >
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+    {label}
+  </a>
+  {disclosure === 'full' && <small class="book-note" id={noteId}>{site.booking.disclosure} <a href={privacyHref}>How your data is handled.</a></small>}
+  {disclosure === 'short' && <small class="book-note book-note--short" id={noteId}><a href={privacyHref} title={site.booking.disclosure}>{site.booking.disclosureShort}</a></small>}
+</span>
+
+<style>
+  .book { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; }
+  .book--block { width: 100%; }
+  .book-note { font-size: 0.68rem; line-height: 1.4; color: var(--fg-subtle); max-width: 260px; text-align: center; }
+  .book-note a { color: var(--fg-subtle); text-decoration: underline; text-underline-offset: 2px; }
+  .book-note a:hover { color: var(--fg); }
+  .book-note--short { font-size: 0.66rem; letter-spacing: 0.04em; }
+</style>
+
+<script>
+  /**
+   * Lazy-load Calendly's popup on the first click. Falls back to the link (new tab) if
+   * loading fails. Scripts/styles come from assets.calendly.com only after the click.
+   */
+  type CalendlyApi = { initPopupWidget: (o: { url: string }) => void };
+  let loading: Promise<CalendlyApi | null> | null = null;
+
+  function loadCalendly(): Promise<CalendlyApi | null> {
+    if (loading) return loading;
+    loading = new Promise((resolve) => {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = 'https://assets.calendly.com/assets/external/widget.css';
+      document.head.appendChild(css);
+      const js = document.createElement('script');
+      js.src = 'https://assets.calendly.com/assets/external/widget.js';
+      js.async = true;
+      js.onload = () => resolve((window as unknown as { Calendly?: CalendlyApi }).Calendly ?? null);
+      js.onerror = () => resolve(null);
+      document.head.appendChild(js);
+      setTimeout(() => resolve((window as unknown as { Calendly?: CalendlyApi }).Calendly ?? null), 6000);
+    });
+    return loading;
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLAnchorElement>('[data-book-call]:not([data-bound])').forEach((a) => {
+      a.dataset.bound = '';
+      a.addEventListener('click', async (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; // let modified clicks open the tab
+        e.preventDefault();
+        a.classList.add('is-loading');
+        a.setAttribute('aria-busy', 'true');
+        const api = await loadCalendly();
+        a.classList.remove('is-loading');
+        a.removeAttribute('aria-busy');
+        const url = a.dataset.calendlyUrl ?? a.href;
+        if (api) {
+          document.documentElement.classList.add('calendly-open');
+          api.initPopupWidget({ url });
+          const closeWatch = setInterval(() => {
+            if (!document.querySelector('.calendly-overlay')) { document.documentElement.classList.remove('calendly-open'); clearInterval(closeWatch); }
+          }, 500);
+        } else {
+          window.open(url, '_blank', 'noopener');
+        }
+      });
+    });
+  });
+</script>

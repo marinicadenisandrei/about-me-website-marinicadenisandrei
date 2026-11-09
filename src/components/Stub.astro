@@ -1,0 +1,24 @@
+---
+/**
+ * Stage 1–2 placeholder page body. Every route exists from the first commit so
+ * navigation and the link checker work; real sections replace this in stages 3–5.
+ */
+import Base from '@layouts/Base.astro';
+
+interface Props {
+  title: string;
+  tag?: string;
+  description?: string;
+  noindex?: boolean;
+}
+const { title, tag = 'Coming in the next stage', description, noindex = false } = Astro.props;
+---
+
+<Base title={title} description={description} noindex={noindex}>
+  <section class="page-head" data-label={title}>
+    <p class="section-tag">{tag}</p>
+    <h1 class="section-title">{title}</h1>
+    <div class="section-body"><slot /></div>
+  </section>
+</Base>
+

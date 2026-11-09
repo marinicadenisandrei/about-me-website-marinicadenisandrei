@@ -1,0 +1,23 @@
+{
+  "title": "Terraform on Azure with IaC DevOps SRE | Real-World 25 Demos",
+  "url": "https://www.udemy.com/course/terraform-on-azure-with-iac-azure-devops-sre-real-world-25-demos/",
+  "provider": "udemy",
+  "instructors": [
+    "Kalyan Reddy Daida",
+    "Azure & Google Cloud Platforms"
+  ],
+  "progress": 43,
+  "completed": false,
+  "lectures": 195,
+  "hours": 30.5,
+  "enrolledDate": "2025-10-15",
+  "archived": false,
+  "certificate": null,
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "azure",
+    "terraform"
+  ],
+  "generated": true
+}

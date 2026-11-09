@@ -1,0 +1,27 @@
+{
+  "title": "100 Days of Code™: The Complete Python Pro Bootcamp",
+  "url": "https://www.udemy.com/course/100-days-of-code/",
+  "provider": "udemy",
+  "instructors": [
+    "Dr. Angela Yu",
+    "Developer and Lead Instructor"
+  ],
+  "progress": 84,
+  "completed": false,
+  "lectures": 604,
+  "hours": 57,
+  "enrolledDate": "2022-07-24",
+  "archived": true,
+  "certificate": {
+    "id": "UC-70ce4a48-5890-4ad3-8972-ac6082acdab3",
+    "date": "2023-03-20",
+    "url": "https://www.udemy.com/certificate/UC-70ce4a48-5890-4ad3-8972-ac6082acdab3/",
+    "pdf": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-70ce4a48-5890-4ad3-8972-ac6082acdab3.pdf"
+  },
+  "category": "Programming Languages",
+  "role": "student",
+  "stack": [
+    "python"
+  ],
+  "generated": true
+}

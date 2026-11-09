@@ -1,0 +1,21 @@
+{
+  "title": "Coolify Course: WordPress, Mautic, MongoDB, Redis & More",
+  "url": "https://www.udemy.com/course/coolify-course-wordpress-mautic-mongodb-redis-more/",
+  "provider": "udemy",
+  "instructors": [
+    "Being Commerce"
+  ],
+  "progress": 9,
+  "completed": false,
+  "lectures": 10,
+  "hours": 4,
+  "enrolledDate": "2026-07-26",
+  "archived": false,
+  "certificate": null,
+  "category": "DevOps & Cloud",
+  "role": "student",
+  "stack": [
+    "mongodb"
+  ],
+  "generated": true
+}
