@@ -1,6 +1,7 @@
 ---
 /**
- * Mobile menu as an iOS bottom sheet (grab handle, slides up, staggered links).
+ * Mobile menu as an iOS bottom sheet (grab handle, slides up, staggered links). A plain CSS slide on the
+ * compositor: no view-transition snapshot of the page and no live backdrop blur, so it stays smooth.
  * Behaviour ported from the Luminary mobile menu: opened by #navToggle, closes on
  * link click, Escape, backdrop tap and when the viewport grows past 1180px.
  */
@@ -13,7 +14,7 @@ const links = [{ label: 'Home', href: '/' }, ...site.nav];
 
 <div class="sheet" id="mobileMenu" role="dialog" aria-modal="true" aria-label={site.ui.menu} hidden>
   <div class="sheet-backdrop" data-sheet-close></div>
-  <div class="sheet-panel glass glass--thick" data-sheet-panel>
+  <div class="sheet-panel" data-tint="freelance" data-sheet-panel>
     <div class="sheet-handle" aria-hidden="true"></div>
     <button class="sheet-close" type="button" data-sheet-close aria-label={site.ui.closeMenu}>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -34,15 +35,24 @@ const links = [{ label: 'Home', href: '/' }, ...site.nav];
 <style>
   .sheet { position: fixed; inset: 0; z-index: 550; }
   .sheet[hidden] { display: none; }
-  .sheet-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; transition: opacity 0.6s var(--silk-ease); }
+  .sheet-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.45); opacity: 0; transition: opacity 0.45s ease; }
   .sheet-panel {
     position: absolute; left: 0; right: 0; bottom: 0;
     border-radius: var(--radius-lg) var(--radius-lg) 0 0; border-bottom: 0;
-    padding: 12px 24px calc(28px + env(safe-area-inset-bottom)); max-height: 88dvh; overflow-y: auto;
-    transform: translateY(100%); transition: transform 0.7s var(--silk-ease);
+    padding: 12px 24px calc(28px + env(safe-area-inset-bottom)); max-height: 88dvh; overflow-y: auto; overscroll-behavior: contain;
+    transform: translate3d(0, 100%, 0); transition: transform 0.55s var(--silk-ease);
+    /* the look of .glass--thick without a live backdrop blur: a blur re-sampled on every frame of the slide made it freeze */
+    background:
+      radial-gradient(120% 60% at 0% 0%, hsl(var(--tint-h) 70% 55% / 0.22), transparent 60%),
+      radial-gradient(90% 60% at 100% 0%, hsl(calc(var(--tint-h) + 40) 70% 60% / 0.16), transparent 60%),
+      color-mix(in srgb, var(--bg) 93%, hsl(var(--tint-h) 60% 50%));
+    border: 1px solid var(--glass-border); border-bottom: 0;
+    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    contain: layout paint; backface-visibility: hidden;
   }
+  .sheet.animating .sheet-panel { will-change: transform; }
   .sheet.open .sheet-backdrop { opacity: 1; }
-  .sheet.open .sheet-panel { transform: translateY(0); }
+  .sheet.open .sheet-panel { transform: translate3d(0, 0, 0); }
   .sheet-close { position: absolute; top: 14px; right: 16px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel-bg); color: var(--fg); display: grid; place-items: center; cursor: pointer; }
   .sheet-handle { width: 40px; height: 5px; border-radius: 5px; background: var(--fg-subtle); opacity: 0.5; margin: 0 auto 20px; }
   .sheet-links { display: flex; flex-direction: column; }
@@ -50,7 +60,7 @@ const links = [{ label: 'Home', href: '/' }, ...site.nav];
     display: flex; align-items: baseline; gap: 16px;
     font-family: var(--font-display); font-size: clamp(1.5rem, 5vw, 2.2rem); font-weight: 300; letter-spacing: -0.02em;
     color: var(--fg); text-decoration: none; padding: 12px 0; border-bottom: 1px solid var(--line);
-    opacity: 0; transform: translateY(16px); transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0; transform: translate3d(0, 16px, 0); transition: opacity 0.3s ease, transform 0.3s ease;
   }
   .sheet-link.active { font-weight: 600; }
   .sheet-link::before { content: attr(data-index); font-size: 10px; font-weight: 500; letter-spacing: 0.15em; color: var(--fg-subtle); opacity: 0.6; min-width: 24px; font-variant-numeric: tabular-nums; }
@@ -70,75 +80,54 @@ const links = [{ label: 'Home', href: '/' }, ...site.nav];
   .sheet-footer a { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-subtle); text-decoration: none; }
   .sheet-glass { display: flex; justify-content: center; padding-top: 18px; opacity: 0; transition: opacity 0.3s ease; }
   .sheet.open .sheet-glass { opacity: 1; transition: opacity 0.5s var(--silk-ease) 0.55s; }
-  /* when the morph is driven by a same-document view transition, skip the CSS slide */
-  .sheet.morph .sheet-panel { transition: none; }
-  ::view-transition-group(nav-shell) { animation-timing-function: var(--spring-smooth); animation-duration: 0.55s; }
-  ::view-transition-old(nav-shell), ::view-transition-new(nav-shell) { height: 100%; overflow: hidden; border-radius: var(--radius-lg); }
-  :global(body.menu-open) { overflow: hidden; }
 </style>
 
 <script>
   function init() {
-  const sheet = document.getElementById('mobileMenu');
-  const toggle = document.getElementById('navToggle');
-  if (sheet && toggle && !sheet.dataset.bound) {
+    const sheet = document.getElementById('mobileMenu');
+    const toggle = document.getElementById('navToggle');
+    if (!sheet || !toggle || sheet.dataset.bound) return;
     sheet.dataset.bound = '';
     let open = false;
-    let closing: number | undefined;
-    const panel = sheet.querySelector<HTMLElement>('[data-sheet-panel]');
-    const pill = document.querySelector<HTMLElement>('#topNav');
-    const canMorph = () =>
-      typeof (document as Document & { startViewTransition?: unknown }).startViewTransition === 'function' &&
-      !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    /** Hand the shared name from the pill to the sheet (or back) so the browser morphs one into the other. */
-    const handoff = (toSheet: boolean) => {
-      if (pill) pill.style.viewTransitionName = toSheet ? 'none' : 'nav-shell';
-      if (panel) panel.style.viewTransitionName = toSheet ? 'nav-shell' : 'none';
+    let hideTimer: number | undefined;
+    let animTimer: number | undefined;
+    const animating = () => {
+      sheet.classList.add('animating');
+      clearTimeout(animTimer);
+      animTimer = window.setTimeout(() => sheet.classList.remove('animating'), 600);
     };
-    const doOpen = () => {
+    // keep the page from scrolling behind the sheet without toggling overflow (that re-lays out the whole page)
+    const panel = sheet.querySelector<HTMLElement>('[data-sheet-panel]');
+    sheet.addEventListener('wheel', (e) => { if (!panel?.contains(e.target as Node)) e.preventDefault(); }, { passive: false });
+    sheet.addEventListener('touchmove', (e) => { if (!panel?.contains(e.target as Node)) e.preventDefault(); }, { passive: false });
+
+    const openMenu = () => {
+      if (open) return;
+      open = true;
+      clearTimeout(hideTimer);
       sheet.hidden = false;
-      sheet.classList.add('open');
+      animating();
       toggle.classList.add('active');
       toggle.setAttribute('aria-expanded', 'true');
-      document.body.classList.add('menu-open');
-    };
-    const doClose = () => {
-      sheet.classList.remove('open');
-      toggle.classList.remove('active');
-      toggle.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('menu-open');
-    };
-    const openMenu = () => {
-      open = true;
-      clearTimeout(closing);
-      if (canMorph()) {
-        sheet.classList.add('morph');
-        handoff(true);
-        (document as Document & { startViewTransition: (cb: () => void) => { finished: Promise<void> } })
-          .startViewTransition(doOpen).finished.finally(() => sheet.classList.remove('morph'));
-      } else {
-        sheet.hidden = false;
-        requestAnimationFrame(() => requestAnimationFrame(doOpen));
-      }
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        sheet.classList.add('open');
+        document.body.classList.add('menu-open');
+      }));
     };
     const closeMenu = () => {
       if (!open) return;
       open = false;
-      if (canMorph()) {
-        sheet.classList.add('morph');
-        handoff(false);
-        (document as Document & { startViewTransition: (cb: () => void) => { finished: Promise<void> } })
-          .startViewTransition(() => { doClose(); sheet.hidden = true; }).finished.finally(() => sheet.classList.remove('morph'));
-      } else {
-        doClose();
-        closing = window.setTimeout(() => { sheet.hidden = true; }, 700);
-      }
+      animating();
+      sheet.classList.remove('open');
+      document.body.classList.remove('menu-open');
+      toggle.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
+      hideTimer = window.setTimeout(() => { sheet.hidden = true; }, 560);
     };
     toggle.addEventListener('click', () => (open ? closeMenu() : openMenu()));
     sheet.querySelectorAll('a, [data-sheet-close]').forEach((el) => el.addEventListener('click', closeMenu));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
     addEventListener('resize', () => { if (innerWidth > 1180) closeMenu(); }, { passive: true });
-  }
   }
   document.addEventListener('astro:page-load', init);
 </script>
