@@ -16,6 +16,7 @@ import '@styles/motion.css';
 import Nav from '@components/Nav.astro';
 import MobileMenu from '@components/MobileMenu.astro';
 import BookingDialog from '@components/BookingDialog.astro';
+import PageLoader from '@components/PageLoader.astro';
 import SidePanels from '@components/SidePanels.astro';
 import FooterCta from '@components/FooterCta.astro';
 import LensFilter from '@components/LensFilter.astro';
@@ -137,6 +138,7 @@ const ogImage = absoluteUrl(image, Astro.site);
       <FooterCta hideCta={hideCta} page={Astro.url.pathname.replace(/\/+$/, '').split('/').pop() || 'home'} />
     </main>
     <BookingDialog />
+    <PageLoader />
   </body>
 </html>
 

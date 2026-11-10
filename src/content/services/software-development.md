@@ -1,6 +1,6 @@
 ---
 title: Software development
-description: Backend and full-stack development for platforms that need to scale (REST/WebSocket APIs, micro-services, Unity/VR applications and embedded integrations) with testing and deployment included.
+description: Full-Stack Developer work, back end to front end, for platforms that need to scale (REST/WebSocket APIs, micro-services, Unity/VR applications and embedded integrations) with testing and deployment included.
 deliverables:
   - Node.js/Express or Python/Flask backends with OpenAPI docs
   - Responsive frontends and real-time features (WebSockets)

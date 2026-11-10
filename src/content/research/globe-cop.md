@@ -3,7 +3,7 @@ title: "GLOBE-CoP: Data Space Online Learning Platform"
 acronym: GLOBE-CoP
 type: project
 organization: GLOBE-STEAMSS, ACS-UPB
-role: Full Stack Developer with DevOps
+role: Full-Stack Developer & DevOps Engineer
 period:
   start: 2025-06-01
   end: null

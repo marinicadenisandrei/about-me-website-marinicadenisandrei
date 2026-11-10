@@ -6,6 +6,10 @@
 export interface TechMeta { label: string; icon?: string; group?: string }
 export const STACK: Record<string, TechMeta> = {
   kubernetes: { label: 'Kubernetes', icon: 'kubernetes', group: 'Containers' },
+  'private-cloud': { label: 'Private Cloud', group: 'Cloud' },
+  opentelemetry: { label: 'OpenTelemetry', icon: 'opentelemetry', group: 'Observability' },
+  trivy: { label: 'Trivy', icon: 'trivy', group: 'Security' },
+  playwright: { label: 'Playwright', group: 'Testing' },
   docker: { label: 'Docker', icon: 'docker', group: 'Containers' },
   coolify: { label: 'Coolify', icon: 'coolify', group: 'Containers' },
   helm: { label: 'Helm', icon: 'helm', group: 'Containers' },
@@ -251,3 +255,30 @@ export const STACK_PAGE_MIN = 3;
 
 export const techLabel = (slug: string): string =>
   STACK[slug]?.label ?? slug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+/**
+ * Most in-demand technologies first (full-stack, cloud, DevOps and AI hiring, 2026).
+ * Project cards show the hottest few of a project's stack instead of the first ones listed.
+ */
+export const HOT_TECH: string[] = [
+  'kubernetes', 'react', 'typescript', 'aws', 'terraform', 'azure', 'gcp', 'docker', 'nextjs', 'angular', 'nestjs',
+  'pytorch', 'mlops', 'kubeflow', 'triton', 'cuda', 'tensorrt', 'tensorflow', 'mlflow', 'generative-ai', 'machine-learning',
+  'argo-cd', 'github-actions', 'gitlab-ci', 'helm', 'opentelemetry', 'istio', 'vault', 'kafka', 'prometheus', 'grafana',
+  'go', 'rust', 'python', 'cpp', 'c', 'nodejs', 'postgresql', 'redis', 'unity', 'openxr', 'zephyr', 'freertos', 'nvidia-jetson',
+  'ansible', 'trivy', 'playwright', 'cloudflare', 'php', 'express',
+];
+
+/** Picks the `n` hottest technologies, at most one per group first so a card mixes front end, cloud, IaC and so on. */
+export function pickHotTech(slugs: string[], n: number): string[] {
+  const rank = (s: string) => { const i = HOT_TECH.indexOf(s); return i === -1 ? HOT_TECH.length + slugs.indexOf(s) : i; };
+  const sorted = [...new Set(slugs)].sort((a, b) => rank(a) - rank(b));
+  const picked: string[] = [];
+  const groups = new Set<string>();
+  for (const s of sorted) {
+    if (picked.length >= n) break;
+    const g = STACK[s]?.group ?? s;
+    if (!groups.has(g)) { picked.push(s); groups.add(g); }
+  }
+  for (const s of sorted) { if (picked.length >= n) break; if (!picked.includes(s)) picked.push(s); }
+  return picked.sort((a, b) => rank(a) - rank(b));
+}

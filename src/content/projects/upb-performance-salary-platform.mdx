@@ -1,0 +1,37 @@
+---
+title: "Performance Pay Platform for POLITEHNICA Bucharest"
+category: freelance
+role: "Full-Stack Developer, DevOps & AI Cloud Administrator"
+organization: National University of Science and Technology POLITEHNICA Bucharest
+status: active
+startDate: 2026-11-10
+endDate: 2027-02-28
+summary: A web platform where POLITEHNICA Bucharest's teaching and research staff submit, and the university verifies and approves, applications for performance-based salary increases, fully online and with an audit trail.
+problem: Performance-based pay applications cover many criteria (publications, patents, projects, awards), each backed by documents from different university departments, and checking them by hand on paper or by email is slow and hard to keep consistent.
+solution: One online platform that replaces paper and email. Eligible staff sign in, pick the criteria they claim, upload supporting documents and submit a single application; the platform checks it against the university's reference data, routes it through verification and approval, and calculates and centralises the result.
+myContribution:
+  - "End-to-end delivery: React and Angular front ends in TypeScript and JavaScript, NestJS and Express APIs, cloud infrastructure on AWS and Azure with Kubernetes and Terraform, GitOps and GitHub Actions CI/CD, and the automations that run the process"
+  - "Electronic application flow: sign-in restricted to eligible staff, an application form built from the criteria each person selects, required-field checks and a unique registration number on submission"
+  - "Automatic verification: matching declared publications and patents against the university's reference lists and pre-filling their details, so applicants do not retype them"
+  - "Reviewer workspace: manual review of documents, requests for clarification, reopening only the sections that need changes, and a per-criterion verdict (verified, to complete, not eligible)"
+  - "Automatic calculation of the resulting increase and generated forms for the application, the verification sheet and the centralised list of approved increases"
+  - "Approval workflow across university departments, with every operation logged for traceability"
+  - "Access-problem reporting from the sign-in page, routed to HR and answered by email"
+outcomes: []
+stack: [react, angular, typescript, javascript, nestjs, express, nodejs, postgresql, redis, docker, kubernetes, helm, argo-cd, terraform, github-actions, aws, azure, cloudflare, prometheus, grafana, opentelemetry, trivy, playwright]
+links: {}
+featured: false
+order: 85
+---
+
+## Context
+
+POLITEHNICA Bucharest rewards the performance of its teaching and research staff with salary increases based on a set of criteria approved by the university's Administrative Board. The platform turns that policy into one online process, from the application to the approved, centralised list sent on for payment.
+
+## How it works
+
+1. **Apply.** Eligible staff sign in with their institutional account, choose the criteria they claim and upload the supporting documents. Results already known to the university are offered from reference lists instead of being typed in again.
+2. **Verify.** The platform runs automatic checks first; reviewers then handle what needs a human eye and can ask for clarifications or reopen specific sections.
+3. **Approve.** Complete, eligible applications move through the university's approval circuit, and the platform produces the centralised list of approved increases, per person and per criterion.
+
+{/* TODO: screenshots (without personal data) */}

@@ -7,8 +7,12 @@ export const formatMonthYear = (d: Date | null | undefined): string => (d ? MONT
 export const formatLong = (d: Date): string => LONG.format(d);
 
 /** "Sep 2025 - Present" */
-export const formatRange = (start: Date | null, end: Date | null | undefined): string =>
-  start ? `${formatMonthYear(start)} - ${formatMonthYear(end)}` : 'TODO: confirm dates';
+export const formatRange = (start: Date | null, end: Date | null | undefined): string => {
+  if (!start) return 'TODO: confirm dates';
+  const a = formatMonthYear(start);
+  const b = formatMonthYear(end);
+  return a === b ? a : `${a} - ${b}`;
+};
 
 /** "1 yr 3 mos" style duration. */
 export function formatDuration(start: Date, end: Date | null | undefined): string {

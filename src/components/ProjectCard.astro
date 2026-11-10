@@ -5,8 +5,9 @@ import Pill from '@components/Pill.astro';
 import { site } from '@config/site';
 import { CATEGORY_META } from '@config/categories';
 import { formatRange } from '@lib/format';
-import { techLabel, canonicalTech } from '@config/stack';
+import { techLabel, canonicalTech, pickHotTech } from '@config/stack';
 import TechLogo from '@components/TechLogo.astro';
+import EuBadge from '@components/EuBadge.astro';
 import { projectSlug, projectClientLabel } from '@lib/content';
 import type { CollectionEntry } from 'astro:content';
 
@@ -16,13 +17,13 @@ const slug = projectSlug(p);
 const client = await projectClientLabel(p);
 const bullets = p.data.myContribution.slice(0, 3);
 const canon = [...new Set(p.data.stack.map(canonicalTech))];
-const stack = canon.slice(0, 5);
+const stack = p.data.highlight?.length ? p.data.highlight.map(canonicalTech) : pickHotTech(canon, 5);
 const more = canon.length - stack.length;
 ---
 
 <GlassCard href={`/projects/${slug}`} tint={p.data.category} as="article" class:list={['pc', reveal, cls]} data-category={p.data.category} data-status={p.data.status} data-stack={p.data.stack.join(' ')} data-title={p.data.title.toLowerCase()}>
   <div class="pc-top">
-    <Pill dot>{CATEGORY_META[p.data.category].label}</Pill>
+    <span class="pc-tags"><Pill dot>{CATEGORY_META[p.data.category].label}</Pill>{p.data.euFunded && <EuBadge programme={p.data.euFunded.programme} />}</span>
     <span class="pc-status" data-status={p.data.status}>{site.ui.projects.status[p.data.status]}</span>
   </div>
   <h3 class="pc-title" transition:name={`project-${slug}`}>{p.data.title}</h3>
@@ -37,7 +38,8 @@ const more = canon.length - stack.length;
 
 <style>
   .pc { gap: 14px; height: 100%; }
-  .pc-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .pc-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .pc-tags { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .pc-status { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-subtle); display: inline-flex; align-items: center; gap: 6px; }
   .pc-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--fg-subtle); }
   .pc-status[data-status='active']::before { background: hsl(150 60% 50%); box-shadow: 0 0 8px hsl(150 60% 50% / 0.6); }

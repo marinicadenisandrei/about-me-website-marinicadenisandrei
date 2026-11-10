@@ -12,6 +12,13 @@ const PATTERNS = [
   /\b(?:strada|bl\.\s?[A-Z]\d|sc\.\s?[A-Z]\b|et\.\s?\d|ap(?:t)?\.\s?\d)/i, /\b0[0-9]{5}\b(?=.*Bucharest)/i, /\b(?:19[6-9]\d|200\d)-(?:0\d|1[0-2])-(?:[0-2]\d|3[01])\b/,
 ];
 const ALLOW = /TODO\.md|README\.md|privacy-check\.mjs|business\.ts|cv\.astro|udemy\/.*\.json$|\.lock$|package-lock\.json|enrolledDate|certificat|"date"/;
+/**
+ * The PFA's registered office (sediu profesional) is published on purpose, as Law 365/2002 requires.
+ * It is read from src/config/business.ts and removed from each line before the patterns run, so any
+ * OTHER address (for example a home address) is still caught.
+ */
+const office = (readFileSync('src/config/business.ts', 'utf8').match(/registeredOffice:\s*'([^']+)'/) ?? [])[1];
+const strip = (l) => (office ? l.split(office).join('') : l);
 let hits = 0;
 function walk(dir) {
   for (const n of readdirSync(dir)) {
@@ -22,7 +29,8 @@ function walk(dir) {
     const lines = readFileSync(p, 'utf8').split('\n');
     lines.forEach((l, i) => {
       if (ALLOW.test(p) || ALLOW.test(l)) return;
-      for (const re of PATTERNS) if (re.test(l)) { hits++; console.error(`✖ ${p}:${i + 1}: ${l.trim().slice(0, 100)}`); break; }
+      const t = strip(l);
+      for (const re of PATTERNS) if (re.test(t)) { hits++; console.error(`✖ ${p}:${i + 1}: ${l.trim().slice(0, 100)}`); break; }
     });
   }
 }

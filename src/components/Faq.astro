@@ -43,7 +43,7 @@ const rendered = await Promise.all(items.map(async (i) => ({ ...i, Content: (awa
   .faq-icon::after { width: 1px; height: 12px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
   .faq-item.open .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
   .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 1s var(--silk-ease); }
-  .faq-answer-inner { overflow: hidden; padding: 0 24px; font-size: 0.9rem; transition: padding 0.8s var(--silk-ease); }
+  .faq-answer-inner { overflow: hidden; padding: 0 24px; font-size: 0.9rem; text-align: left; transition: padding 0.8s var(--silk-ease); }
   .faq-answer-inner :global(p:last-child) { margin-bottom: 0; }
   .faq-item.open .faq-answer { grid-template-rows: 1fr; }
   .faq-item.open .faq-answer-inner { padding: 0 24px 22px; }

@@ -4,4 +4,4 @@ audience: clients
 order: 20
 ---
 
-Remote by default, from Bucharest (EET/EEST, UTC+2/+3), with overlap for European and UK hours. On-site days in Bucharest can be arranged for workshops and kick-offs.
+Fully remote, from Bucharest (EET/EEST, UTC+2/+3), with overlap for European and UK working hours. I can come to your office whenever it's needed: kick-offs, workshops, planning sessions or anything that works better in person.

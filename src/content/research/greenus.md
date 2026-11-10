@@ -3,7 +3,7 @@ title: "GREENUS: Learning and certification platform for Greenus ambassadors"
 acronym: GREENUS
 type: project
 organization: GLOBE-STEAMSS, ACS-UPB
-role: Full Stack Developer & DevOps Engineer
+role: Full-Stack Developer & DevOps Engineer
 period:
   start: 2025-10-01
   end: null

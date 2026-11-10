@@ -9,20 +9,21 @@ const rows: [string, string][] = [
   ['Trade Register no. (ONRC)', business.tradeRegisterNo],
   ['Registered office', business.registeredOffice],
   ['Main activity (CAEN)', `${business.caen.code} - ${business.caen.label}`],
-  ['VAT registered', business.vatRegistered ? 'Yes' : 'No'],
   ['Billing email', business.billingEmail],
   ['Country', business.country],
 ];
-const todo = (v: string) => v.startsWith('TODO');
+const todo = (v: string) => v.includes('TODO');
+/** Placeholders stay visible in dev (as TODO) and are left out of the production build. */
+const shown = rows.filter(([, v]) => import.meta.env.DEV || !todo(v));
 ---
 
 <LegalLayout title="Business details" description={`Legal identification details of ${business.tradeName}.`} crumb="Legal">
-  <p>Information required by Romanian law (OUG 34/2014, Law 365/2002) for services offered through this website by the sole proprietorship (PFA) below. For personal data, see the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/legal/privacy`}>privacy policy</a>.</p>
+  <p>Information required by Romanian law (OUG 34/2014, Law 365/2002) for services offered through this website by the company below. For personal data, see the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/legal/privacy`}>privacy policy</a>.</p>
   <table>
-    <tbody>{rows.map(([k, v]) => <tr><th scope="row">{k}</th><td>{todo(v) ? <span class="todo">{v}</span> : v}</td></tr>)}</tbody>
+    <tbody>{shown.map(([k, v]) => <tr><th scope="row">{k}</th><td>{todo(v) ? <span class="todo">{v}</span> : v}</td></tr>)}</tbody>
   </table>
   <h2>Contact</h2>
-  <p>Use the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/contact`}>contact page</a>; the email address is shown there. Consumer disputes: ANPC (<a href="https://anpc.ro" rel="noopener noreferrer" target="_blank">anpc.ro</a>) and the EU online dispute resolution platform (<a href="https://ec.europa.eu/consumers/odr" rel="noopener noreferrer" target="_blank">ec.europa.eu/consumers/odr</a>).</p>
+  <p>Use the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/contact`}>contact page</a>; the email address is shown there. Services are offered to businesses (B2B). Consumer authority in Romania: ANPC (<a href="https://anpc.ro" rel="noopener noreferrer" target="_blank">anpc.ro</a>).</p>
   <h2>Credits</h2>
   <p>Site built with Astro by {site.name}. Design based on the Luminary template by <a href="https://templatemo.com" rel="nofollow noopener noreferrer" target="_blank">TemplateMo</a>.</p>
 </LegalLayout>

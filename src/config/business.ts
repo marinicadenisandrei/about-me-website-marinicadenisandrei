@@ -9,18 +9,17 @@
  *   No home address, phone number or date of birth belongs in this file.
  */
 export const business = {
-  legalName: 'TODO: FULL NAME PFA', // TODO: e.g. "Marinică Denis-Andrei PFA"
+  legalName: 'MARINICĂ D.F. DENIS-ANDREI PERSOANĂ FIZICĂ AUTORIZATĂ', // as registered at ONRC
   tradeName: 'Denis Marinică, DevOps & MLOps consulting',
-  taxId: 'TODO: RO...', // TODO: CUI/CIF
-  tradeRegisterNo: 'TODO: F40/.../...', // TODO: ONRC number
+  taxId: '55575430', // CUI (no RO prefix: not VAT registered)
+  tradeRegisterNo: 'F2026043500002', // ONRC number
   /** Public registered office: city only or full address, your choice. */
-  registeredOffice: 'Bucharest, Romania', // TODO: confirm
+  registeredOffice: 'B-dul Bucureștii Noi 136, ground floor, ap. 5, Sector 1, Bucharest, Romania', // registered office (sediu profesional) as registered at ONRC
   billingEmail: 'TODO: billing email', // TODO (a dedicated billing address is recommended for a public site)
   /** Main activity code. */
   caen: { code: 'TODO: 6201', label: 'TODO: Custom software development' }, // TODO
-  vatRegistered: false, // TODO: yes/no
+  vatRegistered: false, // CUI has no RO prefix; change if you register for VAT
   country: 'Romania',
-  foundedYear: 2025, // TODO: confirm
   /** GDPR: who answers data-subject requests. Uses the public contact email from site.ts. */
   dataController: 'Marinică Denis-Andrei',
   dataContactEmail: 'marinicadenisandrei@gmail.com', // TODO: confirm you want this address public (it is already on LinkedIn)

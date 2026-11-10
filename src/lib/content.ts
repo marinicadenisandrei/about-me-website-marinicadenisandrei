@@ -22,7 +22,7 @@ export async function getExperience(): Promise<Entry<'experience'>[]> {
 
 /* ───────────── projects ───────────── */
 export async function getProjects(): Promise<Entry<'projects'>[]> {
-  return (await getCollection('projects')).sort(byOrderThenDate);
+  return (await getCollection('projects', (p) => !p.data.hidden)).sort(byOrderThenDate);
 }
 export const getFeaturedProjects = async () => (await getProjects()).filter((p) => p.data.featured);
 export const projectSlug = (p: Entry<'projects'>) => p.data.slug ?? p.id;
@@ -158,7 +158,7 @@ export async function getStackIndex(): Promise<StackUsage[]> {
       if (!(pu[kind] as unknown[]).includes(item) && !pu.via.some((v) => v.item === item && v.kind === kind)) pu.via.push({ slug: parent, kind, item, child: slug });
     }
   };
-  for (const p of await getCollection('projects')) p.data.stack.forEach((s) => add('projects', s, p));
+  for (const p of await getCollection('projects', (e) => !e.data.hidden)) p.data.stack.forEach((s) => add('projects', s, p));
   for (const e of await getCollection('experience')) e.data.stack.forEach((s) => add('experience', s, e));
   for (const c of await getCollection('courses')) c.data.stack.forEach((s) => add('courses', s, c));
   for (const c of await getCollection('certifications')) c.data.skills.forEach((s) => add('certifications', s, c));

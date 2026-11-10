@@ -4,7 +4,7 @@ acronym: ROSPIN
 type: project
 funder: European Space Agency (ESA)
 organization: Romanian Space Initiative (ROSPIN)
-role: DevOps & On-Board Computer Software Engineer
+role: Full-Stack Developer & DevOps Engineer
 period:
   start: 2023-05-01
   end: 2025-11-01

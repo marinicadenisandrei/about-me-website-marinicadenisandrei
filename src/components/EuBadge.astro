@@ -1,0 +1,55 @@
+---
+/**
+ * "EU-funded" badge for projects financed by European Union programmes: the EU flag (12 gold stars on blue)
+ * in a small rounded tile, next to the label, in an iOS-style glass capsule.
+ * size="sm" for cards, size="lg" (with the programme name) for the project page.
+ */
+interface Props { programme?: string; size?: 'sm' | 'lg'; class?: string }
+const { programme, size = 'sm', class: cls } = Astro.props;
+const stars = Array.from({ length: 12 }, (_, i) => {
+  const a = (i * Math.PI) / 6 - Math.PI / 2;
+  return { x: 30 + 13 * Math.cos(a), y: 20 + 13 * Math.sin(a) };
+});
+// five-pointed star path centred at 0,0, radius 2.2
+const star = Array.from({ length: 10 }, (_, k) => {
+  const r = k % 2 ? 0.95 : 2.3;
+  const a = (k * Math.PI) / 5 - Math.PI / 2;
+  return `${(r * Math.cos(a)).toFixed(2)},${(r * Math.sin(a)).toFixed(2)}`;
+}).join(' ');
+---
+
+<span class:list={['eu', `eu--${size}`, cls]} title={programme ? `Funded by the European Union: ${programme}` : 'Funded by the European Union'}>
+  <svg class="eu-flag" viewBox="0 0 60 40" aria-hidden="true">
+    <rect width="60" height="40" fill="#039" />
+    {stars.map((s) => <polygon points={star} transform={`translate(${s.x.toFixed(2)} ${s.y.toFixed(2)})`} fill="#FC0" />)}
+  </svg>
+  <span class="eu-text">
+    <span class="eu-label">{size === 'lg' ? 'Funded by the European Union' : 'EU-funded'}</span>
+    {size === 'lg' && programme && <span class="eu-prog">{programme}</span>}
+  </span>
+</span>
+
+<style>
+  .eu {
+    display: inline-flex; align-items: center; gap: 8px; flex: none;
+    padding: 4px 11px 4px 4px; border-radius: 100px;
+    background: linear-gradient(135deg, rgba(0, 51, 153, 0.14), rgba(255, 204, 0, 0.1));
+    border: 1px solid rgba(0, 51, 153, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 4px 12px rgba(0, 51, 153, 0.12);
+    -webkit-backdrop-filter: blur(10px) saturate(160%); backdrop-filter: blur(10px) saturate(160%);
+  }
+  :global(:root[data-theme='dark']) .eu, :global(:root:not([data-theme])) .eu {
+    background: linear-gradient(135deg, rgba(64, 110, 255, 0.2), rgba(255, 204, 0, 0.1));
+    border-color: rgba(120, 150, 255, 0.3); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+  @media (prefers-color-scheme: light) {
+    :global(:root:not([data-theme])) .eu { background: linear-gradient(135deg, rgba(0, 51, 153, 0.14), rgba(255, 204, 0, 0.1)); border-color: rgba(0, 51, 153, 0.22); }
+  }
+  .eu-flag { width: 24px; height: 16px; border-radius: 4px; flex: none; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), inset 0 0 0 0.5px rgba(255, 255, 255, 0.3); }
+  .eu-text { display: flex; flex-direction: column; line-height: 1.15; }
+  .eu-label { font-family: var(--font-display); font-size: 8.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg); white-space: nowrap; }
+  .eu--lg { gap: 12px; padding: 6px 16px 6px 6px; }
+  .eu--lg .eu-flag { width: 39px; height: 26px; border-radius: 7px; }
+  .eu--lg .eu-label { font-size: 9.5px; }
+  .eu-prog { font-size: 0.76rem; color: var(--fg-muted); margin-top: 3px; letter-spacing: 0; }
+</style>

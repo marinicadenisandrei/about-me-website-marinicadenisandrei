@@ -9,6 +9,7 @@ import Base from '@layouts/Base.astro';
 import Pill from '@components/Pill.astro';
 import TechPill from '@components/TechPill.astro';
 import GlassCard from '@components/GlassCard.astro';
+import EuBadge from '@components/EuBadge.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
 import PrevNext from '@components/PrevNext.astro';
 import { site } from '@config/site';
@@ -53,6 +54,7 @@ const ui = site.ui.projects;
       <h1 class="section-title" transition:name={`project-${slug}`}>{p.data.title}</h1>
       <p class="section-body project-sub">{p.data.role}{client && <>, {client}</>}{p.data.organization && !client && <>, {p.data.organization}</>}</p>
       <p class="section-body">{p.data.summary}</p>
+      {p.data.euFunded && <div class="project-eu"><EuBadge size="lg" programme={p.data.euFunded.programme} /></div>}
     </header>
 
     <div class="project-grid">
@@ -99,6 +101,7 @@ const ui = site.ui.projects;
 
 <style>
   .project-head { padding-bottom: 32px; }
+  .project-eu { margin-top: 22px; }
   .project-meta { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-bottom: 18px; }
   .project-status { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-subtle); display: inline-flex; align-items: center; gap: 6px; }
   .project-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--fg-subtle); }

@@ -144,12 +144,18 @@ const projects = defineCollection({
         myContribution: z.array(nonEmpty).min(1).max(8),
         outcomes: z.array(nonEmpty).default([]),
         stack,
+        /** Optional: the technologies shown on the project card (otherwise the hottest ones are picked automatically). */
+        highlight: z.array(z.string()).max(6).optional(),
         links: linkSet,
         images: z
           .array(z.object({ src: image(), alt: nonEmpty, caption: z.string().optional() }))
           .default([]),
         cover: image().optional(),
+        /** EU-funded project: shows the EU badge on the card and the project page. programme = e.g. "Horizon 2020". */
+        euFunded: z.object({ programme: z.string().optional() }).optional(),
         featured: z.boolean().default(false),
+        /** true = kept in the repo but not published anywhere on the site (e.g. student projects). */
+        hidden: z.boolean().default(false),
         /** When true the client name/logo are hidden and "Confidential client - <industry>" is shown. */
         confidential: z.boolean().default(false),
         /** Required when confidential = true (used for the "Confidential client - <industry>" label). */
