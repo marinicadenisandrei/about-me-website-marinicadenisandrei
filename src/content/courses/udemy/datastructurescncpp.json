@@ -15,7 +15,9 @@
   "category": "Programming Languages",
   "role": "student",
   "stack": [
-    "cpp"
+    "cpp",
+    "c",
+    "algorithms"
   ],
   "generated": true
 }

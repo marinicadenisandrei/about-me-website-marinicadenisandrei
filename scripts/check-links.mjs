@@ -23,7 +23,7 @@ function normalizeBase(b) {
 }
 
 if (!existsSync(DIST)) {
-  console.error('✖ dist/ not found — run `astro build` first.');
+  console.error('✖ dist/ not found, run `astro build` first.');
   process.exit(1);
 }
 
@@ -66,7 +66,7 @@ for (const file of pages) {
     for (const raw of values) {
       const v = raw.trim();
       if (!v || ALLOWED_EXTERNAL.test(v)) continue;
-      // <meta content="…"> only matters when it's a URL
+      // <meta content="..."> only matters when it's a URL
       if (m[0].startsWith('content') && !v.startsWith('/')) continue;
       if (!v.startsWith('/')) continue; // relative links are resolved by the browser; ignore
       checked++;
@@ -75,7 +75,7 @@ for (const file of pages) {
         continue;
       }
       const siteRel = BASE ? v.slice(BASE.length) || '/' : v;
-      if (!existsInDist(siteRel)) brokenLinks.push(`${rel}: "${v}" → not found in dist/`);
+      if (!existsInDist(siteRel)) brokenLinks.push(`${rel}: "${v}" -> not found in dist/`);
     }
   }
 }

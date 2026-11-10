@@ -58,7 +58,7 @@ const metrics = [
 </section>
 
 <style>
-  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 140px 0 80px; position: relative; }
+  .hero { min-height: calc(100vh / var(--zoom, 1)); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 140px 0 80px; position: relative; }
   .hero.compact { min-height: 70vh; }
   .hero-content { display: flex; flex-direction: column; align-items: center; text-align: center; }
   .hero.has-portrait { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 48px; align-items: center; text-align: left; }
@@ -69,7 +69,7 @@ const metrics = [
   .hero.has-portrait .hero-metrics { justify-content: flex-start; gap: 40px; }
   .hero-side { position: relative; z-index: 1; }
   .hero-grid {
-    position: absolute; bottom: 0; left: 50%; height: 80%; width: 100vw; transform: translateX(-50%); z-index: 0; pointer-events: none;
+    position: absolute; bottom: 0; left: 50%; height: 80%; width: calc(100vw / var(--zoom, 1)); transform: translateX(-50%); z-index: 0; pointer-events: none;
     --mx: 50%; --my: 50%;
     background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
     background-size: 120px 120px; background-position: center bottom;
@@ -101,7 +101,7 @@ const metrics = [
     .hero-badge-dot { animation: none; }
   }
   @media (max-width: 1024px) {
-    .hero.has-portrait { grid-template-columns: 1fr; gap: 8px; text-align: center; }
+    .hero.has-portrait { grid-template-columns: minmax(0, 1fr); gap: 8px; text-align: center; }
     .hero.has-portrait .hero-content { align-items: center; text-align: center; order: 2; }
     .hero.has-portrait .hero-side { order: 1; width: min(300px, 70vw); margin: 0 auto; }
     .hero.has-portrait .hero-metrics { justify-content: center; }

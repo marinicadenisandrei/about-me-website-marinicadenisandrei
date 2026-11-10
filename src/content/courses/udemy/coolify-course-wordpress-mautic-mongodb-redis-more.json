@@ -15,7 +15,10 @@
   "category": "DevOps & Cloud",
   "role": "student",
   "stack": [
-    "mongodb"
+    "coolify",
+    "wordpress",
+    "mongodb",
+    "redis"
   ],
   "generated": true
 }

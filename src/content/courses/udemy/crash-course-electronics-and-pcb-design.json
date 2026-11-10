@@ -14,6 +14,8 @@
   "certificate": null,
   "category": "Embedded & IoT",
   "role": "student",
-  "stack": [],
+  "stack": [
+    "electronics"
+  ],
   "generated": true
 }

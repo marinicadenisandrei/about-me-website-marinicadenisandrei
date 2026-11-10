@@ -10,11 +10,11 @@ locationType: hybrid          # on-site | remote | hybrid (optional)
 startDate: 2025-09-01
 endDate: null                 # null = present
 summary: One or two sentences shown on the timeline card (max 320 chars).
-highlights:                   # 3–5 bullets on the card
+highlights:                   # 3-5 bullets on the card
   - Designed and maintained CI/CD pipelines with GitLab CI and GitHub Actions.
   - Managed Kubernetes workloads on EKS/AKS/GKE with Helm and Terraform.
   - Second-line escalation for major incidents.
-stack: [kubernetes, terraform, aws, azure, gitlab-ci]   # lower-case slugs → /stack/[tech]
+stack: [kubernetes, terraform, aws, azure, gitlab-ci]   # lower-case slugs -> /stack/[tech]
 # logo: ../../assets/logos/acme.svg   # optional, relative to this file
 order: 10                     # lower = higher on the timeline
 featured: false

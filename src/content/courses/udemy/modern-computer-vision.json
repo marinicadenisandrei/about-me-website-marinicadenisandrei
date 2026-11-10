@@ -16,7 +16,10 @@
   "role": "student",
   "stack": [
     "pytorch",
-    "opencv"
+    "keras",
+    "opencv",
+    "computer-vision",
+    "generative-ai"
   ],
   "generated": true
 }

@@ -16,7 +16,8 @@
   "role": "student",
   "stack": [
     "cpp",
-    "opencv"
+    "opencv",
+    "computer-vision"
   ],
   "generated": true
 }

@@ -1,7 +1,7 @@
 ---
 title: Retainer / monthly support
 tagline: An on-call DevOps engineer without the hire.
-description: A monthly block of hours for ongoing platform work — upgrades, incidents, pipeline maintenance, cost reviews and the small improvements that never make it to the top of the backlog.
+description: "A monthly block of hours for ongoing platform work: upgrades, incidents, pipeline maintenance, cost reviews and the small improvements that never make it to the top of the backlog."
 deliverables:
   - Reserved monthly hours with a guaranteed response time
   - Kubernetes, cloud and pipeline maintenance and upgrades

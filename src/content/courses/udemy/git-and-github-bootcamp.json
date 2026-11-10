@@ -20,7 +20,8 @@
   "category": "DevOps & Cloud",
   "role": "student",
   "stack": [
-    "git"
+    "git",
+    "github"
   ],
   "generated": true
 }

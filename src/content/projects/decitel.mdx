@@ -1,0 +1,40 @@
+---
+title: "DeCiTeL: Democratic Citizenship Teaching & Learning platform"
+category: research
+role: Full-stack & DevOps Engineer
+organization: Erasmus+ Teacher Academy, project 101196495
+status: active
+startDate: 2026-10-01
+endDate: null
+summary: The digital platform of the DeCiTeL Erasmus+ Teacher Academy for democratic citizenship education. A React and NestJS application with a resource repository, communities of practice and virtual exchanges, shipped through QA and production pipelines.
+problem: The Teacher Academy needed one place where educators share learning resources, join communities of practice and run virtual exchanges between schools, available publicly under its own domain.
+solution: A TypeScript monorepo (React SPA plus NestJS API on PostgreSQL and S3-compatible storage) delivered with Docker Compose, a GitHub Actions pipeline to QA and production servers over Tailscale, and a Cloudflare Tunnel managed with Terraform for the public domain.
+myContribution:
+  - Developed the web application (React 19, TypeScript, Vite, Tailwind CSS) on top of a NestJS, Prisma and PostgreSQL API with JWT authentication and Swagger documentation.
+  - Built the delivery pipeline in GitHub Actions; every push to main deploys to QA and every RELEASE commit promotes to production over Tailscale SSH.
+  - Wrote the Terraform for the Cloudflare Tunnel, DNS, Access and SSL settings that serve the production domain, and the Tailscale Funnel tunnels used for QA.
+  - Added a scheduled health check with Slack alerts and a ClickUp sprint-analysis workflow.
+outcomes: []
+stack: [react, typescript, vite, tailwind-css, nestjs, prisma, postgresql, minio, jwt, docker, github-actions, terraform, cloudflare, tailscale, raspberry-pi]
+links:
+  live: https://decitelearn.eu/
+featured: false
+order: 25
+---
+
+## Context
+
+DeCiTeL (Democratic Citizenship Teaching & Learning) is an Erasmus+ Teacher Academy (project no. 101196495), co-funded by the European Union. The platform is its digital home: a public site plus a member area for educators, teacher educators, researchers and institutions.
+
+## Platform
+
+- **Learning resource repository**: search, versions and file storage through pre-signed S3 URLs; authors submit resources for review and moderators publish them.
+- **Communities of practice**: membership, profiles and partner suggestions.
+- **Virtual exchanges**: the full lifecycle from proposal and expressions of interest to partners, delivery and completion.
+- **Roles**: educators, teacher educators, researchers, institutions, moderators and administrators.
+
+## Delivery
+
+- **Environments**: QA on every push to `main`, production on `RELEASE` commits, both on self-hosted servers reached over Tailscale SSH from GitHub Actions.
+- **Public access**: production runs behind a Cloudflare Tunnel whose routing, DNS, Access policies and SSL settings live in Terraform; QA uses a Tailscale Funnel.
+- **Operations**: database migrations applied on container start, a health check every three hours with Slack alerts, and backups of the PostgreSQL and object-storage volumes.

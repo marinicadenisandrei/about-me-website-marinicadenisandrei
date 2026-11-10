@@ -1,5 +1,5 @@
 ---
-/** TODO: review by accountant/lawyer before launch — see LegalLayout banner. */
+/** TODO: review by accountant/lawyer before launch, see LegalLayout banner. */
 import LegalLayout from '@components/LegalLayout.astro';
 import { business } from '@config/business';
 import { site } from '@config/site';
@@ -28,19 +28,19 @@ const [user, domain] = business.dataContactEmail.split('@');
 
   <h2 id="processors">Processors used only when you choose to</h2>
   <table>
-    <thead><tr><th>Service</th><th>When it loads</th><th>Data</th><th>Legal basis · purpose</th></tr></thead>
+    <thead><tr><th>Service</th><th>When it loads</th><th>Data</th><th>Legal basis, purpose</th></tr></thead>
     <tbody>
       <tr id="calendly">
         <td>Calendly (Calendly LLC, Atlanta, USA)</td>
-        <td><strong>Only after you click “Book a call”.</strong> Nothing from Calendly is loaded, and no Calendly cookie is set, before that click. Without JavaScript the button is a plain link to calendly.com.</td>
+        <td><strong>Only after you click "Book a call".</strong> Nothing from Calendly is loaded, and no Calendly cookie is set, before that click. Without JavaScript the button is a plain link to calendly.com.</td>
         <td>Name, email, chosen time slot, time zone and anything you type; Calendly's own cookies once its widget is open. The page you booked from is passed as a non-identifying <code>utm</code> parameter.</td>
-        <td>Art. 6(1)(b) GDPR — steps prior to a contract at your request. Purpose: scheduling an intro call. See <a href={site.booking.privacyUrl} target="_blank" rel="noopener noreferrer">Calendly's privacy policy</a>.</td>
+        <td>Art. 6(1)(b) GDPR: steps prior to a contract at your request. Purpose: scheduling an intro call. See <a href={site.booking.privacyUrl} target="_blank" rel="noopener noreferrer">Calendly's privacy policy</a>.</td>
       </tr>
       <tr id="web3forms">
         <td>Web3Forms</td>
         <td>Only when you submit the contact form.</td>
         <td>Name, email, message; the sender's IP as part of email delivery.</td>
-        <td>Art. 6(1)(b)/(f) GDPR — answering your request. Purpose: delivering your message to my inbox. <a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer">Web3Forms privacy policy</a>.</td>
+        <td>Art. 6(1)(b)/(f) GDPR: answering your request. Purpose: delivering your message to my inbox. <a href="https://web3forms.com/privacy" target="_blank" rel="noopener noreferrer">Web3Forms privacy policy</a>.</td>
       </tr>
     </tbody>
   </table>
@@ -58,13 +58,13 @@ const [user, domain] = business.dataContactEmail.split('@');
     <tbody>
       <tr><td>Contact-form submissions (received by email)</td><td>Until your request is handled, then up to <strong>12 months</strong>, unless it leads to client work.</td></tr>
       <tr><td>Booking details (Calendly)</td><td>In my calendar until the call has taken place and any follow-up is done, then up to <strong>12 months</strong>; Calendly keeps its own records under its policy.</td></tr>
-      <tr><td>Client correspondence, contracts and invoices</td><td>As required by Romanian accounting and tax law (currently <strong>5–10 years</strong>).</td></tr>
+      <tr><td>Client correspondence, contracts and invoices</td><td>As required by Romanian accounting and tax law (currently <strong>5-10 years</strong>).</td></tr>
     </tbody>
   </table>
   {/* TODO: confirm retention periods with your accountant */}
 
   <h2 id="rights">Your rights</h2>
-  <p>Under Articles 15–22 GDPR you can request <strong>access</strong> to your data, <strong>rectification</strong>, <strong>erasure</strong>, restriction of processing, data portability, and you can <strong>object</strong> to processing based on legitimate interest. Write to the contact address above; I answer within one month. You also have the right to lodge a complaint with the Romanian supervisory authority, <strong>ANSPDCP</strong> — Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal (<a href="https://www.dataprotection.ro" target="_blank" rel="noopener noreferrer">dataprotection.ro</a>, B-dul G-ral. Gheorghe Magheru 28-30, Bucharest).</p>
+  <p>Under Articles 15-22 GDPR you can request <strong>access</strong> to your data, <strong>rectification</strong>, <strong>erasure</strong>, restriction of processing, data portability, and you can <strong>object</strong> to processing based on legitimate interest. Write to the contact address above; I answer within one month. You also have the right to lodge a complaint with the Romanian supervisory authority, <strong>ANSPDCP</strong>, Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal (<a href="https://www.dataprotection.ro" target="_blank" rel="noopener noreferrer">dataprotection.ro</a>, B-dul G-ral. Gheorghe Magheru 28-30, Bucharest).</p>
 
   <h2 id="changes">Changes</h2>
   <p>This policy is updated when the site's tooling changes; the date below reflects the last revision.</p>

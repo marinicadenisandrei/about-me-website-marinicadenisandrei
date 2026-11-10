@@ -1,9 +1,9 @@
 ---
 /**
- * Home — overview only. Every block is a teaser that ends with "See all →":
- *   hero · employers · roles (→ /experience, /research, /services) · featured projects (→ /projects)
- *   · services teaser (→ /services) · learning stats (→ /learning) · research & teaching (→ /research)
- *   · stack (→ /stack) · FAQ (→ /services#faq) · footer CTA (→ /contact + booking)
+ * Home, overview only. Every block is a teaser that ends with "See all ->":
+ *   hero, employers, roles (-> /experience, /research, /services), featured projects (-> /projects)
+ *  , services teaser (-> /services), learning stats (-> /learning), research & teaching (-> /research)
+ *  , stack (-> /stack), FAQ (-> /services#faq), footer CTA (-> /contact + booking)
  */
 import Base from '@layouts/Base.astro';
 import Hero from '@components/Hero.astro';
@@ -18,6 +18,10 @@ import Link from '@components/Link.astro';
 import Faq from '@components/Faq.astro';
 import { site } from '@config/site';
 import { techLabel } from '@config/stack';
+import TechLogo from '@components/TechLogo.astro';
+import PipelineViz from '@components/viz/PipelineViz.astro';
+import NeuralViz from '@components/viz/NeuralViz.astro';
+import FlowViz from '@components/viz/FlowViz.astro';
 import { personJsonLd } from '@lib/jsonld';
 import { getExperience, getFeaturedProjects, getEngagementModels, getLearningStats, getStackPages, getResearch, getTeaching, getFaq } from '@lib/content';
 
@@ -41,18 +45,24 @@ const faq = (await getFaq()).slice(0, 3);
     <div class="logo-ticker-label">Employers & institutions</div>
     <div class="ticker-track" aria-hidden="true">
       {[...employers, ...employers].map((e) => <span class="ticker-item">{e.data.companyShort ?? e.data.company}</span>)}
-      <span class="ticker-item">UNSTPB · ACS</span><span class="ticker-dot"></span>
+      <span class="ticker-item">ACS-UNSTPB</span><span class="ticker-dot"></span>
     </div>
     <ul class="visually-hidden">{employers.map((e) => <li>{e.data.company}</li>)}<li>National University of Science and Technology POLITEHNICA Bucharest</li></ul>
-    {/* TODO: employer logos → experience/*.md logo: and render <img> here instead of names */}
+    {/* TODO: employer logos -> experience/*.md logo: and render <img> here instead of names */}
   </div>
 
   {/* ── three roles (template features) ── */}
   <section class="section" id="roles" data-label="Roles">
     <SectionHeader tag={ui.roles.tag} title={ui.roles.title} center />
-    <FeatureRow number="01" tag={ui.roles.industry.tag} title={ui.roles.industry.title} body="Senior DevOps Engineer at LSEG since 2025: CI/CD, infrastructure as code and Kubernetes across AWS, Azure and GCP, OIDC-based identity, observability — and the escalation call when production needs it." href="/experience" cta={ui.roles.industry.cta} tint="industry" />
-    <FeatureRow number="02" tag={ui.roles.academia.tag} title={ui.roles.academia.title} body={`University teaching assistant at ACS-UNSTPB for Artificial Intelligence & Machine Learning (${teaching.find((t) => t.data.level === 'MSc')?.data.course ?? 'Intelligent Image Processing'}, MSc) and Software Engineering (BSc); PhD candidate researching AIOps & MLOps — AI-driven operations and production machine-learning platforms; AI research engineer in the Romanian AI Hub.`} href="/research" cta={ui.roles.academia.cta} tint="academia" reverse />
-    <FeatureRow number="03" tag={ui.roles.freelance.tag} title={ui.roles.freelance.title} body="Consulting and audits, scoped projects and monthly retainers through my own practice — delivered as code in your repositories." href="/services" cta={ui.roles.freelance.cta} tint="freelance" />
+    <FeatureRow number="01" tag={ui.roles.industry.tag} title={ui.roles.industry.title} body="Senior DevOps Engineer at LSEG since 2025: CI/CD, infrastructure as code and Kubernetes across AWS, Azure and GCP, OIDC-based identity, observability, and the escalation call when production needs it." href="/experience" cta={ui.roles.industry.cta} tint="industry" >
+      <PipelineViz slot="visual" />
+    </FeatureRow>
+    <FeatureRow number="02" tag={ui.roles.academia.tag} title={ui.roles.academia.title} body={`University teaching assistant at ACS-UNSTPB for Artificial Intelligence & Machine Learning (${teaching.find((t) => t.data.level === 'MSc')?.data.course ?? 'Intelligent Image Processing'}, MSc) and Software Engineering (BSc); PhD candidate researching AIOps & MLOps, AI-driven operations and production machine-learning platforms; AI research engineer in the Romanian AI Hub.`} href="/research" cta={ui.roles.academia.cta} tint="academia" reverse >
+      <NeuralViz slot="visual" courses={teaching.map((t) => ({ name: t.data.course, level: t.data.level }))} />
+    </FeatureRow>
+    <FeatureRow number="03" tag={ui.roles.freelance.tag} title={ui.roles.freelance.title} body="Consulting and audits, scoped projects and monthly retainers through my own practice, delivered as code in your repositories." href="/services" cta={ui.roles.freelance.cta} tint="freelance" >
+      <FlowViz slot="visual" />
+    </FeatureRow>
   </section>
 
   <div class="silk-divider reveal"></div>
@@ -80,9 +90,9 @@ const faq = (await getFaq()).slice(0, 3);
     <Grid cols={2} min="320px">
       <GlassCard tint="academia" as="section" lift={false} class="reveal" aria-labelledby="h-research">
         <p class="section-tag">{ui.research.tag}</p>
-        <h2 class="home-h" id="h-research">PhD candidate in AIOps & MLOps · teaching AI & ML</h2>
+        <h2 class="home-h" id="h-research">PhD candidate in AIOps & MLOps, teaching AI & ML</h2>
         <p class="home-p">Research on AI-driven operations and production ML platforms, {researchCount} research projects (HRIA, Sound of Vision, TRAVEE, GLOBE-CoP, GREENUS, ROSPIN/ESA), and {teaching.length} university courses as teaching assistant.</p>
-        <ul class="home-list">{teaching.map((t) => <li>{t.data.course} <span>· {t.data.level}</span></li>)}</ul>
+        <ul class="home-list">{teaching.map((t) => <li>{t.data.course}<span>, {t.data.level}</span></li>)}</ul>
         <SeeAll href="/research" label="See research & teaching" />
       </GlassCard>
       <GlassCard tint="learning" as="section" lift={false} class="reveal reveal-d1" aria-labelledby="h-learning">
@@ -106,6 +116,7 @@ const faq = (await getFaq()).slice(0, 3);
     <div class="integrations-grid reveal reveal-d2">
       {stack.map((u) => (
         <Link href={`/stack/${u.slug}`} class="integration-item glass glass--thin glass--sm glass--lift">
+          <TechLogo slug={u.slug} size={44} class="integration-logo" />
           <span class="integration-name">{techLabel(u.slug)}</span>
           <span class="integration-count">{u.total}</span>
         </Link>
@@ -139,16 +150,17 @@ const faq = (await getFaq()).slice(0, 3);
   .home-p { font-size: 0.9rem; line-height: 1.65; color: var(--fg-muted); margin-bottom: 14px; }
   .home-list { list-style: none; display: grid; gap: 6px; font-size: 0.88rem; color: var(--fg); }
   .home-list span { color: var(--fg-subtle); }
-  .home-stats { display: grid; grid-template-columns: repeat(3, auto); gap: 18px; }
+  .home-stats { display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 18px; }
+  .home-stats > * { min-width: 0; }
   .home-stats div { display: flex; flex-direction: column-reverse; gap: 4px; }
   .home-stats dd { font-family: var(--font-display); font-size: 1.6rem; font-weight: 300; letter-spacing: -0.03em; color: var(--fg); }
   .home-stats dt { font-family: var(--font-display); font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-subtle); }
   .home-cats { display: flex; flex-direction: column; gap: 2px; font-size: 0.78rem !important; font-family: var(--font-ui) !important; letter-spacing: 0 !important; }
-  .integrations-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .integrations-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
   .integration-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 22px 12px; text-decoration: none; color: var(--fg); }
   .integration-name { font-family: var(--font-display); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; text-align: center; color: var(--fg-muted); }
   .integration-count { font-family: var(--font-display); font-size: 9px; color: var(--fg-subtle); }
   :global(.home-eng) { text-align: left; }
-  @media (max-width: 1024px) { .integrations-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 640px) { .integrations-grid { grid-template-columns: repeat(2, 1fr); } .home-stats { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 1024px) { .integrations-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .integrations-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .home-stats { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 </style>

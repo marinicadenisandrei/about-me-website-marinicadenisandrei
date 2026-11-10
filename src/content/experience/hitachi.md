@@ -6,13 +6,13 @@ employmentType: full-time
 location: Bucharest, Romania
 startDate: 2024-06-01
 endDate: 2025-09-01
-summary: DevOps engineer and software architect delivering cloud-native platforms end to end — from network fabric and Kubernetes fleets to multi-cloud CI/CD and release engineering.
+summary: DevOps engineer and software architect delivering cloud-native platforms end to end, from network fabric and Kubernetes fleets to multi-cloud CI/CD and release engineering.
 highlights:
   - Multi-cloud CI/CD (on-prem, Azure DevOps, GitHub Actions, GitLab CI) with gated releases, SAST/DAST (SonarQube, OWASP ZAP), image scanning and blue/green + canary deployments via FluxCD/ArgoCD and LaunchDarkly.
-  - Secured AKS/EKS/GKE fleets — Calico CNI, network policies, OPA Gatekeeper — managed through Helm, Kustomize and Rancher; IaC in Terraform, Pulumi and ARM/Bicep.
+  - "Secured AKS/EKS/GKE fleets: Calico CNI, network policies, OPA Gatekeeper, managed through Helm, Kustomize and Rancher; IaC in Terraform, Pulumi and ARM/Bicep."
   - Service mesh (Istio, Linkerd) for mTLS, traffic shaping and Jaeger tracing; centralised logging and metrics with ELK, Prometheus and Grafana.
-  - Solution architecture — domain-driven microservices, CQRS/ES on Kafka/Event Grid, serverless, API gateways — and chair of the Architecture Review Board (scalability, GDPR, PCI-DSS).
-  - SRE practice — chaos engineering (Chaos Mesh, Gremlin), SLIs/SLOs, HPA/VPA autoscaling, DR game-days, PagerDuty/Opsgenie on-call and post-mortems.
+  - "Solution architecture: domain-driven microservices, CQRS/ES on Kafka/Event Grid, serverless, API gateways, and chair of the Architecture Review Board (scalability, GDPR, PCI-DSS)."
+  - "SRE practice: chaos engineering (Chaos Mesh, Gremlin), SLIs/SLOs, HPA/VPA autoscaling, DR game-days, PagerDuty/Opsgenie on-call and post-mortems."
 stack: [azure-devops, github-actions, gitlab-ci, jenkins, flux-cd, argo-cd, kubernetes, helm, kustomize, rancher, terraform, pulumi, bicep, azure, aws, gcp, istio, linkerd, jaeger, kafka, prometheus, grafana, elk, datadog, new-relic, sonarqube, owasp-zap, opa, docker, networking]
 order: 20
 tint: employment
@@ -30,4 +30,4 @@ Delivered cloud-native platforms from low-level network design through high-velo
 
 **Teams.** Code and design reviews, mentoring on TDD/BDD and pair programming, Scrum/Kanban workflows in Jira, PI planning and retrospectives.
 
-<!-- TODO: confirm number — the CV mentions "reducing time-to-market by 60%"; not displayed until confirmed. -->
+<!-- TODO: confirm number: the CV mentions "reducing time-to-market by 60%"; not displayed until confirmed. -->

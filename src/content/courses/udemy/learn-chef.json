@@ -22,6 +22,7 @@
   "category": "DevOps & Cloud",
   "role": "student",
   "stack": [
+    "devops",
     "chef"
   ],
   "generated": true

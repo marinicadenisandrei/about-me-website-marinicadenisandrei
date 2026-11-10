@@ -6,7 +6,7 @@ employmentType: full-time
 location: Romania
 startDate: 2022-04-01
 endDate: 2023-01-01
-summary: Automotive software test automation — Python frameworks around CANoe/CAPL, ECU communication simulation, flash-procedure automation with Arduino + Renesas/DediProg tooling, and structured defect reporting.
+summary: "Automotive software test automation: Python frameworks around CANoe/CAPL, ECU communication simulation, flash-procedure automation with Arduino + Renesas/DediProg tooling, and structured defect reporting."
 highlights:
   - Automated all tests assigned to project functions and built a GUI-driven Python automation suite covering every function and test in the project.
   - Used the cantools library on .dbc files to drive messages and signals in automated tests; simulated ECU communication in CANoe (CAPL).

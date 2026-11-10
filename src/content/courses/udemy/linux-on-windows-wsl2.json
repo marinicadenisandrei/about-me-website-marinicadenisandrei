@@ -20,7 +20,8 @@
   "category": "DevOps & Cloud",
   "role": "student",
   "stack": [
-    "linux"
+    "linux",
+    "windows"
   ],
   "generated": true
 }

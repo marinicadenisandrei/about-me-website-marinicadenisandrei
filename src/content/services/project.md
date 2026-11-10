@@ -1,7 +1,7 @@
 ---
 title: Project delivery
 tagline: Scoped, end-to-end, done.
-description: Fixed-scope delivery of a platform piece — a CI/CD pipeline, a Kubernetes environment with IaC and observability, an MLOps workflow, or a full application backend — with documentation and handover.
+description: Fixed-scope delivery of a platform piece (a CI/CD pipeline, a Kubernetes environment with IaC and observability, an MLOps workflow, or a full application backend) with documentation and handover.
 deliverables:
   - Infrastructure as code (Terraform / Ansible / Helm) in your repositories
   - CI/CD pipelines with tests, scans and gated releases

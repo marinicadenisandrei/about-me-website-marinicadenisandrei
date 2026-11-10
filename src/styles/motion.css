@@ -27,7 +27,7 @@
 /* ── hero headline: word-by-word rise with a blur-to-sharp settle (once, on load) ── */
 .word { display: inline-block; opacity: 0; transform: translateY(0.35em); filter: blur(6px); animation: wordIn 0.9s var(--spring-smooth) forwards; animation-delay: calc(0.35s + var(--w) * 70ms); will-change: transform, opacity, filter; }
 @keyframes wordIn { to { opacity: 1; transform: none; filter: blur(0); } }
-/* inside gradient text (background-clip: text) a filter would break the clipping → rise without blur */
+/* inside gradient text (background-clip: text) a filter would break the clipping -> rise without blur */
 .hero h1 em .word { filter: none; will-change: transform, opacity; animation: wordInPlain 0.9s var(--spring-smooth) forwards, shimmer 9s ease-in-out infinite; animation-delay: calc(0.35s + var(--w) * 70ms), 0s; }
 @keyframes wordInPlain { to { opacity: 1; transform: none; } }
 /* gradient words: slow shimmer across the gradient */
@@ -75,12 +75,12 @@
   background: color-mix(in srgb, var(--glass-fallback) 92%, hsl(var(--tint-h) 70% 60%));
 }
 :root[data-glass='opaque'] .glass--spot::after { display: none; }
-/* OS says reduce transparency → behave as Opaque regardless of the stored choice */
+/* OS says reduce transparency -> behave as Opaque regardless of the stored choice */
 @media (prefers-reduced-transparency: reduce) {
   .glass, .btn--secondary, .segmented { -webkit-backdrop-filter: none; backdrop-filter: none; background: color-mix(in srgb, var(--glass-fallback) 94%, hsl(var(--tint-h) 70% 60%)); }
   .glass-slider { display: none; }
 }
-/* OS asks for more contrast → stronger borders and text */
+/* OS asks for more contrast -> stronger borders and text */
 @media (prefers-contrast: more) {
   :root { --glass-border: color-mix(in srgb, var(--fg) 45%, transparent); --line: color-mix(in srgb, var(--fg) 30%, transparent); --fg-muted: var(--fg); --fg-subtle: color-mix(in srgb, var(--fg) 80%, transparent); }
   .glass { border-width: 1.5px; }
@@ -104,7 +104,7 @@
 ::view-transition-group(portrait), ::view-transition-group(nav-shell) { animation-duration: 0.6s; animation-timing-function: var(--spring-smooth); }
 ::view-transition-old(portrait), ::view-transition-new(portrait) { mix-blend-mode: normal; height: 100%; overflow: hidden; border-radius: 50%; }
 [style*='view-transition-name: project-'] { contain: layout; }
-/* reduced motion → crossfades only (no group movement, no scale) */
+/* reduced motion -> crossfades only (no group movement, no scale) */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*) { animation: none !important; }
   ::view-transition-old(*), ::view-transition-new(*) { animation-duration: 0.2s !important; animation-name: -ua-view-transition-fade-out, -ua-view-transition-fade-in; }
@@ -117,10 +117,4 @@
   .btn--primary { translate: 0 0; }
 }
 
-/* ── Calendly popup (loaded only after "Book a call"): entrance on our springs; nothing else is restyled ── */
-.calendly-overlay { animation: calFade 0.3s var(--spring-smooth) both; }
-.calendly-overlay .calendly-popup { animation: calPop var(--dur-smooth) var(--spring-smooth) both; border-radius: var(--radius-lg); overflow: hidden; }
-@keyframes calFade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes calPop { from { opacity: 0; transform: translateY(24px) scale(0.96); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .calendly-overlay .calendly-popup { animation: calFade 0.2s both; } }
 [data-book-call].is-loading { opacity: 0.7; cursor: progress; }

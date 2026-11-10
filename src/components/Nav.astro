@@ -110,7 +110,8 @@ import { withBase } from '@lib/url';
   @media (max-width: 1280px) {
     .nav-links { gap: 18px; }
   }
-  @media (max-width: 1024px) {
+  /* the full link row needs ~1180px; below that the pill shows the menu button */
+  @media (max-width: 1180px) {
     .nav-links, .nav-cta { display: none; }
     .nav-toggle { display: block; }
     .top-nav { padding: 6px 6px 6px 10px; gap: 12px; }
@@ -129,7 +130,7 @@ import { withBase } from '@lib/url';
     const indicator = wrap.querySelector<HTMLElement>('.nav-indicator');
     const anchors = [...wrap.querySelectorAll<HTMLAnchorElement>('[data-nav-links] a')];
 
-    // Active link — re-resolved on every navigation because the header persists.
+    // Active link, re-resolved on every navigation because the header persists.
     const path = location.pathname.replace(/\/+$/, '') || '/';
     let active: HTMLAnchorElement | undefined;
     for (const a of anchors) {

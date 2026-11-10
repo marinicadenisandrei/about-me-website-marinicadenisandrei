@@ -16,7 +16,8 @@
   "category": "Embedded & IoT",
   "role": "student",
   "stack": [
-    "c"
+    "c",
+    "embedded"
   ],
   "generated": true
 }

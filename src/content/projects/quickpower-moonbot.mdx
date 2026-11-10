@@ -1,0 +1,39 @@
+---
+title: "MoonBOT: energy-market signals and imbalance prediction"
+category: freelance
+role: Software & DevOps Engineer
+organization: QuickPower
+status: active
+startDate: 2026-10-01
+endDate: null
+summary: A trading-signal and monitoring platform for the Romanian intraday and imbalance energy markets. Live market data, generation-mix outage detection, automated client reports and an ML pipeline that predicts the system imbalance for the next intervals.
+problem: Energy traders need live market data, early warning of generation outages and a view of the next quarter-hours of system imbalance in one tool, with reports their clients receive automatically.
+solution: A containerised Python platform (Flask web app plus scraper, market-data and monitoring services on PostgreSQL) with an ML ensemble for imbalance prediction, delivered through a GitHub Actions pipeline to QA and production stacks.
+myContribution:
+  - Developed the Flask platform and its admin dashboard, including market-trend tables, live positions, client auto-reports and a notification centre.
+  - Built the generation-mix outage monitor on Transelectrica data and the ENTSO-E unit-unavailability feed, with alerts in the dashboard.
+  - Worked on the Imbalance Watch pipeline that trains and compares LightGBM, XGBoost, CatBoost, scikit-learn and neural-network models, plus a stacked ensemble.
+  - Set up the CI/CD in GitHub Actions (lint, image builds, compose validation) with QA deploys on every push and production releases over Tailscale.
+outcomes: []
+stack: [python, flask, postgresql, pandas, scikit-learn, lightgbm, xgboost, catboost, machine-learning, docker, github-actions, tailscale]
+links:
+  live: https://quickpower.moonbot.ro/
+featured: false
+order: 35
+---
+
+## Context
+
+MoonBOT is QuickPower's signal system for the intraday (IDM) and imbalance energy markets in Romania.
+
+## Platform
+
+- **Services**: a Flask web app served by gunicorn, a Playwright scraper for the Transelectrica live generation mix, a DAMAS market-data fetcher and a generation-mix monitor, all on PostgreSQL in Docker Compose.
+- **Live market**: intraday trades, VWAP and price trends per product, live positions and the generation mix refreshed every few seconds.
+- **Outage detection**: per-source monitoring of the generation mix that flags a sudden fall in output, cross-checked with official ENTSO-E unavailability notices, with notifications in every admin page.
+- **Imbalance Watch**: predicts surplus or deficit for the next ten quarter-hours; models are retrained from the dashboard on data the platform collects itself.
+- **Client reports**: per-client reports rebuilt from the assigned trader's live positions and republished automatically.
+
+## Delivery
+
+QA and production run as separate Compose stacks on the same server. GitHub Actions lints the code, builds the images and validates the compose file, then deploys QA on every push and production on tagged `RELEASE` commits over Tailscale.

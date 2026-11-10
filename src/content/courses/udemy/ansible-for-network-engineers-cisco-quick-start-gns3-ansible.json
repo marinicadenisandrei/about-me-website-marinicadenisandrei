@@ -22,7 +22,8 @@
   "role": "student",
   "stack": [
     "ansible",
-    "networking"
+    "networking",
+    "gns3"
   ],
   "generated": true
 }

@@ -6,6 +6,7 @@ import { site } from '@config/site';
 import { CATEGORY_META } from '@config/categories';
 import { formatRange } from '@lib/format';
 import { techLabel, canonicalTech } from '@config/stack';
+import TechLogo from '@components/TechLogo.astro';
 import { projectSlug, projectClientLabel } from '@lib/content';
 import type { CollectionEntry } from 'astro:content';
 
@@ -25,11 +26,11 @@ const more = canon.length - stack.length;
     <span class="pc-status" data-status={p.data.status}>{site.ui.projects.status[p.data.status]}</span>
   </div>
   <h3 class="pc-title" transition:name={`project-${slug}`}>{p.data.title}</h3>
-  <p class="pc-meta">{p.data.role}{client && <> · {client}</>}</p>
+  <p class="pc-meta">{p.data.role}{client && <>, {client}</>}</p>
   <p class="pc-summary">{p.data.summary}</p>
   <ul class="pc-bullets">{bullets.map((b) => <li>{b}</li>)}</ul>
   <div class="pc-foot">
-    <div class="pc-stack">{stack.map((s) => <span class="pill pill--neutral">{techLabel(s)}</span>)}{more > 0 && <span class="pill pill--neutral">+{more}</span>}</div>
+    <div class="pc-stack">{stack.map((s) => <span class="pill pill--neutral"><TechLogo slug={s} size={16} />{techLabel(s)}</span>)}{more > 0 && <span class="pill pill--neutral">+{more}</span>}</div>
     <span class="pc-date">{formatRange(p.data.startDate, p.data.endDate)}</span>
   </div>
 </GlassCard>

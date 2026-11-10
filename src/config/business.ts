@@ -10,10 +10,10 @@
  */
 export const business = {
   legalName: 'TODO: FULL NAME PFA', // TODO: e.g. "Marinică Denis-Andrei PFA"
-  tradeName: 'Denis Marinică — DevOps & MLOps consulting',
-  taxId: 'TODO: RO…', // TODO: CUI/CIF
-  tradeRegisterNo: 'TODO: F40/…/…', // TODO: ONRC number
-  /** Public registered office: city only or full address — your choice. */
+  tradeName: 'Denis Marinică, DevOps & MLOps consulting',
+  taxId: 'TODO: RO...', // TODO: CUI/CIF
+  tradeRegisterNo: 'TODO: F40/.../...', // TODO: ONRC number
+  /** Public registered office: city only or full address, your choice. */
   registeredOffice: 'Bucharest, Romania', // TODO: confirm
   billingEmail: 'TODO: billing email', // TODO (a dedicated billing address is recommended for a public site)
   /** Main activity code. */
@@ -26,7 +26,7 @@ export const business = {
   dataContactEmail: 'marinicadenisandrei@gmail.com', // TODO: confirm you want this address public (it is already on LinkedIn)
 } as const;
 
-/** True when at least one field is still a placeholder — used to show a TODO banner in dev. */
+/** True when at least one field is still a placeholder, used to show a TODO banner in dev. */
 export function businessHasTodos(): boolean {
   return Object.values(business).some((v) =>
     typeof v === 'string'

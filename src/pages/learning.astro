@@ -1,9 +1,10 @@
 ---
 /**
- * Learning: stats · in-progress courses (progress bars) · completed with certificate · certifications ·
+ * Learning: stats, in-progress courses (progress bars), completed with certificate, certifications ,
  * LinkedIn skill assessments. Filter by category/status + search = one small island.
  * Archived courses are hidden unless site.features.showArchivedCourses (they still count in the stats).
  */
+import Icon from '@components/Icon.astro';
 import Base from '@layouts/Base.astro';
 import SectionHeader from '@components/SectionHeader.astro';
 import SegmentedControl from '@components/SegmentedControl.astro';
@@ -34,7 +35,7 @@ const statTiles = [
 
 <Base title="Learning" description={`${stats.totalCourses} Udemy courses (${stats.hours} hours), ${stats.certificates} certificates and professional certifications of ${site.name}.`} tint="learning">
   <section class="page-head" data-label="Learning">
-    <SectionHeader tag={ui.tag} title={ui.title} body={`Continuous learning across DevOps, cloud, security, AI/ML and embedded — every course and certificate below is generated from data, never typed in.`} as="h1" reveal={false} />
+    <SectionHeader tag={ui.tag} title={ui.title} body={`Continuous learning across DevOps, cloud, security, AI/ML and embedded. Every course and certificate below is generated from data, never typed in.`} as="h1" reveal={false} />
     <dl class="lstats">
       {statTiles.map(([k, v]) => <div class="glass glass--thin glass--sm lstat"><dd>{v}</dd><dt>{k}</dt></div>)}
       <div class="glass glass--thin glass--sm lstat lstat--cats"><dd>{stats.topCategories.slice(0, 4).map(([c, n]) => <span>{c} <b>{n}</b></span>)}</dd><dt>{ui.stats.topCategories}</dt></div>
@@ -50,25 +51,25 @@ const statTiles = [
       <label class="lf-search"><span class="visually-hidden">{ui.search}</span><input type="search" placeholder={ui.search} data-l-search autocomplete="off" /></label>
     </div>
 
-    <h2 class="section-tag lh" data-group="completed">{ui.completed} · <span data-count>{completed.length}</span></h2>
+    <h2 class="section-tag lh" data-group="completed">{ui.completed} (<span data-count>{completed.length}</span>)</h2>
     <Grid cols={3} min="260px" class="lgrid" data-group="completed">
       {completed.map((c) => (
         <GlassCard as="article" tint="learning" href={c.data.certificate?.url ?? c.data.url} padding="sm" class="course" data-cat={c.data.category} data-status="completed" data-title={c.data.title.toLowerCase()}>
           <div class="course-top"><Pill dot>{c.data.category}</Pill>{c.data.certificate && <span class="course-cert" title={ui.viewCertificate}>🎓</span>}</div>
           <h3 class="course-title">{c.data.title}</h3>
-          <p class="course-meta">{c.data.instructors[0]}{c.data.instructors.length > 1 && ' et al.'} · {formatHours(c.data.hours)}{c.data.certificate?.date && <> · {formatMonthYear(c.data.certificate.date)}</>}</p>
-          {c.data.certificate && <span class="course-link">{ui.viewCertificate} ↗</span>}
+          <p class="course-meta">{c.data.instructors[0]}{c.data.instructors.length > 1 && ' et al.'}, {formatHours(c.data.hours)}{c.data.certificate?.date && <>, {formatMonthYear(c.data.certificate.date)}</>}</p>
+          {c.data.certificate && <span class="course-link">{ui.viewCertificate} <Icon name="external" /></span>}
         </GlassCard>
       ))}
     </Grid>
 
-    <h2 class="section-tag lh" data-group="progress">{ui.inProgress} · <span data-count>{inProgress.length}</span></h2>
+    <h2 class="section-tag lh" data-group="progress">{ui.inProgress} (<span data-count>{inProgress.length}</span>)</h2>
     <Grid cols={3} min="260px" class="lgrid" data-group="progress">
       {inProgress.map((c) => (
         <GlassCard as="article" tint="learning" href={c.data.url} padding="sm" variant="thin" class="course" data-cat={c.data.category} data-status="progress" data-title={c.data.title.toLowerCase()}>
           <div class="course-top"><Pill dot>{c.data.category}</Pill><span class="course-pct">{c.data.progress}%</span></div>
           <h3 class="course-title">{c.data.title}</h3>
-          <p class="course-meta">{c.data.instructors[0]}{c.data.instructors.length > 1 && ' et al.'} · {formatHours(c.data.hours)} · {c.data.lectures} lectures</p>
+          <p class="course-meta">{c.data.instructors[0]}{c.data.instructors.length > 1 && ' et al.'}, {formatHours(c.data.hours)}, {c.data.lectures} lectures</p>
           <div class="progress" role="progressbar" aria-valuenow={c.data.progress} aria-valuemin="0" aria-valuemax="100" aria-label={`${c.data.progress}% complete`}><div class="progress__fill" style={`width:${c.data.progress}%`}></div></div>
         </GlassCard>
       ))}
@@ -79,19 +80,19 @@ const statTiles = [
 
   {site.features.udemyInstructor && mine.length > 0 && (
     <section class="section--tight" id="my-courses" data-label={ui.myCourses}>
-      <h2 class="section-tag lh">{ui.myCourses} · {mine.length}</h2>
-      <Grid cols={3} min="260px">{mine.map((c) => <GlassCard href={c.data.url} tint="learning" padding="sm"><h3 class="course-title">{c.data.title}</h3><p class="course-meta">{formatHours(c.data.hours)} · {c.data.lectures} lectures</p></GlassCard>)}</Grid>
+      <h2 class="section-tag lh">{ui.myCourses} ({mine.length})</h2>
+      <Grid cols={3} min="260px">{mine.map((c) => <GlassCard href={c.data.url} tint="learning" padding="sm"><h3 class="course-title">{c.data.title}</h3><p class="course-meta">{formatHours(c.data.hours)}, {c.data.lectures} lectures</p></GlassCard>)}</Grid>
     </section>
   )}
 
   <section class="section--tight" id="certifications" data-label={ui.certifications}>
-    <h2 class="section-tag lh">{ui.certifications} · {certs.length}</h2>
+    <h2 class="section-tag lh">{ui.certifications} ({certs.length})</h2>
     <Grid cols={3} min="260px">
       {certs.map((c) => (
         <GlassCard as="article" tint="learning" href={c.data.credentialUrl} padding="sm" variant="thin" class="cert">
           <p class="cert-issuer">{c.data.issuer}</p>
           <h3 class="course-title">{c.data.name}</h3>
-          <p class="course-meta">{c.data.kind.replace('-', ' ')}{c.data.date && <> · {formatMonthYear(c.data.date)}</>}{c.data.credentialUrl && <> · verify ↗</>}</p>
+          <p class="course-meta">{c.data.kind.replace('-', ' ')}{c.data.date && <>, {formatMonthYear(c.data.date)}</>}{c.data.credentialUrl && <>, verify <Icon name="external" /></>}</p>
         </GlassCard>
       ))}
     </Grid>
@@ -99,15 +100,15 @@ const statTiles = [
 
   {assessments.length > 0 && (
     <section class="section--tight" id="skill-assessments" data-label={ui.skillAssessments}>
-      <h2 class="section-tag lh">{ui.skillAssessments} · {assessments.length}</h2>
-      <div class="badges reveal">{assessments.map((a) => <a class="pill" data-tint="learning" href={a.data.credentialUrl} target="_blank" rel="noopener noreferrer">✓ {a.data.name}</a>)}</div>
+      <h2 class="section-tag lh">{ui.skillAssessments} ({assessments.length})</h2>
+      <div class="badges reveal">{assessments.map((a) => <a class="pill" data-tint="learning" href={a.data.credentialUrl} target="_blank" rel="noopener noreferrer"><Icon name="check" /> {a.data.name}</a>)}</div>
     </section>
   )}
 </Base>
 
 <style>
   .section--tight { padding: 32px 0; }
-  .lstats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 28px; }
+  .lstats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
   .lstat { display: flex; flex-direction: column-reverse; gap: 6px; padding: 18px 20px; }
   .lstat dd { font-family: var(--font-display); font-size: 2rem; font-weight: 300; letter-spacing: -0.04em; color: var(--fg); line-height: 1; }
   .lstat dt { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-muted); }
@@ -131,7 +132,7 @@ const statTiles = [
   .l-note { font-size: 0.78rem; color: var(--fg-subtle); margin-top: 16px; }
   .l-note code { font-family: var(--font-mono); }
   :global([data-learning] [hidden]) { display: none !important; }
-  @media (max-width: 900px) { .lstats { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 900px) { .lstats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>
 
 <script>

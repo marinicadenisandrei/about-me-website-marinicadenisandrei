@@ -1,5 +1,5 @@
 /**
- * Cursor-following highlight — the template's --mx/--my technique, generalised.
+ * Cursor-following highlight, the template's --mx/--my technique, generalised.
  * Used by the hero grid (lerped, window-level) and by .glass--spot cards (direct).
  */
 export function initCardSpot(root: ParentNode = document): void {

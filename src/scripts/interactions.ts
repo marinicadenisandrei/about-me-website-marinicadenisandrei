@@ -1,7 +1,7 @@
 /**
  * Pointer-driven micro-interactions (transform-only, pointer:fine, off under reduced motion):
  *  - tilt:     glass cards tilt a few degrees toward the cursor (macOS-style 3D hover)
- *  - magnetic: primary buttons drift 0–6px toward the cursor and spring back
+ *  - magnetic: primary buttons drift 0-6px toward the cursor and spring back
  */
 const fine = () => matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches;
 

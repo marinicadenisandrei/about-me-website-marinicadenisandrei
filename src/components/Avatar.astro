@@ -8,7 +8,7 @@ import icon from '@assets/brand/logo-icon-800.png';
 import { site } from '@config/site';
 interface Props { size?: number; class?: string; transitionName?: string; priority?: boolean; glow?: boolean }
 const { size = 32, class: cls, transitionName, priority = false, glow = false } = Astro.props;
-const alt = `${site.name} — stylised portrait`;
+const alt = `${site.name}, stylised portrait`;
 ---
 
 <span class:list={['avatar', { 'avatar--glow': glow }, cls]} style={`--size:${size}px`} transition:name={transitionName}>

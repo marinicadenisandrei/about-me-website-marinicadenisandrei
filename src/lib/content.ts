@@ -8,7 +8,7 @@ import { canonicalTech, parentTech, STACK_PAGE_MIN } from '@config/stack';
 
 type Entry<C extends CollectionKey> = CollectionEntry<C>;
 
-const byOrderThenDate = <T extends { data: { order: number; startDate?: Date; period?: { start: Date } } }>(a: T, b: T) => {
+const byOrderThenDate = <T extends { data: { order: number; startDate?: Date | null; period?: { start: Date } } }>(a: T, b: T) => {
   if (a.data.order !== b.data.order) return a.data.order - b.data.order;
   const da = a.data.startDate ?? a.data.period?.start ?? new Date(0);
   const db = b.data.startDate ?? b.data.period?.start ?? new Date(0);
@@ -32,7 +32,7 @@ export async function projectClientLabel(p: Entry<'projects'>): Promise<string |
   const client = p.data.client ? await getEntry(p.data.client) : null;
   if (p.data.confidential || (client && !client.data.publicConsent)) {
     const industry = p.data.industry ?? client?.data.industry;
-    return industry ? `${site.ui.projects.confidentialClient} – ${industry}` : site.ui.projects.confidentialClient;
+    return industry ? `${site.ui.projects.confidentialClient} - ${industry}` : site.ui.projects.confidentialClient;
   }
   return client?.data.name ?? p.data.organization ?? null;
 }
@@ -81,7 +81,7 @@ export async function countCertifications() {
   return { certifications: certs.length, courseCertificates: courseCerts.length, total: certs.length + courseCerts.length };
 }
 
-/** Learning stats — computed from content, never hardcoded. Archived courses count towards hours/certificates. */
+/** Learning stats, computed from content, never hardcoded. Archived courses count towards hours/certificates. */
 export async function getLearningStats() {
   const all = await getCollection('courses');
   const certCount = await countCertifications();
@@ -128,7 +128,7 @@ export interface StackUsage {
   research: Entry<'research'>[];
   /** Own references only (decides whether a page exists). */
   total: number;
-  /** Items that reach this technology through a child (e.g. python ← flask), with the child slug. */
+  /** Items that reach this technology through a child (e.g. python <- flask), with the child slug. */
   via: { slug: string; kind: 'projects' | 'experience' | 'courses' | 'certifications' | 'teaching' | 'research'; item: unknown; child: string }[];
 }
 
@@ -173,9 +173,10 @@ export async function getStackIndex(): Promise<StackUsage[]> {
   return stackCache;
 }
 
-/** Technologies that get their own page (≥ STACK_PAGE_MIN references after alias merging). */
+/** Technologies that get their own page: ≥ STACK_PAGE_MIN references after alias merging, or covered by a course in progress or completed. */
 export async function getStackPages(): Promise<StackUsage[]> {
-  return (await getStackIndex()).filter((u) => u.total >= STACK_PAGE_MIN);
+  // A technology gets a page when it is referenced often enough, or when a course I finished or am taking covers it.
+  return (await getStackIndex()).filter((u) => u.total >= STACK_PAGE_MIN || u.courses.some((c) => c.data.completed || c.data.progress > 0));
 }
 /** Unique canonical slugs, preserving order (for pill lists). */
 export const uniqueTech = (slugs: readonly string[]): string[] => [...new Set(slugs.map(canonicalTech))];

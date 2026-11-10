@@ -20,7 +20,8 @@
   "stack": [
     "tensorflow",
     "pytorch",
-    "opencv"
+    "opencv",
+    "computer-vision"
   ],
   "generated": true
 }

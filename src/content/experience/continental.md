@@ -7,7 +7,7 @@ employmentType: full-time
 location: Romania
 startDate: 2023-01-01
 endDate: 2023-12-01
-summary: Systems engineering for ADAS sensor products (emergency brake assist, adaptive cruise control, lane keeping, traffic-sign recognition) — requirements engineering, system architecture, safety integration and system FMEA.
+summary: "Systems engineering for ADAS sensor products (emergency brake assist, adaptive cruise control, lane keeping, traffic-sign recognition): requirements engineering, system architecture, safety integration and system FMEA."
 highlights:
   - Reviewed customer and stakeholder requirements, allocated them to system components and derived requirements for hardware, software and mechanical design teams.
   - Concept definition and system design; decomposed the system into components and disciplines and integrated the safety concept into the design.
@@ -18,7 +18,7 @@ order: 40
 tint: employment
 ---
 
-Continental's Autonomous Mobility business develops intelligent camera, lidar and radar sensors that give drivers active safety support — Emergency Brake Assist, Adaptive Cruise Control, Lane Keeping Support, Traffic Sign Recognition, Lane Departure Warning, Pedestrian Detection and Parking Assistance. The System Engineering team defines, designs and integrates these systems to customer requirements and project timing.
+Continental's Autonomous Mobility business develops intelligent camera, lidar and radar sensors that give drivers active safety support: Emergency Brake Assist, Adaptive Cruise Control, Lane Keeping Support, Traffic Sign Recognition, Lane Departure Warning, Pedestrian Detection and Parking Assistance. The System Engineering team defines, designs and integrates these systems to customer requirements and project timing.
 
 **Requirements engineering.** Review of customer and stakeholder requirements; allocation to individual system components and hand-over to the dedicated design teams; creation of requirements for those teams based on the system architecture.
 

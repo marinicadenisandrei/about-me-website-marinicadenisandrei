@@ -21,6 +21,7 @@
   "category": "DevOps & Cloud",
   "role": "student",
   "stack": [
+    "windows",
     "powershell"
   ],
   "generated": true

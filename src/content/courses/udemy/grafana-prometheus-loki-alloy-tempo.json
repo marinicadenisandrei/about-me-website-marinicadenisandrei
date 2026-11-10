@@ -16,7 +16,8 @@
   "role": "student",
   "stack": [
     "grafana",
-    "prometheus"
+    "prometheus",
+    "loki"
   ],
   "generated": true
 }

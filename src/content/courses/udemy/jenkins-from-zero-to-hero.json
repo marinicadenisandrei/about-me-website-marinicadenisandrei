@@ -20,6 +20,7 @@
   "category": "DevOps & Cloud",
   "role": "student",
   "stack": [
+    "devops",
     "jenkins"
   ],
   "generated": true

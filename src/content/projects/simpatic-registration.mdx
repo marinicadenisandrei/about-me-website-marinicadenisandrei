@@ -1,0 +1,39 @@
+---
+title: "SIMPATIC: participant file and e-signature platform"
+category: research
+role: Full-stack & DevOps Engineer
+organization: PNRR SIMPATIC project
+status: active
+startDate: 2026-10-01
+endDate: null
+summary: A web platform where participants in the SIMPATIC training programmes check their data, sign their annexes electronically, upload an ID document and then download their continuing-education certificate, with an admin panel for the project team.
+problem: Hundreds of training participants each had to verify their data, sign four annexes and receive a certificate, and the project team needed a complete, auditable file for every person.
+solution: A React and Express platform that imports participants from the project spreadsheet, generates the annexes as PDFs live from each participant's data, applies a drawn signature, records GDPR consent and exports ZIP archives per participant or in bulk.
+myContribution:
+  - Built the React and TypeScript frontend and the Express API with JWT authentication, SQLite storage and PDF generation.
+  - Implemented the signing flow (drawn signature applied to every annex, re-signing after changes, GDPR consent with its own PDF) and the final confirmation that unlocks the certificate.
+  - Built the admin panel with filters, editable participant files, issue tracking and streamed ZIP archives.
+  - Packaged the platform with Docker Compose behind NGINX and published it through a Cloudflare Tunnel.
+outcomes: []
+stack: [react, typescript, vite, nodejs, express, sqlite, jwt, nginx, docker, cloudflare]
+links: {}
+featured: false
+order: 45
+---
+
+## Context
+
+SIMPATIC is a PNRR-funded project that runs continuing-education programmes. Each participant needs a signed file before receiving a certificate, and the platform replaces the paper process.
+
+## Participant flow
+
+1. **Data**: pre-filled from the project records; missing fields are completed by the participant and protected fields can only be flagged for correction.
+2. **Signature**: drawn once and applied to each document when it is signed.
+3. **ID document**: uploaded as an image or PDF.
+4. **Documents**: each annex is previewed as a PDF generated from the current data; changing the data invalidates earlier signatures.
+5. **GDPR consent**: recorded with date, time and signature, and stored as its own PDF.
+6. **Confirmation**: once everything is signed, the data is locked and the certificate becomes available.
+
+## Administration
+
+Filters by programme, status and county; a full file per participant with every document; editing with or without re-signing; and ZIP archives per participant or for any filtered selection, generated as a stream.

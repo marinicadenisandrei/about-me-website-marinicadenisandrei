@@ -1,6 +1,6 @@
 ---
 title: MLOps & AI infrastructure
-description: Take models from notebook to production — reproducible training environments, model validation in CI, versioned releases, GPU/edge inference clusters and experiment tracking.
+description: "Take models from notebook to production: reproducible training environments, model validation in CI, versioned releases, GPU/edge inference clusters and experiment tracking."
 deliverables:
   - CI/CD for ML workloads with automated model validation
   - Training and inference infrastructure (cloud GPUs or NVIDIA Jetson edge clusters)

@@ -12,7 +12,7 @@ stack: [kubernetes, terraform, helm, argo-cd, grafana]
 icon: cloud                   # Lucide icon name
 engagement:
   model: project              # consulting | project | retainer
-  price: On request           # "On request" | "From €X" — TODO: fill in
+  price: On request           # "On request" | "From €X", TODO: fill in
   unit: ""                    # e.g. "/ day", "/ month"
   featured: true
   audience: [companies, startups-academia]

@@ -15,7 +15,8 @@
   "category": "Networking",
   "role": "student",
   "stack": [
-    "networking"
+    "networking",
+    "cisco"
   ],
   "generated": true
 }

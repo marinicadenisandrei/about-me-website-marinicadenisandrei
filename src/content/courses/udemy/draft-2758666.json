@@ -16,7 +16,8 @@
   "role": "student",
   "stack": [
     "csharp",
-    "unity"
+    "unity",
+    "virtual-reality"
   ],
   "generated": true
 }

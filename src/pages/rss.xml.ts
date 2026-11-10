@@ -8,7 +8,7 @@ import { withBase } from '@lib/url';
 export const GET: APIRoute = async (context) => {
   const posts = site.features.blog ? (await getCollection('posts')).filter((p) => !p.data.draft) : [];
   return rss({
-    title: `${site.shortName} — Notes`,
+    title: `${site.shortName} | Notes`,
     description: site.description,
     site: context.site ?? 'http://localhost:4321',
     items: posts

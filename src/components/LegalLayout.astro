@@ -28,6 +28,11 @@ const subnav = [{ label: site.ui.legal.business, href: '/legal' }, { label: site
   .legal-prose { padding-bottom: 32px; }
   .legal-prose :global(.cv-email) { word-break: break-all; }
   .legal-prose :global(table) { border-collapse: collapse; width: 100%; font-size: 0.88rem; margin: 1em 0 1.6em; }
+  @media (max-width: 700px) {
+    /* phones: the table scrolls sideways inside itself instead of widening the page */
+    .legal-prose :global(table) { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .legal-prose :global(th), .legal-prose :global(td) { min-width: 140px; }
+  }
   .legal-prose :global(th), .legal-prose :global(td) { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .legal-prose :global(th) { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-subtle); }
   .legal-updated { font-size: 0.78rem; color: var(--fg-subtle); padding-bottom: 40px; }

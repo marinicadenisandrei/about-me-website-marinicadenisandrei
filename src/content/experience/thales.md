@@ -6,9 +6,9 @@ employmentType: full-time
 location: Bucharest, Romania
 startDate: 2023-12-01
 endDate: 2024-06-01
-summary: Model-based systems engineering and requirements management for defence/aerospace systems — architecture in Eclipse Capella (ARCADIA), requirements flow-down in IBM DOORS and Polarion, verification planning and technical documentation.
+summary: "Model-based systems engineering and requirements management for defence/aerospace systems: architecture in Eclipse Capella (ARCADIA), requirements flow-down in IBM DOORS and Polarion, verification planning and technical documentation."
 highlights:
-  - Defined system architecture (hardware + software decomposition, component interactions, interfaces) using the ARCADIA framework in Eclipse Capella — model-based systems engineering.
+  - Defined system architecture (hardware + software decomposition, component interactions, interfaces) using the ARCADIA framework in Eclipse Capella (model-based systems engineering).
   - Managed technical requirements flow-down from customer to sub-systems in IBM DOORS (DXL) and Siemens Polarion.
   - Developed and performed system verification methods to demonstrate compliance with customer needs, including product-safety certification activities.
   - Authored engineering plans, technical specifications, interface documents, test plans and technical reports; supported engineering reviews.

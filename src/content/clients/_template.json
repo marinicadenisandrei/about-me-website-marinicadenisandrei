@@ -7,7 +7,7 @@
   "publicConsent": false,
   "since": "2025-06-01",
   "testimonial": {
-    "quote": "Real testimonial text only — never invented.",
+    "quote": "Real testimonial text only, never invented.",
     "author": "Jane Doe",
     "authorRole": "CTO, Client name",
     "date": "2025-12-01"

@@ -1,4 +1,4 @@
-/** Web app manifest — generated so icon paths honour the base path. */
+/** Web app manifest, generated so icon paths honour the base path. */
 import type { APIRoute } from 'astro';
 import { site } from '@config/site';
 import { withBase } from '@lib/url';

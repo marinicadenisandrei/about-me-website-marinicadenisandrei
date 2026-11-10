@@ -1,6 +1,6 @@
 ---
 /**
- * /styleguide — dev-only. Every glass component, in both themes, for sign-off.
+ * /styleguide, dev-only. Every glass component, in both themes, for sign-off.
  * Generated only in dev or when STYLEGUIDE=1 (never linked, noindex, excluded from the sitemap).
  * `?theme=light|dark` forces a theme for screenshots.
  */
@@ -26,12 +26,12 @@ import GlassSlider from '@components/GlassSlider.astro';
 const v = (n: string) => withBase(`/_dev/motion/${n}.webm`);
 const clips = [
   { src: v('nav-pill'), title: 'Nav pill', body: 'Persists across navigations; the glass indicator slides to the active/hovered link with --spring-smooth; compact on scroll-down, expanded on scroll-up.' },
-  { src: v('card-zoom'), title: 'Card → project zoom', body: 'Shared-element transition on the title (project-<slug>) in both directions, via ClientRouter.' },
-  { src: v('portrait-morph'), title: 'Avatar → portrait', body: 'The nav mark hands the "portrait" name to the large portrait on /about; Back reverses it.' },
+  { src: v('card-zoom'), title: 'Card to project zoom', body: 'Shared-element transition on the title (project-<slug>) in both directions, via ClientRouter.' },
+  { src: v('portrait-morph'), title: 'Avatar to portrait', body: 'The nav mark hands the "portrait" name to the large portrait on /about; Back reverses it.' },
   { src: v('segmented-blob'), title: 'Segmented liquid blob', body: 'The thumb stretches toward the target and settles with --spring-snappy (Web Animations).' },
-  { src: v('press-squish'), title: 'Press squish + lift', body: 'Hover: lift, spotlight and (Chromium) edge lensing. Press: scale(.94–.98) on a snappy spring.' },
-  { src: v('mobile-sheet'), title: 'Pill → bottom sheet', body: 'Same-document view transition morphs the pill into the sheet (fallback: slide-up).', portrait: true },
-  { src: v('glass-modes'), title: 'Glass: Clear → Tinted → Opaque', body: 'Slider drives html[data-glass]; persisted; reduced-transparency forces Opaque; prefers-contrast strengthens borders.' },
+  { src: v('press-squish'), title: 'Press squish + lift', body: 'Hover: lift, spotlight and (Chromium) edge lensing. Press: scale(.94-.98) on a snappy spring.' },
+  { src: v('mobile-sheet'), title: 'Pill to bottom sheet', body: 'Same-document view transition morphs the pill into the sheet (fallback: slide-up).', portrait: true },
+  { src: v('glass-modes'), title: 'Glass: Clear, Tinted, Opaque', body: 'Slider drives html[data-glass]; persisted; reduced-transparency forces Opaque; prefers-contrast strengthens borders.' },
   { src: v('reduced-motion'), title: 'Reduced motion', body: 'With prefers-reduced-motion the same navigation is a plain crossfade: no group movement, no parallax, no reveals.' },
 ];
 import { CATEGORY_META } from '@config/categories';
@@ -73,7 +73,7 @@ const tints = ['industry', 'academia', 'freelance', 'learning', 'personal'] as c
       <img src={withBase('/favicon-64.png')} width="64" height="64" alt="Portrait favicon 64px" />
       <img src={withBase('/og-default.png')} width="240" height="126" alt="Default Open Graph preview card" style="border-radius:10px;border:1px solid var(--line)" />
     </div>
-    <p class="sg-note">See the shared-element transition: <Link href="/about">open /about</Link> — the nav mark grows into the portrait; Back reverses it.</p>
+    <p class="sg-note">See the shared-element transition: <Link href="/about">open /about</Link>, the nav mark grows into the portrait; Back reverses it.</p>
   </section>
 
   <section class="section sg" id="sg-tokens" data-label="Tokens">
@@ -82,13 +82,13 @@ const tints = ['industry', 'academia', 'freelance', 'learning', 'personal'] as c
       {[1, 2, 3, 4].map((i) => <div class="sw" style={`background:var(--orb-${i})`}><span>--orb-{i}</span></div>)}
     </div>
     <div class="sg-swatches">
-      {tints.map((t) => <div class="sw sw-tint" data-tint={t}><span>{t} · hue {CATEGORY_META[t === 'industry' ? 'industry' : t === 'academia' ? 'research' : t].hue}</span></div>)}
+      {tints.map((t) => <div class="sw sw-tint" data-tint={t}><span>{t}, hue {CATEGORY_META[t === 'industry' ? 'industry' : t === 'academia' ? 'research' : t].hue}</span></div>)}
     </div>
-    <p class="sg-note">Radii: <code>--radius-lg 28px</code> · <code>--radius-md 20px</code> · <code>--radius-sm 14px</code> · pills/buttons full. Easing: <code>--silk-ease</code>. Fonts: Montserrat (display) / Apple system stack (UI).</p>
+    <p class="sg-note">Radii: <code>--radius-lg 28px</code>, <code>--radius-md 20px</code>, <code>--radius-sm 14px</code>, pills/buttons full. Easing: <code>--silk-ease</code>. Fonts: Montserrat (display) / Apple system stack (UI).</p>
   </section>
 
   <section class="section sg" id="sg-type" data-label="Typography">
-    <SectionHeader tag="Section tag · 9px · 0.3em" title="Section title, light 300 with <strong>strong 600</strong>" body="Section body: 0.95rem, weight 300, line-height 1.8, muted colour, max-width 540px. The UI font is the Apple system stack; headings, tags, nav and buttons use Montserrat." reveal={false} />
+    <SectionHeader tag="Section tag, 9px, 0.3em" title="Section title, light 300 with <strong>strong 600</strong>" body="Section body: 0.95rem, weight 300, line-height 1.8, muted colour, max-width 540px. The UI font is the Apple system stack; headings, tags, nav and buttons use Montserrat." reveal={false} />
     <div class="prose">
       <h2>Prose h2 inside MDX</h2>
       <p>Body copy with <strong>strong</strong>, <a href="#sg-type">a link</a> and <code>inline code</code>. Lists, blockquotes and code blocks are styled in <code>base.css</code>.</p>
@@ -110,7 +110,7 @@ const tints = ['industry', 'academia', 'freelance', 'learning', 'personal'] as c
     <div class="sg-row">
       {tints.map((t) => <Pill tint={t} dot>{t}</Pill>)}
       <Pill neutral>neutral</Pill>
-      <Pill href="/stack/kubernetes" tint="industry">kubernetes ↗</Pill>
+      <Pill href="/stack/kubernetes" tint="industry">kubernetes</Pill>
       <span class="todo">TODO: placeholder style</span>
     </div>
     <div class="sg-row sg-row--narrow">
@@ -120,15 +120,15 @@ const tints = ['industry', 'academia', 'freelance', 'learning', 'personal'] as c
   </section>
 
   <section class="section sg" id="sg-glass" data-label="Glass cards">
-    <SectionHeader tag="Glass material" title="Thin, regular and <strong>thick</strong> — hover for lift and spotlight, press for the iOS scale" reveal={false} />
+    <SectionHeader tag="Glass material" title="Thin, regular and <strong>thick</strong>, hover for lift and spotlight, press for the iOS scale" reveal={false} />
     <Grid cols={3}>
-      <GlassCard variant="thin" tint="industry"><h3 class="sg-h">.glass--thin</h3><p class="sg-p">blur 24px · saturate 160% · tint α .06. Pills, badges, FAQ rows, secondary buttons.</p></GlassCard>
-      <GlassCard variant="regular" tint="academia"><h3 class="sg-h">.glass (regular)</h3><p class="sg-p">blur 32px · saturate 175% · tint α .10. Project, feature and timeline cards.</p></GlassCard>
-      <GlassCard variant="thick" tint="freelance"><h3 class="sg-h">.glass--thick</h3><p class="sg-p">blur 40px · saturate 190% · tint α .14. Nav pill, bottom sheet, featured card.</p></GlassCard>
+      <GlassCard variant="thin" tint="industry"><h3 class="sg-h">.glass--thin</h3><p class="sg-p">blur 24px, saturate 160%, tint α .06. Pills, badges, FAQ rows, secondary buttons.</p></GlassCard>
+      <GlassCard variant="regular" tint="academia"><h3 class="sg-h">.glass (regular)</h3><p class="sg-p">blur 32px, saturate 175%, tint α .10. Project, feature and timeline cards.</p></GlassCard>
+      <GlassCard variant="thick" tint="freelance"><h3 class="sg-h">.glass--thick</h3><p class="sg-p">blur 40px, saturate 190%, tint α .14. Nav pill, bottom sheet, featured card.</p></GlassCard>
     </Grid>
     <div style="height:20px"></div>
     <Grid cols={4}>
-      {tints.map((t) => <GlassCard tint={t} padding="sm"><p class="section-tag" style="margin:0 0 6px">{t}</p><p class="sg-p">Text on glass over the lightest orb — must stay ≥ WCAG AA.</p></GlassCard>)}
+      {tints.map((t) => <GlassCard tint={t} padding="sm"><p class="section-tag" style="margin:0 0 6px">{t}</p><p class="sg-p">Text on glass over the lightest orb, must stay ≥ WCAG AA.</p></GlassCard>)}
     </Grid>
   </section>
 
@@ -144,7 +144,7 @@ const tints = ['industry', 'academia', 'freelance', 'learning', 'personal'] as c
   </section>
 
   <section class="section sg section-center" id="sg-pricing" data-label="Engagement cards">
-    <SectionHeader tag="Engagement models" title="Pricing cards → <strong>ways to work together</strong>" center reveal={false} />
+    <SectionHeader tag="Engagement models" title="Pricing cards as <strong>ways to work together</strong>" center reveal={false} />
     <Grid cols={3} class="sg-left">{engagements.map((s) => <EngagementCard service={s} />)}</Grid>
   </section>
 

@@ -1,5 +1,5 @@
 ---
-/** Luminary footer-cta → contact CTA + footer bar with business details and legal links. */
+/** Luminary footer-cta -> contact CTA + footer bar with business details and legal links. */
 import Link from '@components/Link.astro';
 import { site } from '@config/site';
 import { business } from '@config/business';
@@ -27,15 +27,15 @@ const year = new Date().getFullYear();
 
   <footer class="footer-bar reveal reveal-d4">
     <div class="footer-brand">
-      <span class="footer-name">{site.name} — {year}</span>
-      <span class="footer-biz">{business.legalName} · CUI {business.taxId} · {business.tradeRegisterNo} · {business.registeredOffice}</span>
+      <span class="footer-name">{site.name}, {year}</span>
+      <span class="footer-biz">{business.legalName}, CUI {business.taxId}, {business.tradeRegisterNo}, {business.registeredOffice}</span>
     </div>
     <GlassSlider class="footer-glass" />
     <nav class="footer-links" aria-label="Footer">
       {site.footerNav.map((n) => <Link href={n.href}>{n.label}</Link>)}
       <a href={site.links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href={site.links.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-      <span class="footer-credit">{site.ui.footer.design} <a href="https://templatemo.com" target="_blank" rel="nofollow noopener">TemplateMo</a> · {site.ui.footer.builtWith}</span>
+      <span class="footer-credit">{site.ui.footer.design} <a href="https://templatemo.com" target="_blank" rel="nofollow noopener">TemplateMo</a>, {site.ui.footer.builtWith}</span>
     </nav>
   </footer>
 </section>

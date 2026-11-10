@@ -7,7 +7,7 @@ employmentType: full-time
 location: Bucharest, Romania
 startDate: 2025-09-01
 endDate: null
-summary: DevOps and cloud engineering across the full delivery lifecycle — CI/CD, infrastructure as code, Kubernetes on AWS/Azure/GCP, observability, and second-line escalation for major incidents.
+summary: "DevOps and cloud engineering across the full delivery lifecycle: CI/CD, infrastructure as code, Kubernetes on AWS/Azure/GCP, observability, and second-line escalation for major incidents."
 highlights:
   - Design and maintain CI/CD pipelines in GitLab CI, Jenkins and GitHub Actions, with schema-validation gates (yamllint, kubeconform, JSON Schema) that catch misconfigurations before deployment.
   - Infrastructure as code with Terraform, Ansible and Helm; containerised workloads on Kubernetes (EKS, AKS, GKE).

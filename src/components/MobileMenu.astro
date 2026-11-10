@@ -2,7 +2,7 @@
 /**
  * Mobile menu as an iOS bottom sheet (grab handle, slides up, staggered links).
  * Behaviour ported from the Luminary mobile menu: opened by #navToggle, closes on
- * link click, Escape, backdrop tap and when the viewport grows past 1024px.
+ * link click, Escape, backdrop tap and when the viewport grows past 1180px.
  */
 import Link from '@components/Link.astro';
 import GlassSlider from '@components/GlassSlider.astro';
@@ -137,7 +137,7 @@ const links = [{ label: 'Home', href: '/' }, ...site.nav];
     toggle.addEventListener('click', () => (open ? closeMenu() : openMenu()));
     sheet.querySelectorAll('a, [data-sheet-close]').forEach((el) => el.addEventListener('click', closeMenu));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
-    addEventListener('resize', () => { if (innerWidth > 1024) closeMenu(); }, { passive: true });
+    addEventListener('resize', () => { if (innerWidth > 1180) closeMenu(); }, { passive: true });
   }
   }
   document.addEventListener('astro:page-load', init);

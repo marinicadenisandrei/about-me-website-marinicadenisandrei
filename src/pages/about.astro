@@ -1,6 +1,6 @@
 ---
 /**
- * About — short fresh bio (≤150 words), the large portrait (shared-element target
+ * About, short fresh bio (≤150 words), the large portrait (shared-element target
  * of the nav mark), education and languages.
  */
 import Base from '@layouts/Base.astro';
@@ -14,19 +14,19 @@ import { site } from '@config/site';
 import { personJsonLd } from '@lib/jsonld';
 
 const education = [
-  { degree: 'PhD candidate, Computer Science', school: 'Faculty of Automatic Control and Computers, National University of Science and Technology POLITEHNICA Bucharest', period: '2024 – 2028 (expected)', note: 'Thesis: Audio-Haptic Rendering of Real and Virtual Environments', tint: 'academia' },
-  { degree: 'MSc, Computer Science — Advanced Control and Real-Time Systems', school: 'Faculty of Automatic Control and Computers, POLITEHNICA Bucharest', period: '2022 – 2024', note: 'Dissertation: real-time robot control with diagnostics and AWS cloud supervision', tint: 'academia' },
-  { degree: 'BSc (Eng.), Robotics, Programming and Computer Science', school: 'Faculty of Industrial Engineering and Robotics, University POLITEHNICA of Bucharest', period: '2018 – 2022', note: 'Diploma project: robotic cell for de-palletising, labelling and re-palletising with an articulated-arm industrial robot', tint: 'academia' },
-  { degree: 'Baccalaureate, Mathematics and Computer Science', school: 'Colegiul Național „Ion Creangă”, Bucharest', period: '2014 – 2018', note: '', tint: 'academia' },
+  { degree: 'PhD candidate, Computer Science', school: 'Faculty of Automatic Control and Computers, National University of Science and Technology POLITEHNICA Bucharest', period: '2024 - 2028 (expected)', note: 'Thesis: Audio-Haptic Rendering of Real and Virtual Environments', tint: 'academia' },
+  { degree: 'MSc, Computer Science, Advanced Control and Real-Time Systems', school: 'Faculty of Automatic Control and Computers, POLITEHNICA Bucharest', period: '2022 - 2024', note: 'Dissertation: real-time robot control with diagnostics and AWS cloud supervision', tint: 'academia' },
+  { degree: 'BSc (Eng.), Robotics, Programming and Computer Science', school: 'Faculty of Industrial Engineering and Robotics, University POLITEHNICA of Bucharest', period: '2018 - 2022', note: 'Diploma project: robotic cell for de-palletising, labelling and re-palletising with an articulated-arm industrial robot', tint: 'academia' },
+  { degree: 'Baccalaureate, Mathematics and Computer Science', school: 'Colegiul Național "Ion Creangă", Bucharest', period: '2014 - 2018', note: '', tint: 'academia' },
 ];
 const languages = [
   { name: 'Romanian', level: 'Native' },
-  { name: 'English', level: 'C1 — proficient' },
-  { name: 'French', level: 'A1 — basic' },
+  { name: 'English', level: 'C1, proficient' },
+  { name: 'French', level: 'A1, basic' },
 ];
 ---
 
-<Base title="About" description={`About ${site.name}: Senior DevOps Engineer at LSEG, AI research engineer and teaching assistant at ACS-UNSTPB, PhD candidate and freelance consultant in Bucharest.`} tint="academia" jsonLd={[personJsonLd(Astro.site)]}>
+<Base title="About" description={`About ${site.name}: Senior DevOps Engineer at LSEG, AI research engineer and teaching assistant at ACS-UNSTPB, PhD candidate and B2B consultant in Bucharest.`} tint="academia" jsonLd={[personJsonLd(Astro.site)]}>
   <section class="page-head about-head" data-label="About">
     <div class="about-portrait">
       <Avatar size={220} transitionName="portrait" priority glow />
@@ -39,7 +39,7 @@ const languages = [
           I'm Denis, an engineer in Bucharest who likes systems that keep working after the demo. By day I'm a Senior DevOps Engineer at the London Stock Exchange Group, building CI/CD, infrastructure as code and Kubernetes platforms across AWS, Azure and GCP, and taking the escalation call when something breaks.
         </p>
         <p>
-          At the Faculty of Automatic Control and Computers I teach Intelligent Image Processing (MSc) and Software Engineering (BSc), work as an AI research engineer in the Romanian AI Hub, and pursue a PhD on audio-haptic rendering — the same thread that runs through Sound of Vision and TRAVEE.
+          At the Faculty of Automatic Control and Computers I teach Intelligent Image Processing (MSc) and Software Engineering (BSc), work as an AI research engineer in the Romanian AI Hub, and pursue a PhD on audio-haptic rendering, the same thread that runs through Sound of Vision and TRAVEE.
         </p>
         <p>
           Through my own practice I help companies and research teams with DevOps, cloud, MLOps and software delivery. Before this: Hitachi, Thales, Continental and Luxoft.
@@ -69,13 +69,13 @@ const languages = [
   <section class="section section--tight" id="languages" data-label="Languages">
     <p class="section-tag reveal">{site.ui.about.languages}</p>
     <div class="langs reveal reveal-d1">
-      {languages.map((l) => <Pill neutral><strong>{l.name}</strong>&nbsp;· {l.level}</Pill>)}
+      {languages.map((l) => <Pill neutral><strong>{l.name}</strong>: {l.level}</Pill>)}
     </div>
   </section>
 </Base>
 
 <style>
-  .about-head { display: grid; grid-template-columns: 260px 1fr; gap: 56px; align-items: start; }
+  .about-head { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 56px; align-items: start; }
   .about-portrait { display: flex; justify-content: center; padding-top: 12px; }
   .bio p { margin-bottom: 1em; }
   .bio { max-width: 620px; }
@@ -88,7 +88,7 @@ const languages = [
   .langs .pill { font-size: 10px; letter-spacing: 0.08em; text-transform: none; padding: 8px 14px; }
   .langs strong { font-weight: 600; color: var(--fg); }
   @media (max-width: 860px) {
-    .about-head { grid-template-columns: 1fr; gap: 28px; }
+    .about-head { grid-template-columns: minmax(0, 1fr); gap: 28px; }
     .about-portrait { justify-content: flex-start; }
   }
 </style>

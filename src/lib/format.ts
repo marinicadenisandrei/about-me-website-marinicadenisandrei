@@ -6,8 +6,9 @@ const LONG = new Intl.DateTimeFormat(site.lang, { day: 'numeric', month: 'long',
 export const formatMonthYear = (d: Date | null | undefined): string => (d ? MONTH_YEAR.format(d) : site.ui.experience.present);
 export const formatLong = (d: Date): string => LONG.format(d);
 
-/** "Sep 2025 – Present" */
-export const formatRange = (start: Date, end: Date | null | undefined): string => `${formatMonthYear(start)} – ${formatMonthYear(end)}`;
+/** "Sep 2025 - Present" */
+export const formatRange = (start: Date | null, end: Date | null | undefined): string =>
+  start ? `${formatMonthYear(start)} - ${formatMonthYear(end)}` : 'TODO: confirm dates';
 
 /** "1 yr 3 mos" style duration. */
 export function formatDuration(start: Date, end: Date | null | undefined): string {
@@ -22,7 +23,7 @@ export function formatDuration(start: Date, end: Date | null | undefined): strin
   return parts.join(' ');
 }
 
-/** Pretty label for a technology slug when the registry has none. "github-actions" → "Github Actions". */
+/** Pretty label for a technology slug when the registry has none. "github-actions" -> "Github Actions". */
 export const titleCaseSlug = (slug: string): string =>
   slug
     .split('-')

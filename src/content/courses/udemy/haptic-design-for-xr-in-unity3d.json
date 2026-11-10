@@ -20,7 +20,9 @@
   "category": "Game Dev & XR",
   "role": "student",
   "stack": [
-    "unity"
+    "unity",
+    "virtual-reality",
+    "haptics"
   ],
   "generated": true
 }

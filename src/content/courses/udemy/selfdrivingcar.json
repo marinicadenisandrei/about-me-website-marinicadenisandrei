@@ -17,6 +17,7 @@
   "stack": [
     "cpp",
     "opencv",
+    "computer-vision",
     "machine-learning"
   ],
   "generated": true

@@ -21,6 +21,7 @@
   "category": "DevOps & Cloud",
   "role": "student",
   "stack": [
+    "devops",
     "ansible"
   ],
   "generated": true

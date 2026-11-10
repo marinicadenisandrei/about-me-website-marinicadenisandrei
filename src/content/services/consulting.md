@@ -1,7 +1,7 @@
 ---
 title: Consulting & audit
 tagline: A second pair of senior eyes on your platform.
-description: Short, focused engagements — review your CI/CD, Kubernetes, cloud or MLOps setup, find the risks and quick wins, and leave you with a prioritised, actionable plan.
+description: "Short, focused engagements: review your CI/CD, Kubernetes, cloud or MLOps setup, find the risks and quick wins, and leave you with a prioritised, actionable plan."
 deliverables:
   - Architecture and pipeline review with a written findings report
   - Security, reliability and cost quick-wins list

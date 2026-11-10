@@ -1,23 +1,23 @@
 ---
-title: GREENUS — Ambassador learning & certification platform
+title: "GREENUS: Ambassador learning & certification platform"
 category: research
 role: Full Stack Developer & DevOps Engineer
-organization: GLOBE-STEAMSS · ACS-UPB
+organization: GLOBE-STEAMSS, ACS-UPB
 research: greenus
 status: active
 startDate: 2025-10-01
 endDate: null
-summary: A Udemy-style platform dedicated to training, evaluating and certifying Greenus ambassadors — on-demand courses, live webinars, structured certification paths, assessments, digital badges and a community layer.
-problem: Greenus ambassadors needed structured learning paths with verifiable credentials and a place to collaborate — not just a video library.
+summary: "A Udemy-style platform dedicated to training, evaluating and certifying Greenus ambassadors: on-demand courses, live webinars, structured certification paths, assessments, digital badges and a community layer."
+problem: Greenus ambassadors needed structured learning paths with verifiable credentials and a place to collaborate, not just a video library.
 solution: A learning and certification platform with assessments, digital badges and certificates, RBAC for administrators, trainers and ambassadors, and real-time community features, built on the same cloud-native stack as GLOBE-CoP.
 myContribution:
-  - Architected and implemented the platform — on-demand video courses, live webinars, certification paths, assessments, digital badges and certificates.
-  - Built the responsive frontend (ES6+, HTML5, CSS3/SASS) and the backend — Node.js/Express REST APIs plus Flask micro-services for authentication, certification management, payments and recommendations, secured with JWT.
+  - "Architected and implemented the platform: on-demand video courses, live webinars, certification paths, assessments, digital badges and certificates."
+  - "Built the responsive frontend (ES6+, HTML5, CSS3/SASS) and the backend: Node.js/Express REST APIs plus Flask micro-services for authentication, certification management, payments and recommendations, secured with JWT."
   - Modelled data across PostgreSQL/MySQL and MongoDB for profiles, certification progress, content, community interactions and audit logs.
   - Containerised all services and deployed with Helm on EKS/GKE; GitHub Actions and Jenkins CI/CD with unit, integration and end-to-end tests; Terraform + Ansible infrastructure.
   - ELK, Prometheus and Grafana monitoring with automated alerts; multi-AZ deployments, OWASP ZAP scanning, automated SSL renewal and least-privilege IAM.
 outcomes:
-  - "TODO: confirm number — load tests validated horizontal scalability for thousands of concurrent ambassadors"
+  - "TODO: confirm number: load tests validated horizontal scalability for thousands of concurrent ambassadors"
 stack: [nodejs, express, python, flask, javascript, html, css, sass, postgresql, mysql, mongodb, redis, jwt, websocket, docker, kubernetes, helm, terraform, ansible, aws, gcp, github-actions, jenkins, elk, prometheus, grafana, nginx, openapi, owasp-zap]
 links:
   live: https://greenus.upb.ro/
@@ -36,4 +36,4 @@ order: 30
 
 Same architecture family as [GLOBE-CoP](/projects/globe-cop): Node.js/Express core, Python/Flask micro-services, hybrid relational + document storage with Redis caching, Docker + Helm on Kubernetes (AWS EKS / GCP GKE), Terraform + Ansible infrastructure, CDN delivery for video, and ELK / Prometheus / Grafana observability.
 
-{/* TODO: image — screenshots */}
+{/* TODO: image: screenshots */}

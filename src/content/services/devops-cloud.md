@@ -1,6 +1,6 @@
 ---
 title: DevOps & cloud platform engineering
-description: CI/CD, Kubernetes, infrastructure as code and observability on AWS, Azure and GCP — the production backbone I build and run at LSEG, Hitachi and in research labs, delivered for your team.
+description: "CI/CD, Kubernetes, infrastructure as code and observability on AWS, Azure and GCP: the production backbone I build and run at LSEG, Hitachi and in research labs, delivered for your team."
 deliverables:
   - CI/CD pipelines (GitLab CI, GitHub Actions, Jenkins) with validation gates
   - Kubernetes platforms (EKS/AKS/GKE) with Helm, GitOps and policy enforcement

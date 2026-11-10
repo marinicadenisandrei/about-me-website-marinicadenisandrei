@@ -16,6 +16,7 @@
   "category": "DevOps & Cloud",
   "role": "student",
   "stack": [
+    "devops",
     "gitlab-ci"
   ],
   "generated": true

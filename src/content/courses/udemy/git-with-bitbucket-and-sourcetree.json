@@ -20,7 +20,9 @@
   "category": "DevOps & Cloud",
   "role": "student",
   "stack": [
-    "git"
+    "git",
+    "bitbucket",
+    "sourcetree"
   ],
   "generated": true
 }

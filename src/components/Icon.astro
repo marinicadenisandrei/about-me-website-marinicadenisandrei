@@ -1,0 +1,13 @@
+---
+/** Small stroke icons (replace Unicode arrows/ticks in UI text). Decorative: always aria-hidden. */
+interface Props { name: 'arrow-right' | 'arrow-left' | 'external' | 'check'; class?: string }
+const { name, class: cls } = Astro.props;
+const paths: Record<Props['name'], string> = {
+  'arrow-right': 'M5 12h14M13 6l6 6-6 6',
+  'arrow-left': 'M19 12H5M11 6l-6 6 6 6',
+  external: 'M8 16L16 8M9 8h7v7',
+  check: 'M5 12.5l4.5 4.5L19 7.5',
+};
+---
+
+<svg class:list={['ico', cls]} viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" focusable="false"><path d={paths[name]} /></svg>

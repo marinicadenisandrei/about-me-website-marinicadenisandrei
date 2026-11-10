@@ -1,12 +1,12 @@
 /**
- * Content collections — the single source of truth for everything on the site.
+ * Content collections, the single source of truth for everything on the site.
  *
  * Rules:
  *  - Every collection has a strict Zod schema. A file that doesn't validate fails the build.
  *  - Files whose name starts with `_` (e.g. `_template.md`) are ignored by the glob loader,
  *    so each collection ships a copy-paste template that never renders.
- *  - Collections are linked with `reference()`; pages derive client → projects,
- *    research → projects, technology → everything automatically.
+ *  - Collections are linked with `reference()`; pages derive client -> projects,
+ *    research -> projects, technology -> everything automatically.
  *  - Adding content = adding one file. No component changes.
  */
 import { defineCollection, reference } from 'astro:content';
@@ -135,7 +135,8 @@ const projects = defineCollection({
         experience: reference('experience').optional(),
         research: reference('research').optional(),
         status: z.enum(['active', 'completed', 'paused', 'archived']),
-        startDate: isoDate,
+        /** null = start date not confirmed yet; shown as a TODO instead of an invented date. */
+        startDate: isoDate.nullable(),
         endDate,
         summary: z.string().max(280),
         problem: z.string().optional(),
@@ -149,9 +150,9 @@ const projects = defineCollection({
           .default([]),
         cover: image().optional(),
         featured: z.boolean().default(false),
-        /** When true the client name/logo are hidden and "Confidential client – <industry>" is shown. */
+        /** When true the client name/logo are hidden and "Confidential client - <industry>" is shown. */
         confidential: z.boolean().default(false),
-        /** Required when confidential = true (used for the "Confidential client – <industry>" label). */
+        /** Required when confidential = true (used for the "Confidential client - <industry>" label). */
         industry: z.string().optional(),
         order: z.number().int().default(100),
       })
@@ -210,7 +211,7 @@ const courses = defineCollection({
     url,
     provider: z.enum(['udemy', 'coursera', 'other']).default('udemy'),
     instructors: z.array(z.string()).default([]),
-    /** 0–100 */
+    /** 0-100 */
     progress: z.number().min(0).max(100),
     completed: z.boolean(),
     lectures: z.number().int().nonnegative().default(0),
@@ -244,9 +245,9 @@ const certifications = defineCollection({
   schema: ({ image }) =>
     z.object({
       name: nonEmpty,
-      issuer: nonEmpty, // Credly, Coursera, freeCodeCamp, HIL Academy, LinkedIn, …
+      issuer: nonEmpty, // Credly, Coursera, freeCodeCamp, HIL Academy, LinkedIn, ...
       kind: z.enum(['certification', 'course-certificate', 'skill-assessment', 'badge']).default('certification'),
-      /** null = date unknown (the CV lists no dates) — shown without a date rather than inventing one. */
+      /** null = date unknown (the CV lists no dates), shown without a date rather than inventing one. */
       date: isoDate.nullable().default(null),
       expires: isoDate.nullable().default(null),
       credentialId: z.string().optional(),
@@ -273,7 +274,7 @@ const services = defineCollection({
     engagement: z
       .object({
         model: z.enum(['consulting', 'project', 'retainer']),
-        price: z.string().default('On request'), // "On request" | "From €X" — TODO: fill in
+        price: z.string().default('On request'), // "On request" | "From €X", TODO: fill in
         unit: z.string().optional(), // "/ day", "/ month"
         featured: z.boolean().default(false),
         audience: z.array(z.enum(['companies', 'startups-academia'])).default(['companies', 'startups-academia']),

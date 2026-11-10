@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generates Open Graph images (1200×630) from the brand avatar + Montserrat.
-  python3 scripts/make-og.py             → public/og-default.png
-  python3 scripts/make-og.py --projects  → public/og/projects/<slug>.png for every project (title + summary)
+  python3 scripts/make-og.py             -> public/og-default.png
+  python3 scripts/make-og.py --projects  -> public/og/projects/<slug>.png for every project (title + summary)
 Needs: pip install pillow fonttools brotli. Runs in CI before `astro build`."""
 import os, io, sys, re, glob, textwrap
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
@@ -35,7 +35,7 @@ d = ImageDraw.Draw(img)
 f700 = ImageFont.truetype(ttf(700), 58); f300 = ImageFont.truetype(ttf(300), 58); f500 = ImageFont.truetype(ttf(500), 20); fm = ImageFont.truetype(ttf(400), 17)
 d.text((80, 200), 'MARINICĂ', font=f700, fill=(229, 231, 235))
 d.text((80, 268), 'DENIS-ANDREI', font=f300, fill=(176, 184, 196))
-lines = ['SENIOR DEVOPS ENGINEER @ LSEG', 'PHD CANDIDATE · AIOPS & MLOPS', 'TEACHING AI & MACHINE LEARNING @ ACS-UNSTPB']
+lines = ['SENIOR DEVOPS ENGINEER @ LSEG', 'PHD CANDIDATE, AIOPS & MLOPS', 'TEACHING AI & MACHINE LEARNING @ ACS-UNSTPB']
 y = 370
 for l in lines:
     d.text((80, y), l, font=f500, fill=(156, 163, 175), spacing=4); y += 34
@@ -61,7 +61,7 @@ if '--projects' in sys.argv:
         title = re.search(r'^title:\s*(.+)$', fm, re.M).group(1).strip().strip('"')
         summary = re.search(r'^summary:\s*(.+)$', fm, re.M).group(1).strip().strip('"')
         im = bg.copy(); dd = ImageDraw.Draw(im)
-        dd.text((80, 90), 'PROJECT · MARINICĂ DENIS-ANDREI', font=fk, fill=(156, 163, 175))
+        dd.text((80, 90), 'PROJECT, MARINICĂ DENIS-ANDREI', font=fk, fill=(156, 163, 175))
         y = 150
         for line in textwrap.wrap(title, 30)[:3]:
             dd.text((80, y), line, font=ft, fill=(229, 231, 235)); y += 56

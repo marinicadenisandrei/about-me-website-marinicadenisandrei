@@ -15,7 +15,9 @@
   "category": "Web Development",
   "role": "student",
   "stack": [
-    "nestjs"
+    "typescript",
+    "nestjs",
+    "nodejs"
   ],
   "generated": true
 }

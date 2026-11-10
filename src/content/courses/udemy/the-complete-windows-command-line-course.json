@@ -19,6 +19,8 @@
   },
   "category": "DevOps & Cloud",
   "role": "student",
-  "stack": [],
+  "stack": [
+    "windows"
+  ],
   "generated": true
 }

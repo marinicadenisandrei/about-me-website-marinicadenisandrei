@@ -15,7 +15,8 @@
   "category": "Embedded & IoT",
   "role": "student",
   "stack": [
-    "esp32"
+    "esp32",
+    "embedded"
   ],
   "generated": true
 }

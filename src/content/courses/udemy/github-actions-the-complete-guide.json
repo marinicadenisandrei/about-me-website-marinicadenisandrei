@@ -17,7 +17,8 @@
   "role": "student",
   "stack": [
     "github-actions",
-    "git"
+    "git",
+    "github"
   ],
   "generated": true
 }

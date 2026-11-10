@@ -16,7 +16,8 @@
   "category": "Networking",
   "role": "student",
   "stack": [
-    "networking"
+    "networking",
+    "gns3"
   ],
   "generated": true
 }

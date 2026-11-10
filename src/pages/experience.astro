@@ -1,5 +1,5 @@
 ---
-/** Experience — vertical timeline; each card: highlights, stack pills, linked projects, expandable details. */
+/** Experience, vertical timeline; each card: highlights, stack pills, linked projects, expandable details. */
 import { render } from 'astro:content';
 import Base from '@layouts/Base.astro';
 import SectionHeader from '@components/SectionHeader.astro';
@@ -23,9 +23,9 @@ const items = await Promise.all(experience.map(async (e) => ({
 const first = experience[experience.length - 1];
 ---
 
-<Base title="Experience" description={`Career of ${site.name}: LSEG, Hitachi, Thales, Continental, Luxoft, Robital — DevOps, cloud, systems engineering and test automation.`} tint="industry">
+<Base title="Experience" description={`Career of ${site.name}: LSEG, Hitachi, Thales, Continental, Luxoft, Robital: DevOps, cloud, systems engineering and test automation.`} tint="industry">
   <section class="page-head" data-label="Experience">
-    <SectionHeader tag={ui.tag} title={ui.title} body={`${experience.length} roles since ${first ? first.data.startDate.getFullYear() : ''} — from industrial robotics and automotive test automation to systems architecture and senior DevOps.`} as="h1" reveal={false} />
+    <SectionHeader tag={ui.tag} title={ui.title} body={`${experience.length} roles since ${first ? first.data.startDate.getFullYear() : ''}, from industrial robotics and automotive test automation to systems architecture and senior DevOps.`} as="h1" reveal={false} />
   </section>
 
   <Timeline>
@@ -33,7 +33,7 @@ const first = experience[experience.length - 1];
       <TimelineItem date={formatRange(e.data.startDate, e.data.endDate)} duration={formatDuration(e.data.startDate, e.data.endDate)} tint={e.data.tint} current={i === 0}>
         <div class="xp-head">
           <div>
-            <p class="section-tag xp-company">{e.data.companyUrl ? <a href={e.data.companyUrl} target="_blank" rel="noopener noreferrer">{e.data.company}</a> : e.data.company} <span class="xp-meta">· {e.data.employmentType.replace('-', ' ')} · {e.data.location}</span></p>
+            <p class="section-tag xp-company">{e.data.companyUrl ? <a href={e.data.companyUrl} target="_blank" rel="noopener noreferrer">{e.data.company}</a> : e.data.company}<span class="xp-meta">, {e.data.employmentType.replace('-', ' ')}, {e.data.location}</span></p>
             <h2 class="xp-role">{e.data.role}</h2>
           </div>
         </div>

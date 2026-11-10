@@ -1,26 +1,26 @@
 ---
-title: GLOBE-CoP — Data Space Online Learning Platform
+title: "GLOBE-CoP: Data Space Online Learning Platform"
 category: research
 role: Full Stack Developer with DevOps
-organization: GLOBE-STEAMSS · ACS-UPB
+organization: GLOBE-STEAMSS, ACS-UPB
 research: globe-cop
 status: active
 startDate: 2025-06-01
 endDate: null
-summary: A cloud-native, Udemy-style learning marketplace — instructors publish HD courses and live webinars, learners get recommendations, forums and progress dashboards — deployed on Kubernetes (EKS/GKE) with full CI/CD and observability.
-problem: The GLOBE community of practice needed a scalable platform where instructors can upload and monetise courses, host webinars and build a community — with the reliability of a commercial marketplace.
+summary: A cloud-native, Udemy-style learning marketplace (instructors publish HD courses and live webinars, learners get recommendations, forums and progress dashboards) deployed on Kubernetes (EKS/GKE) with full CI/CD and observability.
+problem: The GLOBE community of practice needed a scalable platform where instructors can upload and monetise courses, host webinars and build a community, with the reliability of a commercial marketplace.
 solution: A Node.js/Express REST core with Python/Flask micro-services (auth, payments, recommendations), hybrid PostgreSQL/MySQL + MongoDB storage, real-time community features over WebSockets, containerised and deployed with Helm on EKS/GKE.
 myContribution:
-  - Built the responsive frontend (ES6+, SASS, Flexbox/Grid) — search, enrolment, playlists and in-browser HLS video playback.
-  - Designed the backend — Node/Express REST APIs plus Flask micro-services for auth, Stripe/PayPal payments and recommendations, secured with JWT; RBAC for Admin/Instructor/Student.
+  - Built the responsive frontend (ES6+, SASS, Flexbox/Grid) with search, enrolment, playlists and in-browser HLS video playback.
+  - "Designed the backend: Node/Express REST APIs plus Flask micro-services for auth, Stripe/PayPal payments and recommendations, secured with JWT; RBAC for Admin/Instructor/Student."
   - Dockerised every service and deployed with Helm to EKS/GKE; GitHub Actions and Jenkins pipelines build, scan and test (Jest, pytest, Selenium) and push signed images.
   - Terraform (VPCs, subnets, ALBs, auto-scaling groups) and Ansible; multi-AZ, Let's Encrypt auto-TLS, OWASP ZAP scans, least-privilege IAM and WAF rate limits.
   - ELK logging, Prometheus/Grafana dashboards with SLO-aligned alerts; CloudFront CDN, Redis caching and Locust/JMeter load tests.
 outcomes:
-  - "TODO: confirm number — load tests validated horizontal scaling to 10,000 concurrent users"
-  - "TODO: confirm number — <200 ms median latency under load"
-  - "TODO: confirm number — 99.99% uptime during enrolment peaks"
-  - "TODO: confirm number — 95%+ test coverage"
+  - "TODO: confirm number: load tests validated horizontal scaling to 10,000 concurrent users"
+  - "TODO: confirm number: <200 ms median latency under load"
+  - "TODO: confirm number: 99.99% uptime during enrolment peaks"
+  - "TODO: confirm number: 95%+ test coverage"
 stack: [nodejs, express, python, flask, javascript, html, css, sass, postgresql, mysql, mongodb, redis, jwt, websocket, docker, kubernetes, helm, terraform, ansible, aws, gcp, github-actions, jenkins, jest, pytest, selenium, locust, jmeter, elk, prometheus, grafana, nginx, cloudfront, openapi, webpack, owasp-zap]
 links:
   live: https://globecop.upb.ro/
@@ -34,9 +34,9 @@ Instructors upload HD courses, schedule live webinars, add quizzes and resources
 
 ## Architecture
 
-- **Frontend** — modern JavaScript (ES6+), responsive CSS (Flexbox/Grid, SASS), HLS playback in the browser.
-- **Backend** — Node.js/Express RESTful core; Python/Flask micro-services for authentication, payments (Stripe/PayPal) and the recommendation engine; JWT security; Swagger/OpenAPI documentation.
-- **Data** — PostgreSQL/MySQL for catalogue, purchases and analytics; MongoDB for forum content; Redis cache for sessions and leaderboards.
+- **Frontend**: modern JavaScript (ES6+), responsive CSS (Flexbox/Grid, SASS), HLS playback in the browser.
+- **Backend**: Node.js/Express RESTful core; Python/Flask micro-services for authentication, payments (Stripe/PayPal) and the recommendation engine; JWT security; Swagger/OpenAPI documentation.
+- **Data**: PostgreSQL/MySQL for catalogue, purchases and analytics; MongoDB for forum content; Redis cache for sessions and leaderboards.
 
 ## DevOps
 
@@ -45,4 +45,4 @@ Instructors upload HD courses, schedule live webinars, add quizzes and resources
 - Terraform-defined VPCs, subnets, ALBs and ASGs; Ansible configuration; multi-AZ with Let's Encrypt automatic TLS, OWASP ZAP scans, least-privilege IAM and WAF rate limits.
 - ELK logs, Prometheus metrics, Grafana dashboards and Slack/email alerts aligned to SLOs; CloudFront CDN and indexed queries for performance.
 
-{/* TODO: image — architecture diagram; screenshots of the platform */}
+{/* TODO: image: architecture diagram; screenshots of the platform */}

@@ -1,5 +1,6 @@
 ---
 /** Previous / next navigation for detail pages. */
+import Icon from '@components/Icon.astro';
 import Link from '@components/Link.astro';
 interface Item { label: string; href: string }
 interface Props { prev?: Item; next?: Item; allHref: string; allLabel: string }
@@ -7,19 +8,19 @@ const { prev, next, allHref, allLabel } = Astro.props;
 ---
 
 <nav class="prevnext" aria-label="Previous and next">
-  {prev ? <Link href={prev.href} class="pn pn--prev glass glass--thin glass--sm glass--lift" rel="prev"><span class="pn-k">← Previous</span><span class="pn-t">{prev.label}</span></Link> : <span class="pn-empty"></span>}
+  {prev ? <Link href={prev.href} class="pn pn--prev glass glass--thin glass--sm glass--lift" rel="prev"><span class="pn-k"><Icon name="arrow-left" /> Previous</span><span class="pn-t">{prev.label}</span></Link> : <span class="pn-empty"></span>}
   <Link href={allHref} class="btn btn--ghost btn--sm pn-all">{allLabel}</Link>
-  {next ? <Link href={next.href} class="pn pn--next glass glass--thin glass--sm glass--lift" rel="next"><span class="pn-k">Next →</span><span class="pn-t">{next.label}</span></Link> : <span class="pn-empty"></span>}
+  {next ? <Link href={next.href} class="pn pn--next glass glass--thin glass--sm glass--lift" rel="next"><span class="pn-k">Next <Icon name="arrow-right" /></span><span class="pn-t">{next.label}</span></Link> : <span class="pn-empty"></span>}
 </nav>
 
 <style>
-  .prevnext { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--line); }
+  .prevnext { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 16px; align-items: center; margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--line); }
   .pn { display: flex; flex-direction: column; gap: 6px; padding: 16px 20px; text-decoration: none; color: inherit; }
   .pn--next { text-align: right; align-items: flex-end; }
   .pn-k { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-subtle); }
   .pn-t { font-size: 0.9rem; font-weight: 500; color: var(--fg); line-height: 1.35; }
   @media (max-width: 768px) {
-    .prevnext { grid-template-columns: 1fr; }
+    .prevnext { grid-template-columns: minmax(0, 1fr); }
     .pn--next { text-align: left; align-items: flex-start; }
     .pn-all { justify-self: start; }
     .pn-empty { display: none; }

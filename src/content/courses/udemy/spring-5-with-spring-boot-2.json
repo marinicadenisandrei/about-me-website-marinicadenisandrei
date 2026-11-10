@@ -16,7 +16,9 @@
   "category": "Web Development",
   "role": "student",
   "stack": [
-    "java"
+    "java",
+    "spring",
+    "generative-ai"
   ],
   "generated": true
 }

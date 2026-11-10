@@ -6,7 +6,7 @@
  */
 const BASE = import.meta.env.BASE_URL.replace(/\/+$/, ''); // "" or "/repo"
 
-/** `withBase('/projects/hria')` → `/repo/projects/hria` (or `/projects/hria` at root). */
+/** `withBase('/projects/hria')` -> `/repo/projects/hria` (or `/projects/hria` at root). */
 export function withBase(path: string): string {
   if (/^(https?:)?\/\//.test(path) || path.startsWith('mailto:') || path.startsWith('tel:') || path.startsWith('#')) {
     return path;

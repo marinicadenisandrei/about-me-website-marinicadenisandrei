@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Removes dev-only assets (public/_dev → dist/_dev) from production builds unless STYLEGUIDE=1. */
+/** Removes dev-only assets (public/_dev -> dist/_dev) from production builds unless STYLEGUIDE=1. */
 import { rmSync, existsSync } from 'node:fs';
 import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';

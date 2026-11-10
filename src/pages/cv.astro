@@ -21,14 +21,14 @@ const certs = (await getCertifications()).filter((c) => c.data.kind === 'certifi
 const learning = await getLearningStats();
 const topStack = (await getStackPages()).slice(0, 24);
 const education = [
-  ['2024 – 2028 (expected)', 'PhD candidate, Computer Science — Faculty of Automatic Control and Computers, National University of Science and Technology POLITEHNICA Bucharest', 'Thesis: Audio-Haptic Rendering of Real and Virtual Environments'],
-  ['2022 – 2024', 'MSc, Computer Science — Advanced Control and Real-Time Systems, POLITEHNICA Bucharest', ''],
-  ['2018 – 2022', 'BSc (Eng.), Robotics, Programming and Computer Science — Faculty of Industrial Engineering and Robotics, University POLITEHNICA of Bucharest', ''],
-  ['2014 – 2018', 'Baccalaureate, Mathematics and Computer Science — Colegiul Național „Ion Creangă”, Bucharest', ''],
+  ['2024 - 2028 (expected)', 'PhD candidate, Computer Science, Faculty of Automatic Control and Computers, National University of Science and Technology POLITEHNICA Bucharest', 'Thesis: Audio-Haptic Rendering of Real and Virtual Environments'],
+  ['2022 - 2024', 'MSc, Computer Science, Advanced Control and Real-Time Systems, POLITEHNICA Bucharest', ''],
+  ['2018 - 2022', 'BSc (Eng.), Robotics, Programming and Computer Science, Faculty of Industrial Engineering and Robotics, University POLITEHNICA of Bucharest', ''],
+  ['2014 - 2018', 'Baccalaureate, Mathematics and Computer Science, Colegiul Național "Ion Creangă", Bucharest', ''],
 ];
 ---
 
-<Base title="CV" description={`Curriculum vitae of ${site.name} — generated from the site content.`} tint="industry" hideCta>
+<Base title="CV" description={`Curriculum vitae of ${site.name}, generated from the site content.`} tint="industry" hideCta>
   <article class="cv" data-label="CV">
     <header class="cv-head page-head">
       <div class="cv-id">
@@ -36,7 +36,7 @@ const education = [
         <div>
           <h1 class="cv-name">{site.name}</h1>
           <p class="cv-headline">{site.headline}</p>
-          <p class="cv-contact">{site.location} · <a href={site.links.linkedin}>LinkedIn</a>{site.links.github && !site.links.github.includes('TODO') && <> · <a href={site.links.github}>GitHub</a></>} · <Link href="/contact">contact</Link></p>
+          <p class="cv-contact">{site.location}, <a href={site.links.linkedin}>LinkedIn</a>{site.links.github && !site.links.github.includes('TODO') && <>, <a href={site.links.github}>GitHub</a></>}, <Link href="/contact">contact</Link></p>
         </div>
       </div>
       <div class="cv-actions no-print">
@@ -49,19 +49,19 @@ const education = [
       {experience.map((e) => (
         <div class="cv-item">
           <div class="cv-when">{formatRange(e.data.startDate, e.data.endDate)}</div>
-          <div><h3>{e.data.role} <span>· {e.data.company}, {e.data.location}</span></h3><ul>{e.data.highlights.slice(0, 4).map((h) => <li>{h}</li>)}</ul></div>
+          <div><h3>{e.data.role}<span>, {e.data.company}, {e.data.location}</span></h3><ul>{e.data.highlights.slice(0, 4).map((h) => <li>{h}</li>)}</ul></div>
         </div>
       ))}
     </section>
 
     <section class="cv-sec"><h2>Research & teaching</h2>
-      {thesis && <div class="cv-item"><div class="cv-when">{formatRange(thesis.data.period.start, thesis.data.period.end)}</div><div><h3>{thesis.data.role} <span>· {thesis.data.title}</span></h3><p>{thesis.data.description}</p></div></div>}
-      {teaching.map((t) => <div class="cv-item"><div class="cv-when">{formatRange(t.data.period.start, t.data.period.end)}</div><div><h3>{t.data.role}, {t.data.course} ({t.data.level}) <span>· {t.data.faculty}</span></h3></div></div>)}
-      {research.filter((r) => r.data.type !== 'thesis').map((r) => <div class="cv-item"><div class="cv-when">{formatRange(r.data.period.start, r.data.period.end)}</div><div><h3>{r.data.role} <span>· {r.data.title}{r.data.funder && ` (${r.data.funder})`}</span></h3><p>{r.data.description}</p></div></div>)}
+      {thesis && <div class="cv-item"><div class="cv-when">{formatRange(thesis.data.period.start, thesis.data.period.end)}</div><div><h3>{thesis.data.role}<span>, {thesis.data.title}</span></h3><p>{thesis.data.description}</p></div></div>}
+      {teaching.map((t) => <div class="cv-item"><div class="cv-when">{formatRange(t.data.period.start, t.data.period.end)}</div><div><h3>{t.data.role}, {t.data.course} ({t.data.level})<span>, {t.data.faculty}</span></h3></div></div>)}
+      {research.filter((r) => r.data.type !== 'thesis').map((r) => <div class="cv-item"><div class="cv-when">{formatRange(r.data.period.start, r.data.period.end)}</div><div><h3>{r.data.role}<span>, {r.data.title}{r.data.funder && ` (${r.data.funder})`}</span></h3><p>{r.data.description}</p></div></div>)}
     </section>
 
     <section class="cv-sec"><h2>Selected projects</h2>
-      {projects.map((p) => <div class="cv-item"><div class="cv-when">{formatRange(p.data.startDate, p.data.endDate)}</div><div><h3>{p.data.title} <span>· {p.data.role}</span></h3><p>{p.data.summary}</p></div></div>)}
+      {projects.map((p) => <div class="cv-item"><div class="cv-when">{formatRange(p.data.startDate, p.data.endDate)}</div><div><h3>{p.data.title}<span>, {p.data.role}</span></h3><p>{p.data.summary}</p></div></div>)}
     </section>
 
     <section class="cv-sec"><h2>Education</h2>
@@ -69,15 +69,15 @@ const education = [
     </section>
 
     <section class="cv-sec"><h2>Skills</h2>
-      <p class="cv-skills">{topStack.map((u) => techLabel(canonicalTech(u.slug))).join(' · ')}</p>
+      <p class="cv-skills">{topStack.map((u) => techLabel(canonicalTech(u.slug))).join(', ')}</p>
     </section>
 
     <section class="cv-sec"><h2>Certifications & learning</h2>
-      <p class="cv-skills">{certs.map((c) => `${c.data.name} (${c.data.issuer})`).join(' · ')}</p>
+      <p class="cv-skills">{certs.map((c) => `${c.data.name} (${c.data.issuer})`).join(', ')}</p>
       <p class="cv-skills">{learning.totalCourses} online courses ({learning.hours.toLocaleString(site.lang)} h), {learning.completed} completed, {learning.courseCertificates} course certificates.</p>
     </section>
 
-    <section class="cv-sec"><h2>Languages</h2><p class="cv-skills">Romanian (native) · English (C1) · French (A1)</p></section>
+    <section class="cv-sec"><h2>Languages</h2><p class="cv-skills">Romanian (native), English (C1), French (A1)</p></section>
   </article>
 </Base>
 
@@ -92,14 +92,14 @@ const education = [
   .cv-actions { display: flex; gap: 8px; }
   .cv-sec { padding: 22px 0; border-top: 1px solid var(--line); }
   .cv-sec h2 { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: hsl(var(--tint-h) 70% 70%); margin-bottom: 14px; }
-  .cv-item { display: grid; grid-template-columns: 150px 1fr; gap: 16px; margin-bottom: 14px; }
+  .cv-item { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; margin-bottom: 14px; }
   .cv-when { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-subtle); padding-top: 4px; }
   .cv-item h3 { font-size: 0.98rem; font-weight: 500; color: var(--fg); line-height: 1.4; }
   .cv-item h3 span { font-weight: 300; color: var(--fg-muted); }
   .cv-item p { font-size: 0.86rem; color: var(--fg-muted); line-height: 1.55; margin-top: 4px; }
   .cv-item ul { list-style: disc; padding-left: 18px; font-size: 0.86rem; color: var(--fg-muted); line-height: 1.55; margin-top: 6px; }
   .cv-skills { font-size: 0.88rem; line-height: 1.7; color: var(--fg-muted); margin-bottom: 6px; }
-  @media (max-width: 640px) { .cv-item { grid-template-columns: 1fr; gap: 4px; } }
+  @media (max-width: 640px) { .cv-item { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
   @media print {
     :global(.grain), :global(.atmosphere), :global(.nav-wrap), :global(.side-panel), :global(.sheet), :global(.footer-cta), .no-print { display: none !important; }
     :global(body) { background: #fff; color: #000; }

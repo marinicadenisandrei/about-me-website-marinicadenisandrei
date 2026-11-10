@@ -2,7 +2,7 @@
 /**
  * Fails when the repo or dist/ contains personal-data shapes that must never be published:
  * Romanian mobile numbers, +40 prefixes, street-address tokens, postal codes next to "Bucharest",
- * birth dates, "date of birth". Patterns are generic on purpose — no real values live in this file.
+ * birth dates, "date of birth". Patterns are generic on purpose, no real values live in this file.
  */
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';

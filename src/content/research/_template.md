@@ -3,7 +3,7 @@
 title: Full project title
 acronym: ACRO
 type: grant                   # grant | project | thesis | hub
-funder: ESA                   # ESA, EU Horizon, UEFISCDI, … (optional)
+funder: ESA                   # ESA, EU Horizon, UEFISCDI, ... (optional)
 organization: National University of Science and Technology POLITEHNICA Bucharest
 role: AI Research Engineer
 period:

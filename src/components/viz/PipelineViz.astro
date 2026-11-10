@@ -1,0 +1,90 @@
+---
+/** Role 01 (industry): a CI/CD pipeline. A light pulse travels commit -> build -> test -> deploy -> live while a terminal reports each stage. */
+import VizFrame from './VizFrame.astro';
+import TechLogo from '@components/TechLogo.astro';
+
+const W = 500;
+const H = 130;
+const nodes = [
+  { x: 44, y: 78, slug: 'git', label: 'commit' },
+  { x: 148, y: 42, slug: 'docker', label: 'build' },
+  { x: 252, y: 80, slug: 'pytest', label: 'test' },
+  { x: 356, y: 42, slug: 'kubernetes', label: 'deploy' },
+  { x: 458, y: 78, slug: 'aws', label: 'live' },
+];
+const d = nodes.reduce((acc, n, i) => {
+  if (i === 0) return `M${n.x} ${n.y}`;
+  const p = nodes[i - 1] ?? n;
+  const mx = (p.x + n.x) / 2;
+  return `${acc} C ${mx} ${p.y}, ${mx} ${n.y}, ${n.x} ${n.y}`;
+}, '');
+const lines = [
+  { cmd: '$ git push origin main', ok: false },
+  { cmd: 'build   image built and signed', ok: true },
+  { cmd: 'test    unit, integration, security scan', ok: true },
+  { cmd: 'deploy  helm upgrade, rollout complete', ok: true },
+  { cmd: 'live    health checks passing', ok: true },
+];
+---
+
+<VizFrame title="pipeline/main" status="healthy" label="Animated CI/CD pipeline: commit, build, test, deploy, live">
+  <div class="pv">
+    <div class="pv-track">
+      <svg class="pv-svg" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="pv-grad" x1="0" y1="0" x2={W} y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="hsl(215 90% 65%)" />
+            <stop offset="0.5" stop-color="hsl(268 85% 70%)" />
+            <stop offset="1" stop-color="hsl(174 80% 55%)" />
+          </linearGradient>
+        </defs>
+        <path d={d} class="pv-rail" vector-effect="non-scaling-stroke" />
+        <path d={d} class="pv-flow" pathLength="100" vector-effect="non-scaling-stroke" />
+        <path d={d} class="pv-comet" pathLength="100" vector-effect="non-scaling-stroke" />
+      </svg>
+      {nodes.map((n, i) => (
+        <span class="viz-node pv-node" style={`left:${(n.x / W) * 100}%;top:${(n.y / H) * 100}%;--i:${i}`}>
+          <TechLogo slug={n.slug} size={26} />
+          <span class="viz-node-label">{n.label}</span>
+        </span>
+      ))}
+    </div>
+    <div class="pv-term">
+      {lines.map((l, i) => (
+        <p class="pv-line" style={`--i:${i}`}>
+          {l.ok ? <><span class="pv-ok">[ ok ]</span> {l.cmd}</> : <span class="pv-cmd">{l.cmd}</span>}
+        </p>
+      ))}
+      <span class="pv-caret"></span>
+    </div>
+  </div>
+</VizFrame>
+
+<style>
+  .pv { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 14px 18px 16px; gap: 14px; }
+  .pv-track { position: relative; flex: 1; min-height: 120px; margin: 0 6px 10px; }
+  .pv-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .pv-rail { fill: none; stroke: var(--line); stroke-width: 2; }
+  .pv-flow { fill: none; stroke: url(#pv-grad); stroke-width: 2; stroke-dasharray: 2 4; opacity: 0.55; animation: pv-dash 1.6s linear infinite; }
+  .pv-comet { fill: none; stroke: url(#pv-grad); stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 12 100; animation: viz-comet 5s cubic-bezier(0.45, 0, 0.25, 1) infinite; }
+  @keyframes pv-dash { to { stroke-dashoffset: -12; } }
+
+  /* each node lights up when the comet reaches it (5 s loop, ~1 s apart) */
+  .pv-node::after { animation: pv-hit 5s ease-out infinite; animation-delay: calc(var(--i) * 1s - 0.15s); }
+  .pv-node { animation: pv-pop 5s var(--spring-bouncy, ease-out) infinite; animation-delay: calc(var(--i) * 1s - 0.15s); }
+  @keyframes pv-hit { 0% { opacity: 0.9; transform: scale(0.92); } 30% { opacity: 0; transform: scale(1.35); } 100% { opacity: 0; transform: scale(1.35); } }
+  @keyframes pv-pop { 0% { transform: scale(1); } 6% { transform: scale(1.12); } 16%, 100% { transform: scale(1); } }
+
+  .pv-term { position: relative; flex: none; padding: 10px 14px; border-radius: 12px; background: rgba(8, 10, 16, 0.72); border: 1px solid rgba(255, 255, 255, 0.08); font-family: var(--font-mono); font-size: 10.5px; line-height: 1.75; color: #C9D1E1; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05); }
+  .pv-line { margin: 0; white-space: nowrap; overflow: hidden; opacity: 0; animation: pv-type 5s steps(28, end) infinite; animation-delay: calc(var(--i) * 1s); clip-path: inset(0 100% 0 0); }
+  .pv-cmd { color: #E5E9F2; }
+  .pv-ok { color: #34D399; }
+  @keyframes pv-type { 0% { opacity: 1; clip-path: inset(0 100% 0 0); } 12% { clip-path: inset(0 0 0 0); } 88% { opacity: 1; clip-path: inset(0 0 0 0); } 100% { opacity: 0; clip-path: inset(0 0 0 0); } }
+  .pv-caret { position: absolute; right: 14px; bottom: 12px; width: 7px; height: 13px; background: #34D399; animation: viz-glow 1s steps(2) infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pv-line { opacity: 1; clip-path: none; }
+    .pv-comet { stroke-dasharray: none; opacity: 0.6; }
+  }
+  @media (max-width: 1024px) { .pv-term { font-size: 9.5px; line-height: 1.6; } }
+</style>

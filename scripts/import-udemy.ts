@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 /**
- * Udemy CSV → content collection importer.
+ * Udemy CSV -> content collection importer.
  *
  *   npm run import:udemy                 # reads data/udemy_courses.csv
  *   node scripts/import-udemy.ts path/to/other.csv
  *
  * Reads the Udemy export (Romanian headers) and writes one JSON file per course to
  * src/content/courses/udemy/<slug>.json. The folder is wiped and regenerated on every
- * run, so never edit those files by hand — edit the CSV or the rules in
+ * run, so never edit those files by hand, edit the CSV or the rules in
  * src/config/course-categories.ts instead. Hand-written courses go to
  * src/content/courses/*.json and are left untouched.
  *
- * Runs on plain Node ≥ 22.18 (type stripping) — no build step, no extra dependency.
+ * Runs on plain Node ≥ 22.18 (type stripping), no build step, no extra dependency.
  */
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, dirname, join } from 'node:path';
@@ -22,7 +22,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const INPUT = resolve(process.argv[2] ?? join(ROOT, 'data', 'udemy_courses.csv'));
 const OUT_DIR = join(ROOT, 'src', 'content', 'courses', 'udemy');
 
-/* ───────────── CSV column mapping (Romanian → English) ───────────── */
+/* ───────────── CSV column mapping (Romanian -> English) ───────────── */
 const COLUMNS = {
   titlu: 'title',
   link: 'url',
@@ -100,7 +100,7 @@ const parsePercent = (v: string): number => {
   const n = parseFloat(v.replace('%', '').trim());
   return Number.isFinite(n) ? Math.max(0, Math.min(100, n)) : 0;
 };
-/** "45.5 total hours" → 45.5, "1 total hour" → 1, "30 total mins" → 0.5, "" → 0 */
+/** "45.5 total hours" -> 45.5, "1 total hour" -> 1, "30 total mins" -> 0.5, "" -> 0 */
 const parseHours = (v: string): number => {
   const m = v.trim().match(/([\d.,]+)\s*(?:total\s+)?(hour|hr|min)/i);
   if (!m) return 0;
@@ -122,12 +122,12 @@ const parseInstructors = (v: string): string[] =>
     new Set(
       v
         .split(',')
-        .map((s) => s.replace(/\s*[•|].*$/, '').trim()) // drop "• 3 Million+ Enrollments…" suffixes
+        .map((s) => s.replace(/\s*[•|].*$/, '').trim()) // drop "• 3 Million+ Enrollments..." suffixes
         .filter(Boolean),
     ),
   );
 
-/** `https://www.udemy.com/course/modern-php/` → `modern-php`; `/course/draft/2758666/` → `draft-2758666` */
+/** `https://www.udemy.com/course/modern-php/` -> `modern-php`; `/course/draft/2758666/` -> `draft-2758666` */
 function slugFromUrl(url: string, title: string): string {
   try {
     const parts = new URL(url).pathname.split('/').filter(Boolean);
@@ -187,7 +187,7 @@ function main(): void {
 
   for (const r of rows) {
     const raw: RawRow = Object.fromEntries((Object.keys(COLUMNS) as (keyof typeof COLUMNS)[]).map((c) => [c, get(r, c)]));
-    const title = raw.titlu!.trim();
+    const title = raw.titlu!.trim().replace(/\s*[\u2013\u2014]\s*/g, ' - ');
     if (!title) continue;
     const url = raw.link!.trim();
     let slug = slugFromUrl(url, title);
@@ -233,9 +233,9 @@ function main(): void {
   }
 
   const written = readdirSync(OUT_DIR).length;
-  console.log(`✔ Imported ${written} courses → ${OUT_DIR.replace(ROOT + '/', '')}`);
+  console.log(`✔ Imported ${written} courses -> ${OUT_DIR.replace(ROOT + '/', '')}`);
   console.log(
-    `  completed: ${stats.completed} · certificates: ${stats.certificates} · archived: ${stats.archived} · total hours: ${stats.hours.toFixed(1)}`,
+    `  completed: ${stats.completed}, certificates: ${stats.certificates}, archived: ${stats.archived}, total hours: ${stats.hours.toFixed(1)}`,
   );
   console.log('  by category:');
   for (const [c, k] of Object.entries(stats.byCategory).sort((a, b) => b[1] - a[1])) console.log(`    ${String(k).padStart(3)}  ${c}`);

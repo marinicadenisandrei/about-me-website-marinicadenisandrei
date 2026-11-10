@@ -7,14 +7,14 @@ export const site = {
   name: 'Denis-Andrei Marinică',
   /** Used in <title> suffixes, JSON-LD and the footer. */
   shortName: 'Denis Marinică',
-  initials: 'MDA',
-  /** Nav lockup text only — everything else uses `name`. */
+  initials: 'DM',
+  /** Nav lockup text only, everything else uses `name`. */
   brand: { primary: 'DENIS', secondary: 'M' },
   /** Derived from the LinkedIn headline (shortened; "PhD candidate", never "PhD"). */
-  headline: 'Senior DevOps Engineer @ LSEG · PhD candidate in AIOps & MLOps · Teaching Artificial Intelligence & Machine Learning @ ACS-UNSTPB',
+  headline: 'Senior DevOps Engineer at LSEG, PhD candidate in AIOps & MLOps, teaching Artificial Intelligence & Machine Learning at ACS-UNSTPB',
   tagline: 'I keep production reliable at the London Stock Exchange Group, teach Artificial Intelligence & Machine Learning at ACS-UNSTPB, and research AIOps & MLOps as a PhD candidate.',
   description:
-    'Senior DevOps Engineer at the London Stock Exchange Group (LSEG), PhD candidate in AIOps & MLOps, teaching Artificial Intelligence & Machine Learning at ACS-UNSTPB, and freelance DevOps/MLOps consultant in Bucharest, Romania.',
+    'Senior DevOps Engineer at the London Stock Exchange Group (LSEG), PhD candidate in AIOps & MLOps, teaching Artificial Intelligence & Machine Learning at ACS-UNSTPB, and B2B DevOps/MLOps consultant in Bucharest, Romania.',
   location: 'Bucharest, Romania',
   email: 'marinicadenisandrei@gmail.com',
   /** Public profile links (also used for JSON-LD `sameAs`). */
@@ -22,13 +22,13 @@ export const site = {
     linkedin: 'https://www.linkedin.com/in/marinica-denis-andrei-b804a8208',
     github: 'https://github.com/TODO-github-username', // TODO: GitHub profile URL
     scholar: '', // TODO: Google Scholar profile URL
-    orcid: '', // TODO: ORCID iD URL (https://orcid.org/0000-…)
-    leetcode: '', // TODO: LeetCode profile URL (LinkedIn "Publications" → Leetcode Status)
-    replit: '', // TODO: Replit profile URL (LinkedIn "Publications" → Check myRepls)
+    orcid: '', // TODO: ORCID iD URL (https://orcid.org/0000-...)
+    leetcode: '', // TODO: LeetCode profile URL (LinkedIn "Publications" -> Leetcode Status)
+    replit: '', // TODO: Replit profile URL (LinkedIn "Publications" -> Check myRepls)
     udemyInstructor: '', // TODO: only if you publish Udemy courses
   },
   cvPath: '/cv.pdf',
-  /** Set pdfReady to true once the redacted CV is in public/cv.pdf — until then every "Download CV" button is hidden and the hero CTA points to /cv. */
+  /** Set pdfReady to true once the redacted CV is in public/cv.pdf, until then every "Download CV" button is hidden and the hero CTA points to /cv. */
   cv: { pdfReady: false, pdfPath: '/cv.pdf', pagePath: '/cv' },
   /** Calendly booking (loaded only after the user clicks "Book a call"). */
   booking: {
@@ -36,8 +36,8 @@ export const site = {
     label: 'Book a 30-min intro call',
     durationMin: 30,
     shortLabel: 'Book a call',
-    disclosure: 'Opens Calendly (third-party). By booking, you agree to Calendly’s privacy policy.',
-    disclosureShort: 'Opens Calendly ↗',
+    disclosure: "Opens Calendly (third-party). By booking, you agree to Calendly's privacy policy.",
+    disclosureShort: 'Opens Calendly',
     privacyUrl: 'https://calendly.com/privacy',
     dpaUrl: 'https://calendly.com/dpa',
     /** Section of our privacy policy that explains the Calendly processing (aria-describedby target). */
@@ -63,8 +63,8 @@ export const site = {
     /** Contact form backend. GitHub Pages is static, so the form posts to an external service. */
     contactForm: {
       provider: 'web3forms' as 'web3forms' | 'formspree' | 'none',
-      /** Web3Forms access key — set as the PUBLIC_WEB3FORMS_KEY GitHub Actions *variable* (or in .env locally). */
-      key: import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '', // TODO: add PUBLIC_WEB3FORMS_KEY in Settings → Variables
+      /** Web3Forms access key, set as the PUBLIC_WEB3FORMS_KEY GitHub Actions *variable* (or in .env locally). */
+      key: import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '', // TODO: add PUBLIC_WEB3FORMS_KEY in Settings -> Variables
     },
   },
 
@@ -94,7 +94,7 @@ export const site = {
     toggleTheme: 'Toggle light / dark theme',
     scroll: 'Scroll',
     section: 'Section',
-    heroBadge: 'Available for freelance projects',
+    heroBadge: 'Available for B2B projects',
     heroTitle: 'Senior DevOps Engineer <em>at LSEG</em>',
     ctaWorkWithMe: 'Work with me',
     ctaDownloadCv: 'Download CV',
@@ -102,9 +102,9 @@ export const site = {
     ctaSeeProjects: 'See projects',
     ctaContact: 'Get in touch',
     ctaSendMessage: 'Send a message',
-    footerCtaTag: 'Let’s talk',
-    footerCtaTitle: 'Let’s build something <strong>reliable</strong>',
-    footerCtaBody: 'DevOps, cloud, MLOps and software engineering — for companies, startups and research teams.',
+    footerCtaTag: "Let's talk",
+    footerCtaTitle: "Let's build something <strong>reliable</strong>",
+    footerCtaBody: 'DevOps, cloud, MLOps and software engineering, for companies, startups and research teams.',
     metrics: {
       yearsExperience: 'Years of experience',
       projects: 'Projects',
@@ -113,10 +113,10 @@ export const site = {
     },
     roles: {
       tag: 'Three roles, one engineer',
-      title: 'Industry, academia <strong>and freelance</strong>',
+      title: 'Industry, academia <strong>and B2B</strong>',
       industry: { tag: 'Industry', title: 'Senior DevOps Engineer <strong>at the London Stock Exchange Group</strong>', cta: 'Experience' },
       academia: { tag: 'Academia & Research', title: 'Teaching AI & ML, <strong>researching AIOps & MLOps</strong>', cta: 'Research & Teaching' },
-      freelance: { tag: 'Freelance', title: 'Independent DevOps <strong>& MLOps consulting</strong>', cta: 'Work with me' },
+      freelance: { tag: 'B2B', title: 'Independent DevOps <strong>& MLOps consulting</strong>', cta: 'Work with me' },
     },
     projects: {
       tag: 'Selected work',
@@ -136,7 +136,7 @@ export const site = {
       confidentialClient: 'Confidential client',
       status: { active: 'Active', completed: 'Completed', paused: 'Paused', archived: 'Archived' },
     },
-    experience: { tag: 'Career', title: 'Where I’ve <strong>worked</strong>', present: 'Present' },
+    experience: { tag: 'Career', title: "Where I've <strong>worked</strong>", present: 'Present' },
     research: {
       tag: 'Research & Teaching',
       title: 'Research, thesis <strong>and courses I teach</strong>',
@@ -179,19 +179,19 @@ export const site = {
     },
     contact: {
       tag: 'Contact',
-      title: 'Let’s <strong>talk</strong>',
+      title: "Let's <strong>talk</strong>",
       name: 'Name',
       email: 'Email',
       message: 'Message',
       send: 'Send message',
-      sending: 'Sending…',
-      success: 'Thanks — I’ll get back to you shortly.',
+      sending: 'Sending...',
+      success: 'Thanks, your message is in my inbox.',
       error: 'Something went wrong. Please email me directly.',
       honeypot: 'Leave this field empty',
     },
     about: { tag: 'About', title: 'Engineer, researcher, <strong>teacher</strong>', education: 'Education', languages: 'Languages' },
     legal: { tag: 'Legal', title: 'Legal <strong>information</strong>', business: 'Business details', privacy: 'Privacy policy', cookies: 'Cookie policy' },
-    notFound: { title: 'Page not found', body: 'The page you are looking for doesn’t exist or has moved.', cta: 'Back home' },
+    notFound: { title: 'Page not found', body: "The page you are looking for doesn't exist or has moved.", cta: 'Back home' },
     footer: { rights: 'All rights reserved.', design: 'Design based on', builtWith: 'Built with Astro' },
     todo: 'TODO',
   },

@@ -1,17 +1,17 @@
 /*
- * iOS / macOS "tinted glass" layer — tokens live in tokens.css, this file holds
+ * iOS / macOS "tinted glass" layer, tokens live in tokens.css, this file holds
  * the material and reusable utility classes.
  *
  *   .glass            regular material (default)
- *   .glass--thin      lighter blur / tint — pills, badges, secondary buttons
- *   .glass--thick     heavier blur / tint — nav, bottom sheet, featured cards
+ *   .glass--thin      lighter blur / tint, pills, badges, secondary buttons
+ *   .glass--thick     heavier blur / tint, nav, bottom sheet, featured cards
  *   .glass--sheen     specular highlight along the top edge (pseudo-element)
  *   .glass--spot      cursor-following radial highlight (needs --mx/--my from JS)
  *   .glass--lift      hover lift + press scale
- *   [data-tint=…]     per-context hue (see tokens.css)
+ *   [data-tint=...]     per-context hue (see tokens.css)
  *
  * Performance: backdrop-filter is only used on nav, cards and the sheet.
- * Fallbacks: no backdrop-filter → opaque; prefers-reduced-transparency → near-opaque.
+ * Fallbacks: no backdrop-filter -> opaque; prefers-reduced-transparency -> near-opaque.
  */
 
 .glass {
@@ -158,3 +158,19 @@ a.pill:hover { color: var(--fg); background: hsl(var(--tint-h) 60% 60% / 0.22); 
 /* ── progress bar ── */
 .progress { height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
 .progress__fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, hsl(var(--tint-h) 70% 60%), hsl(calc(var(--tint-h) + 28) 70% 55%)); transition: width 1.2s var(--silk-ease); }
+
+/* ── technology logos (src/components/TechLogo.astro): transparent clipart PNGs ── */
+.tech-logo { flex: none; display: block; object-fit: contain; filter: drop-shadow(0 1px 1.5px rgba(15, 23, 42, 0.12)); }
+.tech-logo--dark { display: none; }
+:root[data-theme='dark'] .tech-logo--dark { display: block; }
+:root[data-theme='dark'] .tech-logo--light { display: none; }
+@media not all and (prefers-color-scheme: light) {
+  :root:not([data-theme]) .tech-logo--dark { display: block; }
+  :root:not([data-theme]) .tech-logo--light { display: none; }
+}
+:root[data-theme='dark'] .tech-logo { filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45)); }
+.pill .tech-logo { width: 16px; height: 16px; margin: -2px 0 -2px -4px; filter: none; }
+.integration-logo { margin-bottom: 6px; transition: transform var(--dur-snappy) var(--spring-bouncy); }
+@media (hover: hover) { .integration-item:hover .integration-logo { transform: translateY(-3px) scale(1.08); } }
+.tech-title { display: flex; align-items: center; gap: 18px; }
+.tech-title-logo { width: clamp(44px, 6vw, 64px); height: auto; }

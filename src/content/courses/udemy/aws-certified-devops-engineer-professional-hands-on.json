@@ -17,6 +17,7 @@
   "category": "DevOps & Cloud",
   "role": "student",
   "stack": [
+    "devops",
     "aws"
   ],
   "generated": true

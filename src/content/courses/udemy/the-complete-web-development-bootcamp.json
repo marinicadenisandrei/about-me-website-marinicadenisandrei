@@ -15,6 +15,10 @@
   "certificate": null,
   "category": "Web Development",
   "role": "student",
-  "stack": [],
+  "stack": [
+    "html",
+    "css",
+    "javascript"
+  ],
   "generated": true
 }

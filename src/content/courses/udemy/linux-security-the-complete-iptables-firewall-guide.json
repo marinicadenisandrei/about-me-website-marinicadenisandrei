@@ -17,6 +17,7 @@
   "role": "student",
   "stack": [
     "linux",
+    "iptables",
     "cybersecurity"
   ],
   "generated": true

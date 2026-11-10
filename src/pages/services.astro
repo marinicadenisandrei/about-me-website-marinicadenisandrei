@@ -27,9 +27,9 @@ const testimonials = await getTestimonials();
 const faq = (await getFaq()).filter((f) => f.data.audience === 'clients' || f.data.audience === 'all');
 ---
 
-<Base title="Services" description={`Freelance DevOps, cloud, MLOps and software development by ${site.name}: consulting and audits, scoped projects and monthly retainers.`} tint="freelance" hideCta jsonLd={[professionalServiceJsonLd(Astro.site)]}>
+<Base title="Services" description={`B2B DevOps, cloud, MLOps and software development by ${site.name}: consulting and audits, scoped projects and monthly retainers.`} tint="freelance" hideCta jsonLd={[professionalServiceJsonLd(Astro.site)]}>
   <section class="page-head" data-label="Services">
-    <SectionHeader tag={ui.tag} title={ui.title} body="Senior DevOps, cloud and MLOps engineering through my own practice — scoped, delivered as code in your repositories, documented and handed over." as="h1" reveal={false} />
+    <SectionHeader tag={ui.tag} title={ui.title} body="Senior DevOps, cloud and MLOps engineering through my own practice: scoped, delivered as code in your repositories, documented and handed over." as="h1" reveal={false} />
     <div class="svc-filter reveal reveal-d2">
       <SegmentedControl group="audience" label="Audience" value="companies" options={[{ value: 'companies', label: ui.segment.companies }, { value: 'startups-academia', label: ui.segment.startupsAcademia }]} />
     </div>
@@ -66,7 +66,7 @@ const faq = (await getFaq()).filter((f) => f.data.audience === 'clients' || f.da
     <Grid cols={4} min="220px">
       {[
         ['01', 'Discovery call', '30 minutes to understand the system, the constraint and what "done" means.'],
-        ['02', 'Written scope', 'Milestones, deliverables and an estimate — you keep the document either way.'],
+        ['02', 'Written scope', 'Milestones, deliverables and an estimate. You keep the document either way.'],
         ['03', 'Delivery as code', 'Infrastructure, pipelines and docs land in your repositories with weekly demos.'],
         ['04', 'Handover', 'Recorded walkthrough, runbooks, and 30 days of post-delivery support on projects.'],
       ].map(([n, t, b], i) => (
@@ -90,8 +90,8 @@ const faq = (await getFaq()).filter((f) => f.data.audience === 'clients' || f.da
       <Grid cols={3}>
         {testimonials.map((t) => (
           <GlassCard tint="freelance" as="blockquote" class="reveal tq">
-            <p class="tq-quote">“{t.quote}”</p>
-            <footer class="tq-foot"><strong>{t.author}</strong>{t.authorRole && <span> · {t.authorRole}</span>}</footer>
+            <p class="tq-quote">"{t.quote}"</p>
+            <footer class="tq-foot"><strong>{t.author}</strong>{t.authorRole && <span>, {t.authorRole}</span>}</footer>
           </GlassCard>
         ))}
       </Grid>

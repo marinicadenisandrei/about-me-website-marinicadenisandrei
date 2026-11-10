@@ -1,10 +1,9 @@
 ---
 /**
- * "Book a call" — click-to-load Calendly facade.
- * Renders as a plain link (opens Calendly in a new tab) and, when JS runs, lazy-loads
- * Calendly's popup widget on first click and opens it. Nothing from Calendly is
- * requested before the click, so Lighthouse/privacy are untouched.
- *   page → utm_medium, so bookings can be attributed to the page.
+ * "Book a call" button. A plain link to Calendly (new tab) that, with JS, opens the
+ * iOS-style booking sheet (BookingDialog, rendered once by Base). The Calendly iframe is
+ * created only after the click, so nothing from Calendly loads before it.
+ *   page -> utm_medium, so bookings can be attributed to the page.
  */
 import { site } from '@config/site';
 import { withBase } from '@lib/url';
@@ -45,55 +44,3 @@ url.searchParams.set('utm_campaign', 'book-a-call');
   .book-note a:hover { color: var(--fg); }
   .book-note--short { font-size: 0.66rem; letter-spacing: 0.04em; }
 </style>
-
-<script>
-  /**
-   * Lazy-load Calendly's popup on the first click. Falls back to the link (new tab) if
-   * loading fails. Scripts/styles come from assets.calendly.com only after the click.
-   */
-  type CalendlyApi = { initPopupWidget: (o: { url: string }) => void };
-  let loading: Promise<CalendlyApi | null> | null = null;
-
-  function loadCalendly(): Promise<CalendlyApi | null> {
-    if (loading) return loading;
-    loading = new Promise((resolve) => {
-      const css = document.createElement('link');
-      css.rel = 'stylesheet';
-      css.href = 'https://assets.calendly.com/assets/external/widget.css';
-      document.head.appendChild(css);
-      const js = document.createElement('script');
-      js.src = 'https://assets.calendly.com/assets/external/widget.js';
-      js.async = true;
-      js.onload = () => resolve((window as unknown as { Calendly?: CalendlyApi }).Calendly ?? null);
-      js.onerror = () => resolve(null);
-      document.head.appendChild(js);
-      setTimeout(() => resolve((window as unknown as { Calendly?: CalendlyApi }).Calendly ?? null), 6000);
-    });
-    return loading;
-  }
-
-  document.addEventListener('astro:page-load', () => {
-    document.querySelectorAll<HTMLAnchorElement>('[data-book-call]:not([data-bound])').forEach((a) => {
-      a.dataset.bound = '';
-      a.addEventListener('click', async (e) => {
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; // let modified clicks open the tab
-        e.preventDefault();
-        a.classList.add('is-loading');
-        a.setAttribute('aria-busy', 'true');
-        const api = await loadCalendly();
-        a.classList.remove('is-loading');
-        a.removeAttribute('aria-busy');
-        const url = a.dataset.calendlyUrl ?? a.href;
-        if (api) {
-          document.documentElement.classList.add('calendly-open');
-          api.initPopupWidget({ url });
-          const closeWatch = setInterval(() => {
-            if (!document.querySelector('.calendly-overlay')) { document.documentElement.classList.remove('calendly-open'); clearInterval(closeWatch); }
-          }, 500);
-        } else {
-          window.open(url, '_blank', 'noopener');
-        }
-      });
-    });
-  });
-</script>

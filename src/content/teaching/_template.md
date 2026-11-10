@@ -12,7 +12,7 @@ topics:
   - Convolutional neural networks
   - Image segmentation
 technologies: [python, opencv, tensorflow]
-# syllabusLink: https://…
+# syllabusLink: https://...
 order: 10
 ---
 

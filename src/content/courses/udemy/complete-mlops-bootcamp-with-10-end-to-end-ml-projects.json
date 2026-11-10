@@ -16,7 +16,8 @@
   "category": "AI/ML & Computer Vision",
   "role": "student",
   "stack": [
-    "machine-learning"
+    "machine-learning",
+    "mlops"
   ],
   "generated": true
 }

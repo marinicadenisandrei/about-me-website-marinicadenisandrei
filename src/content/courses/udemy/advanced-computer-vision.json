@@ -22,7 +22,9 @@
   "role": "student",
   "stack": [
     "opencv",
-    "machine-learning"
+    "computer-vision",
+    "machine-learning",
+    "generative-ai"
   ],
   "generated": true
 }

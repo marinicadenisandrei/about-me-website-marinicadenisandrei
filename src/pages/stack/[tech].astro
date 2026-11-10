@@ -1,5 +1,6 @@
 ---
-/** /stack/[tech] — everything that uses one technology: projects, roles, courses, certifications, teaching, research. */
+/** /stack/[tech], everything that uses one technology: projects, roles, courses, certifications, teaching, research. */
+import Icon from '@components/Icon.astro';
 import Base from '@layouts/Base.astro';
 import Link from '@components/Link.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
@@ -8,6 +9,7 @@ import Grid from '@components/Grid.astro';
 import ProjectCard from '@components/ProjectCard.astro';
 import { site } from '@config/site';
 import { STACK, techLabel } from '@config/stack';
+import TechLogo from '@components/TechLogo.astro';
 import { getStackPages, type StackUsage } from '@lib/content';
 import { formatRange } from '@lib/format';
 
@@ -29,17 +31,17 @@ const group = STACK[usage.slug]?.group;
 const ui = site.ui.stack;
 ---
 
-<Base title={label} description={`${label} — projects, roles, courses and certifications of ${site.name} that use ${label}.`} tint="industry">
+<Base title={label} description={`${label}: projects, roles, courses and certifications of ${site.name} that use ${label}.`} tint="industry">
   <header class="page-head" data-label={label}>
     <Breadcrumbs items={[{ label: 'Stack', href: '/stack' }, { label }]} />
-    <p class="section-tag">{ui.tag}{group && <> · {group}</>}</p>
-    <h1 class="section-title">{label}</h1>
+    <p class="section-tag">{ui.tag}{group && <>, {group}</>}</p>
+    <h1 class="section-title tech-title"><TechLogo slug={usage.slug} size={64} class="tech-title-logo" eager />{label}</h1>
     <p class="section-body">{ui.usedIn} {usage.total} {usage.total === 1 ? 'place' : 'places'} directly{usage.via.length > 0 && <>, plus {usage.via.length} through related tools ({[...new Set(usage.via.map((v) => techLabel(v.child)))].join(', ')})</>}.</p>
   </header>
 
   {(usage.projects.length > 0 || viaProjects.length > 0) && (
     <section class="section section--tight" data-label={ui.projects}>
-      <p class="section-tag reveal">{ui.projects} · {usage.projects.length + viaProjects.length}</p>
+      <p class="section-tag reveal">{ui.projects} ({usage.projects.length + viaProjects.length})</p>
       <Grid cols={3}>
         {usage.projects.map((p) => <ProjectCard project={p} reveal="reveal" />)}
         {viaProjects.map(({ item, child }) => <div class="via-wrap reveal"><ProjectCard project={item} /><span class="via">{viaLabel(child)}</span></div>)}
@@ -48,11 +50,11 @@ const ui = site.ui.stack;
   )}
   {(usage.experience.length > 0 || viaExperience.length > 0) && (
     <section class="section section--tight" data-label={ui.jobs}>
-      <p class="section-tag reveal">{ui.jobs} · {usage.experience.length + viaExperience.length}</p>
+      <p class="section-tag reveal">{ui.jobs} ({usage.experience.length + viaExperience.length})</p>
       <Grid cols={2} min="300px">
         {[...usage.experience.map((e) => ({ e, child: '' })), ...viaExperience.map(({ item, child }) => ({ e: item, child }))].map(({ e, child }) => (
           <GlassCard href="/experience" tint={e.data.tint} class="reveal">
-            <p class="sk-k">{formatRange(e.data.startDate, e.data.endDate)}{child && <span class="via-inline"> · {viaLabel(child)}</span>}</p>
+            <p class="sk-k">{formatRange(e.data.startDate, e.data.endDate)}{child && <span class="via-inline">, {viaLabel(child)}</span>}</p>
             <h3 class="sk-t">{e.data.role}</h3>
             <p class="sk-s">{e.data.company}</p>
           </GlassCard>
@@ -62,25 +64,25 @@ const ui = site.ui.stack;
   )}
   {(usage.research.length > 0 || usage.teaching.length > 0) && (
     <section class="section section--tight" data-label="Research & teaching">
-      <p class="section-tag reveal">Research & teaching · {usage.research.length + usage.teaching.length}</p>
+      <p class="section-tag reveal">Research & teaching ({usage.research.length + usage.teaching.length})</p>
       <Grid cols={2} min="300px">
         {usage.research.map((r) => <GlassCard href="/research" tint="academia" class="reveal"><p class="sk-k">{r.data.role}</p><h3 class="sk-t">{r.data.title}</h3></GlassCard>)}
-        {usage.teaching.map((t) => <GlassCard href="/research" tint="academia" class="reveal"><p class="sk-k">{t.data.level} · {t.data.role}</p><h3 class="sk-t">{t.data.course}</h3></GlassCard>)}
+        {usage.teaching.map((t) => <GlassCard href="/research" tint="academia" class="reveal"><p class="sk-k">{t.data.level}, {t.data.role}</p><h3 class="sk-t">{t.data.course}</h3></GlassCard>)}
       </Grid>
     </section>
   )}
   {(usage.courses.length + usage.certifications.length + viaCourses.length + viaCerts.length) > 0 && (
     <section class="section section--tight" data-label="Learning">
-      <p class="section-tag reveal">{ui.courses} & {ui.certifications} · {usage.courses.length + usage.certifications.length + viaCourses.length + viaCerts.length}</p>
+      <p class="section-tag reveal">{ui.courses} & {ui.certifications} ({usage.courses.length + usage.certifications.length + viaCourses.length + viaCerts.length})</p>
       <ul class="sk-list reveal">
-        {usage.certifications.map((c) => <li><span class="sk-badge">cert</span>{c.data.credentialUrl ? <a href={c.data.credentialUrl} target="_blank" rel="noopener noreferrer">{c.data.name}</a> : c.data.name}<span class="sk-s"> · {c.data.issuer}</span></li>)}
-        {viaCerts.map(({ item: c, child }) => <li><span class="sk-badge">cert</span>{c.data.credentialUrl ? <a href={c.data.credentialUrl} target="_blank" rel="noopener noreferrer">{c.data.name}</a> : c.data.name}<span class="sk-s"> · {c.data.issuer} · {viaLabel(child)}</span></li>)}
+        {usage.certifications.map((c) => <li><span class="sk-badge">cert</span>{c.data.credentialUrl ? <a href={c.data.credentialUrl} target="_blank" rel="noopener noreferrer">{c.data.name}</a> : c.data.name}<span class="sk-s">, {c.data.issuer}</span></li>)}
+        {viaCerts.map(({ item: c, child }) => <li><span class="sk-badge">cert</span>{c.data.credentialUrl ? <a href={c.data.credentialUrl} target="_blank" rel="noopener noreferrer">{c.data.name}</a> : c.data.name}<span class="sk-s">, {c.data.issuer}, {viaLabel(child)}</span></li>)}
         {usage.courses.map((c) => <li><span class="sk-badge">{c.data.completed ? 'done' : `${c.data.progress}%`}</span><a href={c.data.url} target="_blank" rel="noopener noreferrer">{c.data.title}</a></li>)}
-        {viaCourses.map(({ item: c, child }) => <li><span class="sk-badge">{c.data.completed ? 'done' : `${c.data.progress}%`}</span><a href={c.data.url} target="_blank" rel="noopener noreferrer">{c.data.title}</a><span class="sk-s"> · {viaLabel(child)}</span></li>)}
+        {viaCourses.map(({ item: c, child }) => <li><span class="sk-badge">{c.data.completed ? 'done' : `${c.data.progress}%`}</span><a href={c.data.url} target="_blank" rel="noopener noreferrer">{c.data.title}</a><span class="sk-s">, {viaLabel(child)}</span></li>)}
       </ul>
     </section>
   )}
-  <p class="sk-back"><Link href="/stack" class="btn btn--ghost btn--sm">← All technologies</Link></p>
+  <p class="sk-back"><Link href="/stack" class="btn btn--ghost btn--sm"><Icon name="arrow-left" /> All technologies</Link></p>
 </Base>
 
 <style>

@@ -19,8 +19,8 @@ import { site } from '@config/site';
 
   <h2>Third-party cookies after an action you take</h2>
   <ul>
-    <li><strong>Calendly</strong> — loads only after you click “Book a call”; its widget may then set Calendly's own cookies. See <a href={site.booking.privacyUrl} target="_blank" rel="noopener noreferrer">Calendly's privacy policy</a>.</li>
-    <li><strong>Web3Forms</strong> — receives the contact form only when you submit it; it sets no cookies on this site.</li>
+    <li><strong>Calendly</strong>: loads only after you click "Book a call"; its widget may then set Calendly's own cookies. See <a href={site.booking.privacyUrl} target="_blank" rel="noopener noreferrer">Calendly's privacy policy</a>.</li>
+    <li><strong>Web3Forms</strong>: receives the contact form only when you submit it; it sets no cookies on this site.</li>
   </ul>
   {site.features.analytics.provider !== 'none' && <p>Analytics ({site.features.analytics.provider}) are cookie-less.</p>}
 </LegalLayout>

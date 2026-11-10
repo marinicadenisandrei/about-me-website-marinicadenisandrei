@@ -15,7 +15,8 @@
   "category": "Programming Languages",
   "role": "student",
   "stack": [
-    "java"
+    "java",
+    "algorithms"
   ],
   "generated": true
 }

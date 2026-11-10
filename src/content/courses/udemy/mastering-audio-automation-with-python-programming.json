@@ -16,7 +16,8 @@
   "category": "Programming Languages",
   "role": "student",
   "stack": [
-    "python"
+    "python",
+    "audio-processing"
   ],
   "generated": true
 }

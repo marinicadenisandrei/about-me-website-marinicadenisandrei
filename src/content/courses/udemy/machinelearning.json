@@ -20,6 +20,7 @@
   "stack": [
     "aws",
     "python",
+    "r",
     "machine-learning"
   ],
   "generated": true

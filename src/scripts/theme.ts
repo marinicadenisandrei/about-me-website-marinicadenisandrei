@@ -27,7 +27,7 @@ export function toggleTheme(): Theme {
   try {
     localStorage.setItem(KEY, next);
   } catch {
-    /* storage unavailable — theme still applies for this page */
+    /* storage unavailable, theme still applies for this page */
   }
   applyTheme(next);
   return next;

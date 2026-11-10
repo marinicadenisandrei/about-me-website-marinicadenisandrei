@@ -163,7 +163,7 @@
 [data-tint] { --tint-grad: linear-gradient(135deg, hsl(var(--tint-h) 70% var(--tint-l1)), hsl(calc(var(--tint-h) + 28) 65% var(--tint-l2))); --glass-tint: hsl(var(--tint-h) var(--glass-tint-s) var(--glass-tint-l) / var(--glass-tint-a)); }
 [data-tint='industry'], [data-tint='employment'] { --tint-h: var(--hue-industry); }
 [data-tint='academia'], [data-tint='research'], [data-tint='academic'] { --tint-h: var(--hue-academia); }
-/* teal and amber are too light for white text → dark ink on a lighter gradient */
+/* teal and amber are too light for white text -> dark ink on a lighter gradient */
 [data-tint='freelance'] { --tint-h: var(--hue-freelance); --tint-l1: 58%; --tint-l2: 50%; --tint-ink: var(--base-deep); }
 [data-tint='learning'] { --tint-h: var(--hue-learning); --tint-l1: 58%; --tint-l2: 50%; --tint-ink: var(--base-deep); }
 [data-tint='personal'] { --tint-h: var(--hue-personal); }

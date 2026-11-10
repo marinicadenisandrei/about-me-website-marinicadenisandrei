@@ -1,8 +1,8 @@
 ---
 /**
- * Base layout — Luminary structure + tinted-glass layer.
- * grain → atmosphere (+ mesh orbs) → floating nav pill → bottom-sheet menu →
- * side panels → <main> → footer CTA. Scripts are small modules scoped here.
+ * Base layout, Luminary structure + tinted-glass layer.
+ * grain -> atmosphere (+ mesh orbs) -> floating nav pill -> bottom-sheet menu ->
+ * side panels -> <main> -> footer CTA. Scripts are small modules scoped here.
  */
 import '@fontsource/montserrat/300.css';
 import '@fontsource/montserrat/400.css';
@@ -15,6 +15,7 @@ import '@styles/base.css';
 import '@styles/motion.css';
 import Nav from '@components/Nav.astro';
 import MobileMenu from '@components/MobileMenu.astro';
+import BookingDialog from '@components/BookingDialog.astro';
 import SidePanels from '@components/SidePanels.astro';
 import FooterCta from '@components/FooterCta.astro';
 import LensFilter from '@components/LensFilter.astro';
@@ -53,7 +54,7 @@ interface Props {
 const {
   title, description = site.description, image = '/og-default.png', noindex = false, hideCta = false, tint, jsonLd = [], type = 'website',
 } = Astro.props;
-const fullTitle = title === site.shortName ? `${site.shortName} — ${site.tagline}` : `${title} · ${site.shortName}`;
+const fullTitle = title === site.shortName ? `${site.shortName} | ${site.tagline}` : `${title} | ${site.shortName}`;
 const canonical = canonicalUrl(Astro.url, Astro.site);
 const ogImage = absoluteUrl(image, Astro.site);
 ---
@@ -73,7 +74,7 @@ const ogImage = absoluteUrl(image, Astro.site);
     <link rel="icon" href={withBase('/favicon-128.png')} type="image/png" sizes="128x128" />
     <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} sizes="180x180" />
     <link rel="manifest" href={withBase('/site.webmanifest')} />
-    {site.features.blog && <link rel="alternate" type="application/rss+xml" title={`${site.shortName} — Notes`} href={withBase('/rss.xml')} />}
+    {site.features.blog && <link rel="alternate" type="application/rss+xml" title={`${site.shortName} | Notes`} href={withBase('/rss.xml')} />}
     <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
     <meta property="og:type" content={type} />
     <meta property="og:title" content={fullTitle} />
@@ -90,7 +91,7 @@ const ogImage = absoluteUrl(image, Astro.site);
     <meta name="theme-color" content="#0F1115" />
     {jsonLd.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
     <script is:inline>
-      // Theme bootstrap — runs before paint to avoid a flash. Mirrors src/scripts/theme.ts.
+      // Theme bootstrap, runs before paint to avoid a flash. Mirrors src/scripts/theme.ts.
       /* eslint-disable */
       (function () {
         document.documentElement.classList.remove('no-js');
@@ -135,6 +136,7 @@ const ogImage = absoluteUrl(image, Astro.site);
       <slot />
       <FooterCta hideCta={hideCta} page={Astro.url.pathname.replace(/\/+$/, '').split('/').pop() || 'home'} />
     </main>
+    <BookingDialog />
   </body>
 </html>
 

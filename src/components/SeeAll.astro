@@ -1,11 +1,12 @@
 ---
-/** "See all →" link that closes every overview block on Home. */
+/** "See all" link that closes every overview block on Home. */
+import Icon from '@components/Icon.astro';
 import Link from '@components/Link.astro';
 interface Props { href: string; label?: string; class?: string }
 const { href, label = 'See all', class: cls } = Astro.props;
 ---
 
-<p class:list={['see-all', cls]}><Link href={href} class="see-all-link">{label} <span aria-hidden="true">→</span></Link></p>
+<p class:list={['see-all', cls]}><Link href={href} class="see-all-link">{label} <Icon name="arrow-right" /></Link></p>
 
 <style>
   .see-all { margin-top: 28px; }
