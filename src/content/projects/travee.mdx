@@ -16,10 +16,15 @@ myContribution:
   - Modularised the Unity codebase into packages/ScriptableObjects; exposed REST and WebSocket APIs (ASP.NET Core) for profiles, session logs and remote progress; OAuth2/SAML auth and AES-256 encryption.
   - GitLab CI for PlayMode/EditMode tests, asset validation and multi-platform builds (Windows, Android, WebGL), scaled with Jenkins/TeamCity agents; Snyk + SonarQube gates.
   - Dockerised micro-services deployed with Helm on AKS; Terraform (Azure & AWS), Vault/Ansible secrets; Prometheus/Grafana and ELK with Slack alerts.
+  - "Diorama exergame for Meta Quest 3: therapists configure the world, diorama, starting point and music from the TRAVEE platform and can change them live, without restarting the session"
+  - "Precision pinch grasp with three difficulty levels, per-hand training (left, right or alternating) and visual feedback that rebuilds the surrounding world as each piece is placed"
+  - "Session telemetry for therapists and Quest 3 performance work: scene profiling, LOD, visibility and distance culling for a smooth frame rate on the headset"
 outcomes: []
-stack: [unity, csharp, dotnet, openxr, python, gitlab-ci, jenkins, teamcity, nunit, snyk, sonarqube, docker, kubernetes, helm, terraform, ansible, azure, aws, vault, prometheus, grafana, elk, jira, confluence]
+stack: [unity, csharp, dotnet, openxr, python, gitlab-ci, jenkins, teamcity, nunit, snyk, sonarqube, docker, kubernetes, helm, terraform, ansible, azure, aws, vault, prometheus, grafana, elk, jira, confluence, meta-quest, android, virtual-reality]
+highlight: [unity, meta-quest, kubernetes, azure, terraform]
 links:
   live: https://travee.upb.ro/old_pte83/ro/pagina-principala/
+euFunded: {}  # TODO: add the programme name if you want it shown
 featured: true
 order: 40
 ---
@@ -42,5 +47,16 @@ Modular Unity packages and ScriptableObjects for rapid prototyping of new therap
 - **Containers**: session manager, analytics API and notification service as Docker micro-services on AKS, released with Helm across dev/test/prod.
 - **IaC and secrets**: Terraform modules for Azure and AWS (VPCs, Azure SQL / RDS, storage, load balancers); Ansible and HashiCorp Vault.
 - **Observability and security**: Prometheus/Grafana health and performance alerting, ELK with Kibana dashboards; Snyk and SonarQube gates in CI; RBAC across Git repositories and Kubernetes namespaces.
+
+## Diorama exergame on Meta Quest 3
+
+A rehabilitation game in which patients rebuild a 3D diorama piece by piece, in several themed worlds.
+
+- **Clinical control.** The therapist sets up the session from the TRAVEE platform (world, diorama, starting point, music, distance and height) and can adjust it in real time; only the affected part of the scene is rebuilt, behind a loading screen.
+- **Precision grasp.** Besides touch-to-grab, a thumb-and-index pinch mode with three precision levels and an on-screen guide that shows when the grip is close enough. Each piece can only be taken with the hand it was meant for, so left, right or alternating sessions train the right limb.
+- **Motivating feedback.** The target spot pulses, and every placed piece brings back part of the surrounding world, from the horizon towards the patient, so effort has a visible result.
+- **Progress data.** After each piece the therapist sees completion, timing and the hand used; at the end the platform receives a full record of the session, so sessions can be compared over time.
+- **Home use.** A gaze-selectable stop button that follows the field of view, end-of-game panels that always stay visible, and headset recentring kept in sync with the game.
+- **Performance on Quest 3.** Editor tools that profile draw calls, triangles and shadows from each starting point, then colliders, shadows, LOD groups, occlusion culling, batching and texture limits, plus runtime visibility and distance culling, for smooth rendering of detail-heavy worlds.
 
 {/* TODO: image: screenshots of the VR games; architecture diagram */}

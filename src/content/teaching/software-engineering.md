@@ -14,7 +14,7 @@ topics:
   - Design patterns and software architecture principles
   - Testing and debugging fundamentals
   - Agile methodologies (Scrum basics)
-technologies: [git, oop, design-patterns, testing, agile]
+technologies: [git, oop, design-patterns, testing, agile, github, github-actions, gitlab-ci, uml, java, typescript, javascript, react, nodejs, nestjs, express, postgresql, jest, docker, sonarqube, jira]
 order: 20
 ---
 

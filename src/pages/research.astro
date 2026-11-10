@@ -12,6 +12,7 @@ import Link from '@components/Link.astro';
 import { site } from '@config/site';
 import { getResearch, getPublications, getTeaching, getProjects, projectSlug, uniqueTech } from '@lib/content';
 import { formatRange } from '@lib/format';
+import { pickHotTech } from '@config/stack';
 
 const ui = site.ui.research;
 const research = await getResearch();
@@ -38,7 +39,7 @@ const bib = publications.map((p) => p.data.bibtex?.trim()).filter(Boolean).join(
         <h2 class="rs-title">{thesis.data.title}</h2>
         <p class="rs-desc">{thesis.data.description}</p>
         {thesisBody && <div class="prose rs-prose"><thesisBody /></div>}
-        <div class="rs-stack">{uniqueTech(thesis.data.stack).map((s) => <TechPill slug={s} />)}</div>
+        <div class="rs-stack">{pickHotTech(uniqueTech(thesis.data.stack), 99).map((s) => <TechPill slug={s} />)}</div>
       </GlassCard>
     </section>
   )}
@@ -94,7 +95,7 @@ const bib = publications.map((p) => p.data.bibtex?.trim()).filter(Boolean).join(
           <p class="rs-k">{t.data.faculty}, {t.data.university}, {formatRange(t.data.period.start, t.data.period.end)}</p>
           <ul class="rs-topics">{t.data.topics.map((x) => <li>{x}</li>)}</ul>
           {hasBody && <div class="prose rs-prose rs-prose--sm"><Content /></div>}
-          <div class="rs-stack">{uniqueTech(t.data.technologies).map((s) => <TechPill slug={s} />)}</div>
+          <div class="rs-stack">{pickHotTech(uniqueTech(t.data.technologies), 99).map((s) => <TechPill slug={s} />)}</div>
           {t.data.syllabusLink && <p class="rs-links"><a href={t.data.syllabusLink} target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--sm">Syllabus <Icon name="external" /></a></p>}
         </GlassCard>
       ))}

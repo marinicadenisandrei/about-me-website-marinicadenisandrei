@@ -1,28 +1,101 @@
 ---
-/** Previous / next navigation for detail pages. */
-import Icon from '@components/Icon.astro';
+/**
+ * Previous / next navigation for detail pages.
+ * Two cards of exactly the same size (equal columns, fixed height, titles clamped to two lines), each with a round
+ * glass arrow button on its outer edge, and a compact "all" button in the middle.
+ */
 import Link from '@components/Link.astro';
 interface Item { label: string; href: string }
 interface Props { prev?: Item; next?: Item; allHref: string; allLabel: string }
 const { prev, next, allHref, allLabel } = Astro.props;
+const arrow = (dir: 'l' | 'r') => (dir === 'l' ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7');
 ---
 
 <nav class="prevnext" aria-label="Previous and next">
-  {prev ? <Link href={prev.href} class="pn pn--prev glass glass--thin glass--sm glass--lift" rel="prev"><span class="pn-k"><Icon name="arrow-left" /> Previous</span><span class="pn-t">{prev.label}</span></Link> : <span class="pn-empty"></span>}
-  <Link href={allHref} class="btn btn--ghost btn--sm pn-all">{allLabel}</Link>
-  {next ? <Link href={next.href} class="pn pn--next glass glass--thin glass--sm glass--lift" rel="next"><span class="pn-k">Next <Icon name="arrow-right" /></span><span class="pn-t">{next.label}</span></Link> : <span class="pn-empty"></span>}
+  {prev ? (
+    <Link href={prev.href} class="pn pn--prev" rel="prev">
+      <span class="pn-orb" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={arrow('l')} /></svg></span>
+      <span class="pn-body"><span class="pn-k">Previous</span><span class="pn-t">{prev.label}</span></span>
+    </Link>
+  ) : <span class="pn pn--empty" aria-hidden="true"></span>}
+
+  <Link href={allHref} class="pn-all" aria-label={allLabel} title={allLabel}>
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><rect x="4" y="4" width="6.5" height="6.5" rx="2" /><rect x="13.5" y="4" width="6.5" height="6.5" rx="2" /><rect x="4" y="13.5" width="6.5" height="6.5" rx="2" /><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2" /></svg>
+    <span class="pn-all-l">{allLabel}</span>
+  </Link>
+
+  {next ? (
+    <Link href={next.href} class="pn pn--next" rel="next">
+      <span class="pn-body"><span class="pn-k">Next</span><span class="pn-t">{next.label}</span></span>
+      <span class="pn-orb" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={arrow('r')} /></svg></span>
+    </Link>
+  ) : <span class="pn pn--empty" aria-hidden="true"></span>}
 </nav>
 
 <style>
-  .prevnext { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 16px; align-items: center; margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--line); }
-  .pn { display: flex; flex-direction: column; gap: 6px; padding: 16px 20px; text-decoration: none; color: inherit; }
-  .pn--next { text-align: right; align-items: flex-end; }
-  .pn-k { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-subtle); }
-  .pn-t { font-size: 0.9rem; font-weight: 500; color: var(--fg); line-height: 1.35; }
-  @media (max-width: 768px) {
-    .prevnext { grid-template-columns: minmax(0, 1fr); }
-    .pn--next { text-align: left; align-items: flex-start; }
-    .pn-all { justify-self: start; }
-    .pn-empty { display: none; }
+  .prevnext {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 16px; align-items: stretch;
+    margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--line);
   }
+
+  /* identical cards: same column width, same fixed height, two-line title */
+  .pn {
+    position: relative; display: flex; align-items: center; gap: 16px; height: 104px; padding: 0 20px;
+    border-radius: 24px; text-decoration: none; color: inherit; overflow: hidden;
+    background:
+      radial-gradient(120% 140% at var(--gx, 0%) 0%, hsl(var(--tint-h) 70% 60% / 0.14), transparent 60%),
+      color-mix(in srgb, var(--fg) 4%, transparent);
+    border: 1px solid var(--line-strong);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 10px 30px rgba(0, 0, 0, 0.12);
+    transition: transform 0.5s var(--silk-ease), border-color 0.4s ease, box-shadow 0.5s var(--silk-ease);
+  }
+  .pn--next { --gx: 100%; justify-content: flex-end; text-align: right; }
+  .pn--empty { background: none; border: 1px dashed var(--line); box-shadow: none; }
+  a.pn:hover { transform: translate3d(0, -3px, 0); border-color: hsl(var(--tint-h) 70% 62% / 0.5); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 18px 40px rgba(0, 0, 0, 0.2); }
+
+  .pn-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .pn-k { font-family: var(--font-display); font-size: 9.5px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: hsl(var(--tint-h) 70% 64%); }
+  .pn-t {
+    font-size: 0.92rem; font-weight: 500; line-height: 1.35; color: var(--fg);
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden;
+  }
+
+  /* round glass arrow button */
+  .pn-orb {
+    flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; color: var(--fg);
+    background: linear-gradient(160deg, color-mix(in srgb, var(--fg) 14%, transparent), color-mix(in srgb, var(--fg) 4%, transparent));
+    border: 1px solid var(--line-strong);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .pn-orb svg { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  a.pn:hover .pn-orb {
+    background: linear-gradient(135deg, hsl(var(--tint-h) 75% 58%), hsl(calc(var(--tint-h) + 45) 75% 60%));
+    color: #fff; border-color: transparent;
+  }
+  a.pn--prev:hover .pn-orb svg { transform: translateX(-3px); }
+  a.pn--next:hover .pn-orb svg { transform: translateX(3px); }
+
+  /* middle: all items */
+  .pn-all {
+    align-self: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    width: 104px; height: 104px; border-radius: 24px; text-decoration: none; color: var(--fg-muted);
+    border: 1px solid var(--line); background: color-mix(in srgb, var(--fg) 3%, transparent);
+    transition: color 0.3s ease, border-color 0.3s ease, transform 0.5s var(--silk-ease);
+  }
+  .pn-all:hover { color: var(--fg); border-color: var(--line-strong); transform: translate3d(0, -3px, 0); }
+  .pn-all-l { font-family: var(--font-display); font-size: 8.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; text-align: center; line-height: 1.3; padding: 0 8px; }
+
+  @media (max-width: 768px) {
+    .prevnext { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+    .pn { height: 136px; padding: 0 14px; gap: 10px; flex-direction: column; justify-content: center; align-items: flex-start; text-align: left; }
+    .pn--next { align-items: flex-end; text-align: right; }
+    .pn-orb { width: 36px; height: 36px; }
+    .prevnext > :first-child { grid-column: 1; grid-row: 1; }
+    .prevnext > :last-child { grid-column: 2; grid-row: 1; }
+    .pn--next .pn-orb { order: -1; }
+    .pn-t { font-size: 0.82rem; }
+    .pn-all { grid-column: 1 / -1; grid-row: 2; width: 100%; height: 52px; flex-direction: row; gap: 10px; border-radius: 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .pn, .pn-orb, .pn-orb svg, .pn-all { transition: none; } }
 </style>

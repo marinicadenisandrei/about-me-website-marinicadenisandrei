@@ -6,6 +6,10 @@ on:
     branches-ignore: ['dependabot/**']
   pull_request:
   workflow_dispatch:
+  # Nightly rebuild (05:17 Bucharest time) so data pulled at build time, like the LeetCode stats, stays fresh.
+  # Scheduled runs always use the default branch (main), so they deploy like a push to main.
+  schedule:
+    - cron: '17 3 * * *'
 
 permissions:
   contents: read
@@ -129,7 +133,8 @@ jobs:
   lighthouse:
     name: Lighthouse CI
     needs: [build, deploy]
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    # not on the nightly rebuild: the content did not change, so there is nothing new to audit
+    if: github.event_name != 'pull_request' && github.event_name != 'schedule' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

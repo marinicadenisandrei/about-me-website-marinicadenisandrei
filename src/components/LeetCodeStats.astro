@@ -1,0 +1,124 @@
+---
+/**
+ * LeetCode stats card. Numbers are rendered at build time (live sheet, or the snapshot if offline),
+ * then refreshed in the browser from the public Google Sheet on every visit, so they are always current.
+ */
+import TechLogo from '@components/TechLogo.astro';
+import { getLeetcodeStats } from '@lib/leetcode';
+import { LEETCODE, LEETCODE_LANG_SLUG } from '@config/leetcode';
+
+const s = await getLeetcodeStats();
+const max = Math.max(...s.languages.map((l) => l.total), 1);
+const pct = (v: number, of: number) => (of ? (v / of) * 100 : 0).toFixed(2);
+const fmt = (n: number) => n.toLocaleString('en-US');
+---
+
+<section class="section--tight" id="leetcode" data-label="LeetCode">
+  <h2 class="section-tag lh">LeetCode</h2>
+  <div class="lc glass glass--thin" data-tint="learning" data-leetcode>
+    <div class="lc-sum">
+      <p class="lc-live"><span class="lc-dot" aria-hidden="true"></span><span data-lc-status>{s.live ? 'Live from my tracker' : `Updated ${s.fetchedAt}`}</span></p>
+      <p class="lc-total"><span data-lc="total">{fmt(s.total)}</span></p>
+      <p class="lc-cap">accepted solutions across <span data-lc="langs">{s.languages.length}</span> languages</p>
+
+      <div class="lc-split" role="img" aria-label={`Easy ${s.easy}, Medium ${s.medium}, Hard ${s.hard}`} data-lc-split>
+        <span class="lc-seg lc-seg--easy" style={`width:${pct(s.easy, s.total)}%`}></span>
+        <span class="lc-seg lc-seg--medium" style={`width:${pct(s.medium, s.total)}%`}></span>
+        <span class="lc-seg lc-seg--hard" style={`width:${pct(s.hard, s.total)}%`}></span>
+      </div>
+      <dl class="lc-diff">
+        <div><dt><i class="lc-k lc-k--easy"></i>Easy</dt><dd data-lc="easy">{fmt(s.easy)}</dd></div>
+        <div><dt><i class="lc-k lc-k--medium"></i>Medium</dt><dd data-lc="medium">{fmt(s.medium)}</dd></div>
+        <div><dt><i class="lc-k lc-k--hard"></i>Hard</dt><dd data-lc="hard">{fmt(s.hard)}</dd></div>
+      </dl>
+      {LEETCODE.profileUrl && <a class="lc-link" href={LEETCODE.profileUrl} target="_blank" rel="noopener noreferrer">LeetCode profile</a>}
+    </div>
+
+    <ul class="lc-langs">
+      {s.languages.map((l) => (
+        <li class="lc-lang" data-lc-lang={l.name}>
+          <span class="lc-name">{LEETCODE_LANG_SLUG[l.name] && <TechLogo slug={LEETCODE_LANG_SLUG[l.name]!} size={20} />}{l.name}</span>
+          <span class="lc-bar" style={`--w:${pct(l.total, max)}%`}>
+            <span class="lc-seg lc-seg--easy" style={`width:${pct(l.easy, l.total)}%`}></span>
+            <span class="lc-seg lc-seg--medium" style={`width:${pct(l.medium, l.total)}%`}></span>
+            <span class="lc-seg lc-seg--hard" style={`width:${pct(l.hard, l.total)}%`}></span>
+          </span>
+          <span class="lc-n" data-lc-n>{fmt(l.total)}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .section--tight { padding: 32px 0; }
+  .lh { margin: 28px 0 14px; opacity: 1; color: var(--fg-muted); }
+  .lc { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 40px; padding: 32px; border-radius: var(--radius-lg); }
+  .lc-live { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; font-family: var(--font-display); font-size: 9.5px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-muted); }
+  .lc-dot { width: 7px; height: 7px; border-radius: 50%; background: #34D399; box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.6); animation: lc-ping 2s ease-out infinite; }
+  .lc-total { margin: 0; font-family: var(--font-display); font-size: clamp(3rem, 7vw, 4.6rem); font-weight: 200; letter-spacing: -0.05em; line-height: 0.95; color: var(--fg); }
+  .lc-cap { margin: 8px 0 24px; color: var(--fg-muted); font-size: 0.9rem; }
+
+  .lc-split { display: flex; height: 10px; border-radius: 10px; overflow: hidden; gap: 3px; }
+  .lc-seg { display: block; height: 100%; min-width: 0; transition: width 0.9s var(--silk-ease); }
+  .lc-seg--easy { background: linear-gradient(90deg, #10B981, #34D399); }
+  .lc-seg--medium { background: linear-gradient(90deg, #F59E0B, #FBBF24); }
+  .lc-seg--hard { background: linear-gradient(90deg, #EF4444, #F87171); }
+  .lc-diff { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 16px 0 0; }
+  .lc-diff div { display: flex; flex-direction: column; gap: 4px; }
+  .lc-diff dt { display: flex; align-items: center; gap: 6px; font-family: var(--font-display); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-subtle); }
+  .lc-diff dd { margin: 0; font-family: var(--font-display); font-size: 1.35rem; font-weight: 300; color: var(--fg); }
+  .lc-k { width: 8px; height: 8px; border-radius: 3px; }
+  .lc-k--easy { background: #34D399; } .lc-k--medium { background: #FBBF24; } .lc-k--hard { background: #F87171; }
+  .lc-link { display: inline-block; margin-top: 20px; font-family: var(--font-display); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: hsl(var(--tint-h) 70% 60%); }
+
+  .lc-langs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+  .lc-lang { display: grid; grid-template-columns: 130px minmax(0, 1fr) 52px; align-items: center; gap: 14px; }
+  .lc-name { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 500; color: var(--fg); }
+  .lc-bar { display: flex; gap: 2px; width: var(--w); height: 12px; border-radius: 12px; overflow: hidden; background: color-mix(in srgb, var(--fg) 6%, transparent); transition: width 0.9s var(--silk-ease); }
+  .lc-n { font-family: var(--font-display); font-size: 0.95rem; font-weight: 400; color: var(--fg); text-align: right; font-variant-numeric: tabular-nums; }
+
+  @keyframes lc-ping { 0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.55); } 80%, 100% { box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); } }
+  @media (max-width: 860px) { .lc { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 24px; } }
+  @media (max-width: 420px) { .lc-lang { grid-template-columns: 104px minmax(0, 1fr) 44px; gap: 10px; } }
+  @media (prefers-reduced-motion: reduce) { .lc-dot { animation: none; } .lc-seg, .lc-bar { transition: none; } }
+</style>
+
+<script>
+  import { leetcodeCsvUrl } from '@config/leetcode';
+  import { parseCsv, statsFromRows } from '@lib/leetcode';
+
+  const fmt = (n: number) => n.toLocaleString('en-US');
+  const pct = (v: number, of: number) => `${(of ? (v / of) * 100 : 0).toFixed(2)}%`;
+  const segs = (el: Element, e: number, m: number, h: number) => {
+    const [a, b, c] = el.querySelectorAll<HTMLElement>('.lc-seg');
+    const t = e + m + h;
+    if (a) a.style.width = pct(e, t); if (b) b.style.width = pct(m, t); if (c) c.style.width = pct(h, t);
+  };
+
+  async function refresh() {
+    const root = document.querySelector<HTMLElement>('[data-leetcode]');
+    if (!root || root.dataset.fresh) return;
+    try {
+      const res = await fetch(leetcodeCsvUrl(), { cache: 'no-store' });
+      if (!res.ok) return;
+      const s = statsFromRows(parseCsv(await res.text()));
+      if (!s || !s.total) return;
+      root.dataset.fresh = '1';
+      const set = (k: string, v: number) => { const el = root.querySelector(`[data-lc="${k}"]`); if (el) el.textContent = fmt(v); };
+      set('total', s.total); set('easy', s.easy); set('medium', s.medium); set('hard', s.hard); set('langs', s.languages.length);
+      const split = root.querySelector('[data-lc-split]');
+      if (split) { segs(split, s.easy, s.medium, s.hard); split.setAttribute('aria-label', `Easy ${s.easy}, Medium ${s.medium}, Hard ${s.hard}`); }
+      const max = Math.max(...s.languages.map((l) => l.total), 1);
+      root.querySelectorAll<HTMLElement>('[data-lc-lang]').forEach((row) => {
+        const l = s.languages.find((x) => x.name === row.dataset.lcLang);
+        if (!l) { row.hidden = true; return; }
+        const bar = row.querySelector<HTMLElement>('.lc-bar');
+        if (bar) { bar.style.setProperty('--w', pct(l.total, max)); segs(bar, l.easy, l.medium, l.hard); }
+        const n = row.querySelector('[data-lc-n]'); if (n) n.textContent = fmt(l.total);
+      });
+      const st = root.querySelector('[data-lc-status]'); if (st) st.textContent = 'Live from my tracker';
+    } catch { /* keep the build-time numbers */ }
+  }
+  document.addEventListener('astro:page-load', refresh);
+</script>

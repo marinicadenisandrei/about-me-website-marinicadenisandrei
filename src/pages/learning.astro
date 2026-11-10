@@ -14,18 +14,21 @@ import Pill from '@components/Pill.astro';
 import { site } from '@config/site';
 import { COURSE_CATEGORIES } from '@config/course-categories';
 import { getCourses, getCertifications, getLearningStats } from '@lib/content';
+import LeetCodeStats from '@components/LeetCodeStats.astro';
 import { formatHours, formatMonthYear } from '@lib/format';
 
 const ui = site.ui.learning;
 const stats = await getLearningStats();
 const courses = await getCourses();
+const allCourses = await getCourses({ includeArchived: true });
 const student = courses.filter((c) => c.data.role === 'student');
 const mine = courses.filter((c) => c.data.role === 'instructor');
-const completed = student.filter((c) => c.data.completed || c.data.certificate).sort((a, b) => (b.data.certificate?.date?.getTime() ?? 0) - (a.data.certificate?.date?.getTime() ?? 0));
+// finished courses and every earned certificate are always shown, archived ones included
+const completed = allCourses.filter((c) => c.data.role === 'student' && (c.data.completed || c.data.certificate)).sort((a, b) => (b.data.certificate?.date?.getTime() ?? 0) - (a.data.certificate?.date?.getTime() ?? 0));
 const inProgress = student.filter((c) => !c.data.completed && !c.data.certificate).sort((a, b) => b.data.progress - a.data.progress);
 const certs = (await getCertifications()).filter((c) => c.data.kind !== 'skill-assessment');
 const assessments = (await getCertifications()).filter((c) => c.data.kind === 'skill-assessment');
-const usedCats = COURSE_CATEGORIES.filter((c) => student.some((x) => x.data.category === c));
+const usedCats = COURSE_CATEGORIES.filter((c) => [...student, ...completed].some((x) => x.data.category === c));
 const statTiles = [
   [ui.stats.hours, stats.hours.toLocaleString(site.lang)],
   [ui.stats.completed, String(stats.completed)],
@@ -41,6 +44,8 @@ const statTiles = [
       <div class="glass glass--thin glass--sm lstat lstat--cats"><dd>{stats.topCategories.slice(0, 4).map(([c, n]) => <span>{c} <b>{n}</b></span>)}</dd><dt>{ui.stats.topCategories}</dt></div>
     </dl>
   </section>
+
+  <LeetCodeStats />
 
   <section class="section--tight" id="courses" data-label="Courses" data-learning>
     <div class="lf">
@@ -75,7 +80,7 @@ const statTiles = [
       ))}
     </Grid>
     <p class="lf-empty" data-l-empty hidden>{ui.empty}</p>
-    {!site.features.showArchivedCourses && <p class="l-note">{stats.totalCourses - courses.length} archived courses are hidden (they still count in the totals). Set <code>features.showArchivedCourses</code> to show them.</p>}
+    {!site.features.showArchivedCourses && <p class="l-note">{stats.totalCourses - courses.length - completed.filter((c) => c.data.archived).length} archived courses are hidden (they still count in the totals). Set <code>features.showArchivedCourses</code> to show them.</p>}
   </section>
 
   {site.features.udemyInstructor && mine.length > 0 && (

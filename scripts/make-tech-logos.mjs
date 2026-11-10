@@ -46,7 +46,7 @@ const DEVICON_MAP = {
 const SIMPLE_MAP = { tensorrt: 'nvidia', triton: 'nvidia', opa: 'openpolicyagent', zephyr: 'zephyrproject' };
 /** Concepts and tools without brand artwork -> Tabler glyph. */
 const TABLER_MAP = {
-  'private-cloud': 'cloud-lock', agile: 'refresh-dot', can: 'car', canoe: 'device-desktop-analytics', capl: 'code', catboost: 'binary-tree',
+  'private-cloud': 'cloud-lock', aiops: 'robot', uml: 'schema', llm: 'message-chatbot', rag: 'database-search', whisper: 'microphone', agile: 'refresh-dot', can: 'car', canoe: 'device-desktop-analytics', capl: 'code', catboost: 'binary-tree',
   lightgbm: 'binary-tree', xgboost: 'binary-tree', ccsds: 'satellite', 'computer-vision': 'eye',
   cybersecurity: 'shield-lock', 'design-patterns': 'components', dxl: 'code', embedded: 'cpu', fmea: 'alert-triangle',
   freertos: 'cpu-2', 'functional-safety': 'shield-check', gdb: 'bug', haptics: 'hand-finger', i2c: 'plug-connected',

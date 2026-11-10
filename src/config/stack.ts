@@ -6,6 +6,17 @@
 export interface TechMeta { label: string; icon?: string; group?: string }
 export const STACK: Record<string, TechMeta> = {
   kubernetes: { label: 'Kubernetes', icon: 'kubernetes', group: 'Containers' },
+  aiops: { label: 'AIOps', group: 'AI/ML' },
+  jupyter: { label: 'Jupyter', icon: 'jupyter', group: 'AI/ML' },
+  uml: { label: 'UML', group: 'Engineering' },
+  llm: { label: 'LLMs', group: 'AI/ML' },
+  rag: { label: 'RAG', group: 'AI/ML' },
+  ollama: { label: 'Ollama', icon: 'ollama', group: 'AI/ML' },
+  whisper: { label: 'Whisper', group: 'AI/ML' },
+  'hugging-face': { label: 'Hugging Face', icon: 'huggingface', group: 'AI/ML' },
+  fastapi: { label: 'FastAPI', icon: 'fastapi', group: 'Web' },
+  'meta-quest': { label: 'Meta Quest', icon: 'meta', group: 'XR' },
+  android: { label: 'Android', icon: 'android', group: 'OS' },
   'private-cloud': { label: 'Private Cloud', group: 'Cloud' },
   opentelemetry: { label: 'OpenTelemetry', icon: 'opentelemetry', group: 'Observability' },
   trivy: { label: 'Trivy', icon: 'trivy', group: 'Security' },
@@ -262,10 +273,10 @@ export const techLabel = (slug: string): string =>
  */
 export const HOT_TECH: string[] = [
   'kubernetes', 'react', 'typescript', 'aws', 'terraform', 'azure', 'gcp', 'docker', 'nextjs', 'angular', 'nestjs',
-  'pytorch', 'mlops', 'kubeflow', 'triton', 'cuda', 'tensorrt', 'tensorflow', 'mlflow', 'generative-ai', 'machine-learning',
+  'llm', 'rag', 'pytorch', 'mlops', 'kubeflow', 'triton', 'cuda', 'tensorrt', 'tensorflow', 'mlflow', 'generative-ai', 'machine-learning',
   'argo-cd', 'github-actions', 'gitlab-ci', 'helm', 'opentelemetry', 'istio', 'vault', 'kafka', 'prometheus', 'grafana',
   'go', 'rust', 'python', 'cpp', 'c', 'nodejs', 'postgresql', 'redis', 'unity', 'openxr', 'zephyr', 'freertos', 'nvidia-jetson',
-  'ansible', 'trivy', 'playwright', 'cloudflare', 'php', 'express',
+  'fastapi', 'ollama', 'hugging-face', 'meta-quest', 'ansible', 'trivy', 'playwright', 'cloudflare', 'php', 'express',
 ];
 
 /** Picks the `n` hottest technologies, at most one per group first so a card mixes front end, cloud, IaC and so on. */

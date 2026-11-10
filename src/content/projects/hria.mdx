@@ -16,8 +16,12 @@ myContribution:
   - "Build CI/CD pipelines for ML workloads: automated tests, model validation, versioning and release workflows."
   - "Provision and manage training and inference environments: containerisation, orchestration, monitoring and reproducibility across environments."
   - Standardise data handling, experiment tracking and model deployment (MLOps), working alongside researchers and engineers.
+  - "Conversational AI character for patients in Unity: speech-to-text, a local LLM and text-to-speech running as containerised FastAPI services, with several interaction modes, including news-based and web-search (RAG) conversations"
+  - "Cut the wait for a spoken reply from 8-25 seconds to a few seconds by streaming the answer to voice synthesis sentence by sentence"
+  - "Real-time voice monitoring: containerised services linked through Redis Streams, GPU speech and emotion models, and a web dashboard with per-speaker calibrated indicators, history and replay"
 outcomes: []
-stack: [python, machine-learning, tensorflow, pytorch, mlops, docker, kubernetes, gitlab-ci, prometheus, grafana]
+stack: [python, machine-learning, tensorflow, pytorch, mlops, docker, kubernetes, gitlab-ci, prometheus, grafana, llm, rag, ollama, fastapi, whisper, hugging-face, unity, redis, generative-ai]
+highlight: [llm, rag, pytorch, kubernetes, gitlab-ci]
 links:
   live: https://hria.upb.ro/
 euFunded:
@@ -40,5 +44,14 @@ HRIA (Hubul Român de Inteligență Artificială) is a national AI research and 
 - CI/CD for ML: automated testing, model validation, versioning and release workflows.
 - Compute environments for training and inference, containerised and orchestrated, with monitoring and reproducibility guarantees.
 - MLOps standards for data handling, experiment tracking and deployment.
+
+## AI character and voice monitoring
+
+Part of HRIA's research direction on AI in medicine and health, building tools that support patients' communication and wellbeing.
+
+- **Conversational avatar.** A Unity character that talks with patients in Romanian. Speech is transcribed with Whisper on the GPU, answered by a local LLM served through Ollama and spoken back with neural text-to-speech, with a local fallback voice. The services run as a Docker Compose stack of FastAPI apps that start in a checked order and keep models and caches in volumes.
+- **Interaction modes.** From guided check-ins to a daily-news conversation on a chosen topic and an open conversation that looks up information on the web while it talks (retrieval-augmented generation), with prompts tuned for natural spoken Romanian.
+- **Low latency.** The reply is split into sentences on the server and each one is synthesised and played while the model is still writing the rest, so the avatar starts speaking within a few seconds.
+- **Voice monitoring.** A separate system captures the voice in the browser and analyses how something is said, not only what: transcription, acoustic and text emotion, pitch, jitter, shimmer and disfluencies. Services communicate only through Redis Streams and Pub/Sub, so each one can be scaled or restarted on its own. Readings are calibrated against each speaker's own baseline and combined every second into indicators such as stress, engagement, fatigue and cognitive effort, shown live in a web dashboard and stored for replay and export.
 
 {/* TODO: image: architecture / pipeline diagram */}

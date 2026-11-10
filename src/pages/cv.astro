@@ -7,6 +7,7 @@ import Base from '@layouts/Base.astro';
 import Link from '@components/Link.astro';
 import Avatar from '@components/Avatar.astro';
 import CvLinks from '@components/CvLinks.astro';
+import SocialButtons from '@components/SocialButtons.astro';
 import { site } from '@config/site';
 import { techLabel, canonicalTech } from '@config/stack';
 import { getExperience, getProjects, getResearch, getTeaching, getCertifications, getLearningStats, getStackPages } from '@lib/content';
@@ -23,7 +24,7 @@ const topStack = (await getStackPages()).slice(0, 24);
 const education = [
   ['2024 - 2028 (expected)', 'PhD Candidate, Computer Science, Faculty of Automatic Control and Computers, National University of Science and Technology POLITEHNICA Bucharest', 'Research: DevOps, MLOps and AIOps; VR Game Development for Patients with Medical Conditions; AI Platform Development and AI Training & Inference Server Administration'],
   ['2022 - 2024', 'MSc, Computer Science, Advanced Control and Real-Time Systems, POLITEHNICA Bucharest', ''],
-  ['2018 - 2022', 'BSc (Eng.), Robotics, Programming and Computer Science, Faculty of Industrial Engineering and Robotics, University POLITEHNICA of Bucharest', ''],
+  ['2018 - 2022', 'BSc (Eng.), Robotics, Programming and Computer Science, Faculty of Robotics and Computer Science, University POLITEHNICA of Bucharest', ''],
   ['2014 - 2018', 'Baccalaureate, Mathematics and Computer Science, Colegiul Național "Ion Creangă", Bucharest', ''],
 ];
 ---
@@ -36,7 +37,8 @@ const education = [
         <div>
           <h1 class="cv-name">{site.name}</h1>
           <p class="cv-headline">{site.headline}</p>
-          <p class="cv-contact">{site.location}, <a href={site.links.linkedin}>LinkedIn</a>{site.links.github && !site.links.github.includes('TODO') && <>, <a href={site.links.github}>GitHub</a></>}, <Link href="/contact">contact</Link></p>
+          <p class="cv-contact">{site.location}, <Link href="/contact">contact</Link><span class="cv-print-links">, <a href={site.links.linkedin}>LinkedIn</a>{site.links.github && !site.links.github.includes('TODO') && <>, <a href={site.links.github}>GitHub</a></>}</span></p>
+          <SocialButtons labels size={30} class="cv-social no-print" />
         </div>
       </div>
       <div class="cv-actions no-print">
@@ -89,6 +91,9 @@ const education = [
   .cv-headline { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-subtle); margin: 6px 0; max-width: 560px; line-height: 1.7; }
   .cv-contact { font-size: 0.85rem; color: var(--fg-muted); }
   .cv-contact a { color: var(--fg); }
+  :global(.cv-social) { margin-top: 12px; }
+  .cv-print-links { display: none; }
+  @media print { .cv-print-links { display: inline; } }
   .cv-actions { display: flex; gap: 8px; }
   .cv-sec { padding: 22px 0; border-top: 1px solid var(--line); }
   .cv-sec h2 { font-family: var(--font-display); font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: hsl(var(--tint-h) 70% 70%); margin-bottom: 14px; }

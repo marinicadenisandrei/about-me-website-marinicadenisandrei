@@ -17,6 +17,7 @@ import Link from '@components/Link.astro';
 import { site } from '@config/site';
 import { professionalServiceJsonLd } from '@lib/jsonld';
 import { getServices, getEngagementModels, getPublicClients, getTestimonials, getFaq, uniqueTech } from '@lib/content';
+import { pickHotTech } from '@config/stack';
 
 const ui = site.ui.services;
 const engagements = await getEngagementModels();
@@ -53,7 +54,7 @@ const faq = (await getFaq()).filter((f) => f.data.audience === 'clients' || f.da
           <h3 class="cap-title">{c.data.title}</h3>
           <p class="cap-desc">{c.data.description}</p>
           <ul class="cap-list">{c.data.deliverables.map((d) => <li>{d}</li>)}</ul>
-          <div class="cap-stack">{uniqueTech(c.data.stack).slice(0, 6).map((s) => <TechPill slug={s} />)}</div>
+          <div class="cap-stack">{(c.data.highlight ?? pickHotTech(uniqueTech(c.data.stack), 3)).map((s) => <TechPill slug={s} />)}</div>
         </GlassCard>
       ))}
     </Grid>

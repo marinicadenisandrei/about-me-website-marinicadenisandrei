@@ -1,0 +1,11 @@
+{
+  "fetchedAt": "2026-11-10",
+  "languages": [
+    { "name": "Python", "hard": 66, "medium": 211, "easy": 93 },
+    { "name": "JavaScript", "hard": 54, "medium": 164, "easy": 76 },
+    { "name": "C", "hard": 71, "medium": 224, "easy": 99 },
+    { "name": "C++", "hard": 55, "medium": 181, "easy": 80 },
+    { "name": "Java", "hard": 52, "medium": 159, "easy": 74 },
+    { "name": "C#", "hard": 0, "medium": 0, "easy": 0 }
+  ]
+}

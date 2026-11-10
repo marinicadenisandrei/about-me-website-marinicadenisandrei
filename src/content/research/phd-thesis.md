@@ -8,7 +8,7 @@ period:
   start: 2024-04-01
   end: 2028-07-01
 description: "Doctoral research on DevOps, MLOps and AIOps, VR game development for patients with medical conditions, and the development of an AI platform running on an AI training and inference server that I administer."
-stack: [devops, mlops, kubernetes, machine-learning, unity, virtual-reality, linux, docker]
+stack: [devops, mlops, kubernetes, machine-learning, unity, virtual-reality, linux, docker, aiops, kubeflow, mlflow, airflow, pytorch, tensorflow, hugging-face, llm, rag, triton, cuda, python, fastapi, typescript, react, nestjs, helm, argo-cd, terraform, github-actions, gitlab-ci, aws, azure, prometheus, grafana, opentelemetry, meta-quest]
 order: 1
 ---
 

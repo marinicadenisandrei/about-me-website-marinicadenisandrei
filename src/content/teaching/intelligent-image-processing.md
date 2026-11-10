@@ -12,7 +12,7 @@ topics:
   - Machine learning and deep learning for image analysis
   - Convolutional neural networks (CNNs)
   - GPU acceleration and parallel computing with CUDA
-technologies: [python, opencv, tensorflow, keras, cuda, machine-learning, computer-vision]
+technologies: [python, opencv, tensorflow, keras, cuda, machine-learning, computer-vision, pytorch, numpy, scikit-learn, jupyter, hugging-face, tensorrt, mlflow, docker, git]
 order: 10
 ---
 

@@ -274,6 +274,8 @@ const services = defineCollection({
     description: z.string().max(400),
     deliverables: z.array(nonEmpty).min(1),
     stack,
+    /** The technologies shown on the capability card (otherwise the hottest ones are picked automatically). */
+    highlight: z.array(z.string()).max(16).optional(),
     /** Lucide icon name, e.g. "cloud", "cpu", "shield-check". */
     icon: nonEmpty,
     /** Engagement model card on the home page (max 3 rendered). */
