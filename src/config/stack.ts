@@ -6,6 +6,11 @@
 export interface TechMeta { label: string; icon?: string; group?: string }
 export const STACK: Record<string, TechMeta> = {
   kubernetes: { label: 'Kubernetes', icon: 'kubernetes', group: 'Containers' },
+  slack: { label: 'Slack', icon: 'slack', group: 'Tools' },
+  oauth: { label: 'OAuth 2.0', group: 'Security' },
+  'openid-connect': { label: 'OpenID Connect', icon: 'openid', group: 'Security' },
+  sso: { label: 'Single Sign-On', group: 'Security' },
+  moodle: { label: 'Moodle', icon: 'moodle', group: 'Web' },
   aiops: { label: 'AIOps', group: 'AI/ML' },
   jupyter: { label: 'Jupyter', icon: 'jupyter', group: 'AI/ML' },
   uml: { label: 'UML', group: 'Engineering' },
@@ -276,7 +281,7 @@ export const HOT_TECH: string[] = [
   'llm', 'rag', 'pytorch', 'mlops', 'kubeflow', 'triton', 'cuda', 'tensorrt', 'tensorflow', 'mlflow', 'generative-ai', 'machine-learning',
   'argo-cd', 'github-actions', 'gitlab-ci', 'helm', 'opentelemetry', 'istio', 'vault', 'kafka', 'prometheus', 'grafana',
   'go', 'rust', 'python', 'cpp', 'c', 'nodejs', 'postgresql', 'redis', 'unity', 'openxr', 'zephyr', 'freertos', 'nvidia-jetson',
-  'fastapi', 'ollama', 'hugging-face', 'meta-quest', 'ansible', 'trivy', 'playwright', 'cloudflare', 'php', 'express',
+  'oauth', 'openid-connect', 'sso', 'fastapi', 'ollama', 'hugging-face', 'meta-quest', 'ansible', 'trivy', 'playwright', 'cloudflare', 'php', 'express',
 ];
 
 /** Picks the `n` hottest technologies, at most one per group first so a card mixes front end, cloud, IaC and so on. */

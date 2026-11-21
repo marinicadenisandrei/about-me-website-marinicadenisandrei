@@ -98,3 +98,22 @@ a { overflow-wrap: anywhere; }
 @media (min-width: 2800px) { html { zoom: 1.5; --zoom: 1.5; } }
 @media (min-width: 3400px) { html { zoom: 1.8; --zoom: 1.8; } }
 /* full-bleed decorations must divide vw by the zoom factor */
+
+/* ── Motion concept: one prism hairline + quiet, precise reveals ── */
+/* reading progress along the top edge (driven by a passive scroll listener in Base.astro) */
+.scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 600; background: var(--prism); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); pointer-events: none; }
+/* section labels get a short prism rule that draws in */
+.section-tag::before { content: ''; display: inline-block; vertical-align: middle; width: 22px; height: 1px; margin-right: 12px; background: var(--prism); transform-origin: 0 50%; }
+/* headings rise into place once, when they enter the viewport */
+html:not(.no-js) .section-title:not(.t-in) { opacity: 0; transform: translate3d(0, 0.35em, 0); }
+.section-title { transition: opacity 1s var(--silk-ease), transform 1.1s var(--silk-ease); }
+html:not(.no-js) .section-tag:not(.t-in) { opacity: 0; }
+html:not(.no-js) .section-tag:not(.t-in)::before { transform: scaleX(0); }
+.section-tag { transition: opacity 0.8s ease; }
+.section-tag::before { transition: transform 0.9s var(--silk-ease) 0.15s; }
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress { display: none; }
+  html:not(.no-js) .section-title:not(.t-in), html:not(.no-js) .section-tag:not(.t-in) { opacity: 1; transform: none; }
+  .section-title, .section-tag, .section-tag::before { transition: none; }
+  html:not(.no-js) .section-tag:not(.t-in)::before { transform: none; }
+}

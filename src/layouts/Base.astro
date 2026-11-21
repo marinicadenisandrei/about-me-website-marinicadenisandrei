@@ -139,11 +139,12 @@ const ogImage = absoluteUrl(image, Astro.site);
     </main>
     <BookingDialog />
     <PageLoader />
+    <div class="scroll-progress" aria-hidden="true"></div>
   </body>
 </html>
 
 <script>
-  import { initReveal } from '@/scripts/reveal';
+  import { initReveal, initTitles } from '@/scripts/reveal';
   import { initCardSpot } from '@/scripts/spotlight';
   import { readStoredTheme, applyTheme } from '@/scripts/theme';
   import { readGlass, applyGlass, detectLens } from '@/scripts/motion';
@@ -151,11 +152,22 @@ const ogImage = absoluteUrl(image, Astro.site);
   // Runs on first load and after every client-side navigation (ClientRouter).
   document.addEventListener('astro:page-load', () => {
     initReveal();
+    initTitles();
     initCardSpot();
     initTilt();
     initMagnetic();
     detectLens();
   });
+  // reading progress hairline: one rAF-throttled, passive scroll listener for the whole site
+  let ticking = false;
+  const progress = () => {
+    ticking = false;
+    const bar = document.querySelector<HTMLElement>('.scroll-progress');
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar?.style.setProperty('--p', max > 0 ? Math.min(1, scrollY / max).toFixed(4) : '0');
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(progress); } }, { passive: true });
+  document.addEventListener('astro:page-load', progress);
   // ClientRouter swaps <html> attributes, so re-apply stored theme/glass before the new page paints.
   document.addEventListener('astro:after-swap', () => {
     applyTheme(readStoredTheme());

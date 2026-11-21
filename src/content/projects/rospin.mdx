@@ -1,6 +1,7 @@
 ---
 title: "ROSPIN-SAT-1: CubeSat on-board computer (ESA Fly Your Satellite!)"
 category: freelance
+domain: space
 role: Full-Stack Developer & DevOps Engineer
 organization: Romanian Space Initiative (ROSPIN), European Space Agency
 research: rospin
@@ -14,11 +15,11 @@ myContribution:
   - Designed the layered firmware architecture and tuned FreeRTOS/Zephyr scheduling, multi-bus I/O (I²C, SPI, UART, CAN) and packet-based CCSDS TM/TC with error detection, retries and configurable timeouts.
   - "Containerised ARM cross-compilation and built Jenkins + GitLab CI pipelines: static analysis (Cppcheck, Clang-Tidy), unit tests (Unity, Google Test), coverage (gcov/lcov), nightly builds, auto-deploy to remote benches via Ansible with rollback."
   - Provisioned Debian/Fedora build farms, staging networks and VPN gateways with Terraform + Ansible; hardened with image scans (Trivy/Clair), key-only SSH, SELinux/AppArmor, nftables and VPN/VLAN segmentation.
-  - "Delivered a self-service HIL platform: Flask/React reservation portal with SSO/RBAC and board-health metrics, QEMU fault injection, Jenkins + Docker Compose regression suites."
+  - "Delivered a self-service HIL platform: Django/React reservation portal with SSO/RBAC and board-health metrics, QEMU fault injection, Jenkins + Docker Compose regression suites."
   - Fluentd + Prometheus + Grafana observability with Alertmanager SLOs; pandas/scikit-learn anomaly detection on historical telemetry; Doxygen/Sphinx living docs and onboarding workshops.
 outcomes:
   - "TODO: confirm number: workshops halved onboarding time"
-stack: [c, cpp, python, bash, freertos, zephyr, ccsds, docker, kubernetes, k3s, jenkins, gitlab-ci, ansible, terraform, aws, prometheus, grafana, elk, fluentd, qemu, openocd, gdb, cmake, pytest, flask, react, openvpn, nftables, selinux, linux, networking, chef, scikit-learn, pandas]
+stack: [c, cpp, python, bash, freertos, zephyr, ccsds, docker, kubernetes, k3s, jenkins, gitlab-ci, ansible, terraform, aws, prometheus, grafana, elk, fluentd, qemu, openocd, gdb, cmake, pytest, django, react, openvpn, nftables, selinux, linux, networking, chef, scikit-learn, pandas]
 highlight: [cpp, zephyr, kubernetes, terraform, aws]
 links:
   live: https://rospin.org/
@@ -44,7 +45,7 @@ Terraform + Ansible for Debian/Fedora build farms, staging environments and VPN 
 
 ## Hardware-in-the-loop bench
 
-As Full-Stack Developer, a reservation platform (Flask backend, React frontend) with SSO, role-based access and live status of multiple embedded boards; QEMU hardware emulation with fault injection for validation before hardware access; HIL regression suites orchestrated with Jenkins + Docker Compose covering sensor simulation and mock telemetry.
+As Full-Stack Developer, a reservation platform (Django backend, React frontend) with SSO, role-based access and live status of multiple embedded boards; QEMU hardware emulation with fault injection for validation before hardware access; HIL regression suites orchestrated with Jenkins + Docker Compose covering sensor simulation and mock telemetry.
 
 ## Observability and anomaly detection
 

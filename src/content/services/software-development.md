@@ -6,7 +6,7 @@ deliverables:
   - React, Next.js and Angular frontends with real-time features (WebSockets)
   - Unity (C#) applications and sensor/hardware integrations
   - Automated tests (Jest, pytest, Selenium) wired into CI
-stack: [react, typescript, nextjs, angular, nestjs, nodejs, express, javascript, python, fastapi, postgresql, redis, docker, playwright, flask, mongodb, unity, csharp, dotnet, arduino, esp32]
+stack: [react, typescript, nextjs, angular, nestjs, nodejs, express, javascript, python, fastapi, postgresql, redis, docker, playwright, django, mongodb, unity, csharp, dotnet, arduino, esp32]
 highlight: [react, typescript, nextjs, angular, nestjs, nodejs, express, javascript, python, fastapi, postgresql, redis, docker, playwright]
 icon: code-2
 order: 60

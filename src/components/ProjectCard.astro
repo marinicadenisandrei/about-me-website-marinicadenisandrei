@@ -21,7 +21,7 @@ const stack = p.data.highlight?.length ? p.data.highlight.map(canonicalTech) : p
 const more = canon.length - stack.length;
 ---
 
-<GlassCard href={`/projects/${slug}`} tint={p.data.category} as="article" class:list={['pc', reveal, cls]} data-category={p.data.category} data-status={p.data.status} data-stack={p.data.stack.join(' ')} data-title={p.data.title.toLowerCase()}>
+<GlassCard href={`/projects/${slug}`} tint={p.data.category} as="article" class:list={['pc', reveal, cls]} data-category={p.data.category} data-domain={p.data.domain ?? ''} data-status={p.data.status} data-stack={p.data.stack.join(' ')} data-title={p.data.title.toLowerCase()}>
   <div class="pc-top">
     <span class="pc-tags"><Pill dot>{CATEGORY_META[p.data.category].label}</Pill>{p.data.euFunded && <EuBadge programme={p.data.euFunded.programme} />}</span>
     <span class="pc-status" data-status={p.data.status}>{site.ui.projects.status[p.data.status]}</span>

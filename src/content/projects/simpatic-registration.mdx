@@ -1,6 +1,7 @@
 ---
 title: "SIMPATIC: participant file and e-signature platform"
 category: research
+domain: education
 role: Full-Stack Developer & DevOps Engineer
 organization: PNRR SIMPATIC project
 status: active
@@ -15,7 +16,44 @@ myContribution:
   - Built the admin panel with filters, editable participant files, issue tracking and streamed ZIP archives.
   - Packaged the platform with Docker Compose behind NGINX and published it through a Cloudflare Tunnel.
   - "Full-Stack Developer, front end to cloud: React and Angular front ends in TypeScript and JavaScript, NestJS and Express APIs, shipped as containers to Kubernetes on AWS and Azure, with Terraform, GitOps (Argo CD), GitHub Actions CI/CD, security scanning and observability"
+  - "Electronic signing flow: a hand-drawn signature captured in the browser and stamped with the date on each generated PDF, with withdraw-and-re-sign and automatic invalidation when the data changes"
+  - "GDPR by design: explicit consent recorded with timestamp and signature as its own PDF, role-based access (participant and admin) and personal files kept out of the code repository"
 outcomes: []
+highlight: [react, typescript, nodejs, express, docker]
+images:
+  - src: ../../assets/projects/simpatic-registration/sign-in.webp
+    alt: "SIMPATIC sign-in screen"
+    caption: "Sign-in: each participant gets an account created from the project records"
+  - src: ../../assets/projects/simpatic-registration/participant-file.webp
+    alt: "Participant file with the six steps and the pre-filled data form, personal data blurred"
+    caption: "Participant file: six guided steps, data pre-filled from the project records (demo data, blurred)"
+  - src: ../../assets/projects/simpatic-registration/signature-pad.webp
+    alt: "Signature pad with a drawn signature"
+    caption: "Signature: drawn once with mouse, stylus or finger"
+  - src: ../../assets/projects/simpatic-registration/signature-saved.webp
+    alt: "Saved signature, uploaded ID document and the four annexes unlocked for review"
+    caption: "Signature saved and ID uploaded: the four annexes unlock for review"
+  - src: ../../assets/projects/simpatic-registration/document-review.webp
+    alt: "Annex preview as a generated PDF next to the review panel, personal data blurred"
+    caption: "Document review: the annex is generated live as a PDF from the participant's data"
+  - src: ../../assets/projects/simpatic-registration/report-issue.webp
+    alt: "Participant writing an observation about a document"
+    caption: "Found a mistake? The participant sends an observation to the project team instead of signing"
+  - src: ../../assets/projects/simpatic-registration/document-signed.webp
+    alt: "Signed annex with the date and the drawn signature applied on the PDF"
+    caption: "Signed: date and signature are applied on the PDF, with one click to the next annex"
+  - src: ../../assets/projects/simpatic-registration/confirmed.webp
+    alt: "All four annexes signed, GDPR consent recorded and certificate downloads unlocked"
+    caption: "File confirmed: annexes signed, GDPR consent recorded, certificate and attestation unlocked"
+  - src: ../../assets/projects/simpatic-registration/admin-list.webp
+    alt: "Admin panel with progress counters and the participants table, personal data blurred"
+    caption: "Admin panel: live progress counters, filters and per-document status for every participant"
+  - src: ../../assets/projects/simpatic-registration/admin-file.webp
+    alt: "Admin view of one participant file with documents, editable data and original records, blurred"
+    caption: "Participant file for admins: every document, editable data, original records and ZIP export"
+  - src: ../../assets/projects/simpatic-registration/admin-issues.webp
+    alt: "Admin list of observations sent by participants"
+    caption: "Observations inbox: open the document or the file, then mark the issue resolved"
 stack: [react, typescript, vite, nodejs, express, sqlite, jwt, nginx, docker, cloudflare, angular, javascript, nestjs, postgresql, redis, kubernetes, helm, argo-cd, terraform, github-actions, aws, azure, prometheus, grafana, opentelemetry, trivy, playwright]
 links: {}
 euFunded:

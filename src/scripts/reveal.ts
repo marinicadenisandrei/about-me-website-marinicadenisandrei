@@ -28,3 +28,22 @@ export function initReveal(root: ParentNode = document): void {
   );
   els.forEach((el) => io.observe(el));
 }
+
+/** Headings and section labels: add `.t-in` once they enter the viewport (styles in base.css). */
+export function initTitles(root: ParentNode = document): void {
+  const els = root.querySelectorAll<HTMLElement>('.section-title:not(.t-in), .section-tag:not(.t-in)');
+  if (!els.length) return;
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach((el) => el.classList.add('t-in'));
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) { e.target.classList.add('t-in'); io.unobserve(e.target); }
+      }
+    },
+    { threshold: 0.2, rootMargin: '0px 0px -20px 0px' },
+  );
+  els.forEach((el) => io.observe(el));
+}

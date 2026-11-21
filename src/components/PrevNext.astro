@@ -1,101 +1,99 @@
 ---
 /**
- * Previous / next navigation for detail pages.
- * Two cards of exactly the same size (equal columns, fixed height, titles clamped to two lines), each with a round
- * glass arrow button on its outer edge, and a compact "all" button in the middle.
+ * Previous / next navigation for detail pages, as two cinematic panels of identical size.
+ * Each panel shows a preview image of its target (when one is given) behind a gradient, a small direction label,
+ * the title, an optional meta line and an arrow that travels on hover; a hairline in the prism gradient draws
+ * across the top edge. A slim "all" link sits under them.
  */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import Link from '@components/Link.astro';
-interface Item { label: string; href: string }
+
+interface Item { label: string; href: string; image?: ImageMetadata; meta?: string }
 interface Props { prev?: Item; next?: Item; allHref: string; allLabel: string }
 const { prev, next, allHref, allLabel } = Astro.props;
-const arrow = (dir: 'l' | 'r') => (dir === 'l' ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7');
+const sides = [
+  { key: 'prev', item: prev, k: 'Previous', d: 'M19 12H5m6-6l-6 6 6 6' },
+  { key: 'next', item: next, k: 'Next', d: 'M5 12h14m-6-6l6 6-6 6' },
+] as const;
 ---
 
-<nav class="prevnext" aria-label="Previous and next">
-  {prev ? (
-    <Link href={prev.href} class="pn pn--prev" rel="prev">
-      <span class="pn-orb" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={arrow('l')} /></svg></span>
-      <span class="pn-body"><span class="pn-k">Previous</span><span class="pn-t">{prev.label}</span></span>
+<nav class="pn-nav" aria-label="Previous and next">
+  {sides.map(({ key, item, k, d }) => item ? (
+    <Link href={item.href} class={`pn pn--${key}`} rel={key}>
+      {item.image && <Image src={item.image} alt="" widths={[480, 800]} sizes="(max-width: 768px) 100vw, 520px" class="pn-img" loading="lazy" decoding="async" />}
+      <span class="pn-veil" aria-hidden="true"></span>
+      <span class="pn-line" aria-hidden="true"></span>
+      <span class="pn-top">
+        <span class="pn-k">{k}</span>
+        <span class="pn-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={d} /></svg></span>
+      </span>
+      <span class="pn-body">
+        <span class="pn-t">{item.label}</span>
+        {item.meta && <span class="pn-m">{item.meta}</span>}
+      </span>
     </Link>
-  ) : <span class="pn pn--empty" aria-hidden="true"></span>}
+  ) : <span class={`pn pn--empty pn--${key}`} aria-hidden="true"></span>)}
 
   <Link href={allHref} class="pn-all" aria-label={allLabel} title={allLabel}>
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><rect x="4" y="4" width="6.5" height="6.5" rx="2" /><rect x="13.5" y="4" width="6.5" height="6.5" rx="2" /><rect x="4" y="13.5" width="6.5" height="6.5" rx="2" /><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2" /></svg>
-    <span class="pn-all-l">{allLabel}</span>
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><rect x="4" y="4" width="6.5" height="6.5" rx="2" /><rect x="13.5" y="4" width="6.5" height="6.5" rx="2" /><rect x="4" y="13.5" width="6.5" height="6.5" rx="2" /><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2" /></svg>
+    <span>{allLabel}</span>
   </Link>
-
-  {next ? (
-    <Link href={next.href} class="pn pn--next" rel="next">
-      <span class="pn-body"><span class="pn-k">Next</span><span class="pn-t">{next.label}</span></span>
-      <span class="pn-orb" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={arrow('r')} /></svg></span>
-    </Link>
-  ) : <span class="pn pn--empty" aria-hidden="true"></span>}
 </nav>
 
 <style>
-  .prevnext {
-    display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 16px; align-items: stretch;
-    margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--line);
-  }
+  .pn-nav { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 96px; }
 
-  /* identical cards: same column width, same fixed height, two-line title */
   .pn {
-    position: relative; display: flex; align-items: center; gap: 16px; height: 104px; padding: 0 20px;
-    border-radius: 24px; text-decoration: none; color: inherit; overflow: hidden;
-    background:
-      radial-gradient(120% 140% at var(--gx, 0%) 0%, hsl(var(--tint-h) 70% 60% / 0.14), transparent 60%),
-      color-mix(in srgb, var(--fg) 4%, transparent);
-    border: 1px solid var(--line-strong);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 10px 30px rgba(0, 0, 0, 0.12);
-    transition: transform 0.5s var(--silk-ease), border-color 0.4s ease, box-shadow 0.5s var(--silk-ease);
+    position: relative; display: flex; flex-direction: column; justify-content: space-between; height: 210px; padding: 22px 24px;
+    border-radius: 26px; overflow: hidden; text-decoration: none; color: var(--fg); isolation: isolate;
+    background: color-mix(in srgb, var(--fg) 4%, transparent);
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+    transition: transform 0.7s var(--silk-ease), box-shadow 0.5s ease;
   }
-  .pn--next { --gx: 100%; justify-content: flex-end; text-align: right; }
-  .pn--empty { background: none; border: 1px dashed var(--line); box-shadow: none; }
-  a.pn:hover { transform: translate3d(0, -3px, 0); border-color: hsl(var(--tint-h) 70% 62% / 0.5); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 18px 40px rgba(0, 0, 0, 0.2); }
+  .pn--next { text-align: right; }
+  .pn--empty { background: none; box-shadow: inset 0 0 0 1px var(--line); opacity: 0.5; }
+
+  /* preview image: soft and desaturated at rest, comes alive on hover */
+  :global(.pn-img) { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: top center; opacity: 0.34; filter: saturate(0.6); transform: scale(1.04); transition: opacity 0.6s ease, transform 1.2s var(--silk-ease), filter 0.6s ease; }
+  .pn-veil { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--bg) 8%, color-mix(in srgb, var(--bg) 55%, transparent) 100%); }
+  .pn--next .pn-veil { background: linear-gradient(270deg, var(--bg) 8%, color-mix(in srgb, var(--bg) 55%, transparent) 100%); }
+  a.pn:hover :global(.pn-img) { opacity: 0.6; transform: scale(1.1); filter: saturate(1); }
+  a.pn:hover { transform: translate3d(0, -4px, 0); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 26%, transparent), 0 30px 70px rgba(0, 0, 0, 0.25); }
+
+  /* prism hairline draws across the top edge */
+  .pn-line { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--prism); transform: scaleX(0); transform-origin: 0 50%; transition: transform 0.8s var(--silk-ease); }
+  .pn--next .pn-line { transform-origin: 100% 50%; }
+  a.pn:hover .pn-line, a.pn:focus-visible .pn-line { transform: scaleX(1); }
+  a.pn:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+  .pn-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .pn--prev .pn-top { flex-direction: row-reverse; }
+  .pn-k { font-family: var(--font-display); font-size: 9.5px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--fg-muted); }
+  .pn-arrow { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; color: var(--fg); box-shadow: inset 0 0 0 1px var(--line-strong); transition: transform 0.7s var(--silk-ease), background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease; }
+  a.pn:hover .pn-arrow { background: var(--fg); color: var(--bg); box-shadow: none; }
+  a.pn--prev:hover .pn-arrow { transform: translate3d(-6px, 0, 0); }
+  a.pn--next:hover .pn-arrow { transform: translate3d(6px, 0, 0); }
 
   .pn-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-  .pn-k { font-family: var(--font-display); font-size: 9.5px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: hsl(var(--tint-h) 70% 64%); }
-  .pn-t {
-    font-size: 0.92rem; font-weight: 500; line-height: 1.35; color: var(--fg);
-    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden;
-  }
+  .pn-t { font-family: var(--font-display); font-size: clamp(1.05rem, 1.7vw, 1.4rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.25; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+  .pn-m { font-size: 0.8rem; color: var(--fg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  /* round glass arrow button */
-  .pn-orb {
-    flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; color: var(--fg);
-    background: linear-gradient(160deg, color-mix(in srgb, var(--fg) 14%, transparent), color-mix(in srgb, var(--fg) 4%, transparent));
-    border: 1px solid var(--line-strong);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  .pn-orb svg { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
-  a.pn:hover .pn-orb {
-    background: linear-gradient(135deg, hsl(var(--tint-h) 75% 58%), hsl(calc(var(--tint-h) + 45) 75% 60%));
-    color: #fff; border-color: transparent;
-  }
-  a.pn--prev:hover .pn-orb svg { transform: translateX(-3px); }
-  a.pn--next:hover .pn-orb svg { transform: translateX(3px); }
-
-  /* middle: all items */
+  /* all items: a quiet pill centred under the two panels */
   .pn-all {
-    align-self: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
-    width: 104px; height: 104px; border-radius: 24px; text-decoration: none; color: var(--fg-muted);
-    border: 1px solid var(--line); background: color-mix(in srgb, var(--fg) 3%, transparent);
-    transition: color 0.3s ease, border-color 0.3s ease, transform 0.5s var(--silk-ease);
+    grid-column: 1 / -1; justify-self: center; margin-top: 12px;
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 100px; text-decoration: none; white-space: nowrap;
+    font-family: var(--font-display); font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-muted);
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+    transition: color 0.3s ease, transform 0.6s var(--silk-ease), box-shadow 0.3s ease;
   }
-  .pn-all:hover { color: var(--fg); border-color: var(--line-strong); transform: translate3d(0, -3px, 0); }
-  .pn-all-l { font-family: var(--font-display); font-size: 8.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; text-align: center; line-height: 1.3; padding: 0 8px; }
+  .pn-all:hover { color: var(--fg); transform: translate3d(0, -2px, 0); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 30%, transparent); }
 
   @media (max-width: 768px) {
-    .prevnext { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
-    .pn { height: 136px; padding: 0 14px; gap: 10px; flex-direction: column; justify-content: center; align-items: flex-start; text-align: left; }
-    .pn--next { align-items: flex-end; text-align: right; }
-    .pn-orb { width: 36px; height: 36px; }
-    .prevnext > :first-child { grid-column: 1; grid-row: 1; }
-    .prevnext > :last-child { grid-column: 2; grid-row: 1; }
-    .pn--next .pn-orb { order: -1; }
-    .pn-t { font-size: 0.82rem; }
-    .pn-all { grid-column: 1 / -1; grid-row: 2; width: 100%; height: 52px; flex-direction: row; gap: 10px; border-radius: 18px; }
+    .pn-nav { grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 64px; }
+    .pn { height: 150px; padding: 18px 20px; border-radius: 22px; }
+    .pn--empty { display: none; }
+    .pn-all { justify-self: stretch; justify-content: center; margin-top: 0; padding: 14px; }
   }
-  @media (prefers-reduced-motion: reduce) { .pn, .pn-orb, .pn-orb svg, .pn-all { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .pn, :global(.pn-img), .pn-line, .pn-arrow, .pn-all { transition: none; } }
 </style>

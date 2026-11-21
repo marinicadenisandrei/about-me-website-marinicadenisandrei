@@ -1,0 +1,267 @@
+---
+/**
+ * Project screenshots as a 3D coverflow carousel: the active slide faces the viewer, neighbours recede and
+ * rotate in depth. Arrows, segment indicators (the active one fills while autoplay counts down), keyboard,
+ * drag / swipe; clicking a side slide brings it forward, clicking the active one opens a full-screen viewer.
+ * Only transform and opacity animate. Images are optimised by astro:assets (AVIF/WebP, responsive).
+ */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Shot { src: ImageMetadata; alt: string; caption?: string }
+interface Props { images: Shot[]; url?: string }
+const { images, url } = Astro.props;
+const host = url ? new URL(url).host.replace(/^www\./, '') : '';
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+{images.length > 0 && (
+  <section class="cf reveal" aria-roledescription="carousel" aria-label="Platform screenshots" data-carousel>
+    <header class="cf-head">
+      <h2 class="section-tag cf-tag">Platform tour</h2>
+      {host && <span class="cf-host">{host}</span>}
+    </header>
+
+    <div class="cf-stage" data-cf-stage>
+      {images.map((im, i) => (
+        <figure class="cf-slide" data-cf-slide={i} aria-roledescription="slide" aria-label={`${i + 1} of ${images.length}: ${im.caption ?? im.alt}`}>
+          <button class="cf-card" type="button" data-cf-card={i} aria-label={im.caption ?? im.alt} tabindex={i === 0 ? 0 : -1}>
+            <Picture src={im.src} alt={im.alt} formats={['avif', 'webp']} widths={[640, 960, 1280, 1920]} sizes="(max-width: 760px) 86vw, 820px" class="cf-img" loading={i < 2 ? 'eager' : 'lazy'} decoding="async" draggable="false" />
+            <span class="cf-shine" aria-hidden="true"></span>
+          </button>
+        </figure>
+      ))}
+    </div>
+
+    <div class="cf-bar">
+      <button class="cf-arrow" type="button" data-cf-prev aria-label="Previous screenshot"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7" /></svg></button>
+      <div class="cf-info">
+        <p class="cf-count"><span data-cf-num>01</span><i></i>{pad(images.length)}</p>
+        <div class="cf-caps" aria-live="polite">
+          {images.map((im, i) => <p class="cf-cap" data-cf-cap={i} hidden={i !== 0}>{im.caption ?? im.alt}</p>)}
+        </div>
+        <div class="cf-dots" role="tablist" aria-label="Choose screenshot">
+          {images.map((im, i) => <button class="cf-dot" type="button" role="tab" data-cf-dot={i} aria-label={`Screenshot ${i + 1}: ${im.caption ?? im.alt}`} aria-selected={i === 0 ? 'true' : 'false'}><span></span></button>)}
+        </div>
+      </div>
+      <button class="cf-arrow" type="button" data-cf-next aria-label="Next screenshot"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7" /></svg></button>
+    </div>
+
+    <dialog class="cf-view" data-cf-view aria-label="Screenshot viewer">
+      <div class="cf-vstage">
+        {images.map((im, i) => (
+          <figure class="cf-vslide" data-cf-vslide={i} hidden>
+            <Picture src={im.src} alt={im.alt} formats={['avif', 'webp']} widths={[1280, 1920, 2560]} sizes="96vw" class="cf-full" loading="lazy" decoding="async" />
+            <figcaption>{im.caption ?? im.alt}<span>{pad(i + 1)} / {pad(images.length)}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+      <button class="cf-vbtn cf-vclose" type="button" data-cf-close aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg></button>
+    </dialog>
+  </section>
+)}
+
+<style>
+  .cf { margin-top: 72px; container-type: inline-size; }
+  .cf-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+  .cf-tag { margin: 0; }
+  .cf-host { font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); }
+
+  .cf-stage { --cf-w: min(66cqw, 840px); --cf-h: calc(var(--cf-w) * 0.625); position: relative; height: var(--cf-h); perspective: 1600px; perspective-origin: 50% 45%; touch-action: pan-y; user-select: none; }
+  .cf-slide {
+    position: absolute; left: 50%; top: 0; width: var(--cf-w); height: var(--cf-h); margin: 0 0 0 calc(var(--cf-w) / -2);
+    transform: translate3d(calc(var(--x, 0) * 1%), 0, calc(var(--z, 0) * 1px)) rotateY(calc(var(--r, 0) * 1deg)) scale(var(--s, 1));
+    opacity: var(--o, 0); z-index: var(--k, 0); pointer-events: var(--pe, none);
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
+    will-change: transform, opacity;
+  }
+  .cf-stage.is-drag .cf-slide { transition: none; }
+  .cf-card {
+    position: relative; display: block; width: 100%; height: 100%; padding: 0; border: 0; cursor: pointer; overflow: hidden;
+    border-radius: 22px; background: color-mix(in srgb, var(--bg) 80%, var(--fg));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--fg) 14%, transparent), 0 40px 90px rgba(0, 0, 0, 0.32), 0 8px 24px rgba(0, 0, 0, 0.14);
+  }
+  .cf-slide.is-active .cf-card { cursor: zoom-in; box-shadow: 0 0 0 1px color-mix(in srgb, var(--fg) 18%, transparent), 0 50px 110px rgba(0, 0, 0, 0.38), 0 0 80px hsl(var(--tint-h) 80% 60% / 0.18); }
+  .cf-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  :global(.cf-img) { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; pointer-events: none; }
+  /* side slides are dimmed; the active one gets one light sweep */
+  .cf-shine { position: absolute; inset: 0; background: color-mix(in srgb, var(--bg) 55%, transparent); opacity: var(--dim, 1); transition: opacity 0.6s ease; pointer-events: none; }
+  .cf-slide.is-active .cf-shine { background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.14) 50%, transparent 60%); background-size: 250% 100%; opacity: 1; animation: cf-sweep 1.4s ease 0.2s both; }
+  @keyframes cf-sweep { from { background-position: 120% 0; } to { background-position: -60% 0; } }
+
+  /* controls */
+  .cf-bar { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 24px; max-width: 760px; margin: 36px auto 0; }
+  .cf-arrow {
+    width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; color: var(--fg);
+    background: linear-gradient(160deg, color-mix(in srgb, var(--fg) 12%, transparent), color-mix(in srgb, var(--fg) 4%, transparent));
+    border: 1px solid var(--line-strong); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  .cf-arrow:hover { background: var(--prism); color: #fff; border-color: transparent; transform: scale(1.08); }
+  .cf-arrow:active { transform: scale(0.94); }
+  .cf-info { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; text-align: center; }
+  .cf-count { display: inline-flex; align-items: center; gap: 10px; margin: 0; font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle); font-variant-numeric: tabular-nums; }
+  .cf-count span { color: var(--fg); font-size: 13px; }
+  .cf-count i { width: 28px; height: 1px; background: currentColor; opacity: 0.5; }
+  .cf-caps { min-height: 1.6em; }
+  .cf-cap { margin: 0; font-family: var(--font-display); font-size: 1.05rem; font-weight: 500; letter-spacing: -0.01em; color: var(--fg); animation: cf-cap 0.5s var(--silk-ease) both; }
+  @keyframes cf-cap { from { opacity: 0; transform: translate3d(0, 8px, 0); } }
+  .cf-dots { display: flex; gap: 6px; }
+  .cf-dot { width: 28px; height: 16px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+  .cf-dot span { position: relative; display: block; width: 100%; height: 2px; border-radius: 2px; background: color-mix(in srgb, var(--fg) 16%, transparent); overflow: hidden; }
+  .cf-dot span::after { content: ''; position: absolute; inset: 0; background: var(--prism); transform-origin: 0 50%; transform: scaleX(0); }
+  .cf-dot[aria-selected='true'] span::after { transform: scaleX(1); }
+  .cf.is-auto .cf-dot[aria-selected='true'] span::after { animation: cf-fill var(--cf-auto, 5.5s) linear both; }
+  .cf.is-auto.is-paused .cf-dot[aria-selected='true'] span::after { animation-play-state: paused; }
+  @keyframes cf-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  /* full-screen viewer */
+  .cf-view { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgba(6, 8, 14, 0.97); color: #fff; }
+  .cf-view::backdrop { background: transparent; }
+  .cf-view[open] { display: grid; place-items: center; animation: cf-in 0.3s ease; }
+  .cf-vstage { width: 100%; height: 100%; display: grid; place-items: center; padding: 64px 32px 24px; box-sizing: border-box; cursor: zoom-out; }
+  .cf-vslide { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 100%; max-height: 100%; }
+  .cf-vslide[hidden] { display: none; }
+  :global(.cf-full) { display: block; max-width: 100%; max-height: calc(100dvh - 150px); width: auto; height: auto; border-radius: 14px; box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5); }
+  .cf-vslide figcaption { display: flex; gap: 14px; align-items: center; font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); }
+  .cf-vslide figcaption span { font-family: var(--font-mono); font-size: 11px; color: rgba(255, 255, 255, 0.5); }
+  .cf-vbtn { position: absolute; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.08); color: #fff; cursor: pointer; }
+  .cf-vbtn:hover { background: rgba(255, 255, 255, 0.18); }
+  .cf-vclose { top: 16px; right: 16px; }
+  @keyframes cf-in { from { opacity: 0; } }
+
+  @container (max-width: 700px) {
+    .cf-stage { --cf-w: 84cqw; }
+    .cf-card { border-radius: 16px; }
+    .cf-bar { gap: 12px; }
+    .cf-arrow { width: 42px; height: 42px; }
+    .cf-cap { font-size: 0.95rem; }
+    .cf-dot { width: 18px; }
+  }
+  @media (max-width: 760px) { .cf-vstage { padding: 60px 10px 20px; } }
+  @media (prefers-reduced-motion: reduce) {
+    .cf-slide { transition: opacity 0.2s ease; }
+    .cf-slide.is-active .cf-shine, .cf-cap, .cf-view[open] { animation: none; }
+    .cf.is-auto .cf-dot[aria-selected='true'] span::after { animation: none; transform: scaleX(1); }
+  }
+</style>
+
+<script>
+  const AUTO_MS = 5500;
+
+  function initCarousel(root: HTMLElement) {
+    if (root.dataset.ready) return;
+    root.dataset.ready = '1';
+    const stage = root.querySelector<HTMLElement>('[data-cf-stage]');
+    if (!stage) return;
+    const slides = [...root.querySelectorAll<HTMLElement>('[data-cf-slide]')];
+    const cards = [...root.querySelectorAll<HTMLButtonElement>('[data-cf-card]')];
+    const caps = [...root.querySelectorAll<HTMLElement>('[data-cf-cap]')];
+    const dots = [...root.querySelectorAll<HTMLElement>('[data-cf-dot]')];
+    const num = root.querySelector<HTMLElement>('[data-cf-num]');
+    const view = root.querySelector<HTMLDialogElement>('[data-cf-view]');
+    const vslides = [...root.querySelectorAll<HTMLElement>('[data-cf-vslide]')];
+    const n = slides.length;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let cur = 0;
+    let timer: number | undefined;
+
+    // signed shortest distance from the active slide, so the ring wraps
+    const dist = (i: number, c: number) => { let d = i - c; if (n > 2) { if (d > n / 2) d -= n; if (d < -n / 2) d += n; } return d; };
+
+    function layout(shift = 0) {
+      slides.forEach((s, i) => {
+        const d = dist(i, cur) + shift;
+        const a = Math.abs(d);
+        const st = s.style;
+        st.setProperty('--x', String(d * 58));
+        st.setProperty('--z', String(-a * 260));
+        st.setProperty('--r', String(Math.max(-1, Math.min(1, d)) * -32));
+        st.setProperty('--s', String(1 - Math.min(a, 2) * 0.06));
+        st.setProperty('--o', a > 2.2 ? '0' : String(1 - Math.max(0, a - 1) * 0.55));
+        st.setProperty('--k', String(100 - Math.round(a * 10)));
+        st.setProperty('--dim', String(Math.min(1, a)));
+        st.setProperty('--pe', a > 2.2 ? 'none' : 'auto');
+      });
+    }
+
+    const refill = () => { root.classList.remove('is-auto'); void root.offsetWidth; if (!reduce && n > 1) root.classList.add('is-auto'); };
+
+    function go(i: number, user = false) {
+      cur = ((i % n) + n) % n;
+      slides.forEach((s, k) => s.classList.toggle('is-active', k === cur));
+      cards.forEach((c, k) => { c.tabIndex = k === cur ? 0 : -1; });
+      caps.forEach((c, k) => { c.hidden = k !== cur; });
+      dots.forEach((d, k) => d.setAttribute('aria-selected', k === cur ? 'true' : 'false'));
+      if (num) num.textContent = String(cur + 1).padStart(2, '0');
+      layout();
+      if (user) restart(); else refill();
+    }
+
+    function restart() {
+      clearInterval(timer);
+      refill();
+      if (reduce || n < 2) return;
+      timer = window.setInterval(() => { if (!root.classList.contains('is-paused') && !view?.open) go(cur + 1); }, AUTO_MS);
+    }
+    const pause = (on: boolean) => { root.classList.toggle('is-paused', on); if (on) clearInterval(timer); else restart(); };
+
+    root.style.setProperty('--cf-auto', `${AUTO_MS}ms`);
+    root.querySelector('[data-cf-prev]')?.addEventListener('click', () => go(cur - 1, true));
+    root.querySelector('[data-cf-next]')?.addEventListener('click', () => go(cur + 1, true));
+    dots.forEach((d, k) => d.addEventListener('click', () => go(k, true)));
+    root.addEventListener('mouseenter', () => pause(true));
+    root.addEventListener('mouseleave', () => pause(false));
+    root.addEventListener('focusin', () => pause(true));
+    root.addEventListener('focusout', () => pause(false));
+
+    const showView = (i: number) => { go(i); vslides.forEach((v, k) => { v.hidden = k !== cur; }); };
+    root.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      const step = e.key === 'ArrowLeft' ? -1 : 1;
+      if (view?.open) { showView(cur + step); return; }
+      go(cur + step, true); cards[cur]?.focus();
+    });
+
+    // drag / swipe
+    let x0 = 0;
+    let dx = 0;
+    let down = false;
+    let moved = false;
+    stage.addEventListener('pointerdown', (e) => { down = true; moved = false; x0 = e.clientX; dx = 0; });
+    const move = (e: PointerEvent) => {
+      if (!down) return;
+      dx = e.clientX - x0;
+      if (Math.abs(dx) > 6) { moved = true; stage.classList.add('is-drag'); layout(dx / (stage.clientWidth * 0.45)); }
+    };
+    const up = () => {
+      if (!down) return;
+      down = false; stage.classList.remove('is-drag');
+      if (moved && Math.abs(dx) > 50) go(cur + (dx < 0 ? 1 : -1), true); else layout();
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+    window.addEventListener('pointercancel', up);
+
+    // click: a side slide comes forward, the active slide opens the viewer
+    cards.forEach((c, k) => c.addEventListener('click', () => {
+      if (moved) { moved = false; return; }
+      if (k !== cur) { go(k, true); return; }
+      showView(k); view?.showModal();
+    }));
+    view?.addEventListener('click', (e) => { if (!(e.target as HTMLElement).closest('.cf-full')) view.close(); });
+    view?.addEventListener('close', () => restart());
+
+    // only autoplay while on screen; stop everything when the page is swapped out
+    const io = new IntersectionObserver(([e]) => { if (e?.isIntersecting) restart(); else clearInterval(timer); }, { threshold: 0.35 });
+    io.observe(root);
+    document.addEventListener('astro:before-swap', () => {
+      clearInterval(timer); io.disconnect();
+      window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up);
+    }, { once: true });
+
+    go(0);
+  }
+
+  document.addEventListener('astro:page-load', () => document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(initCarousel));
+</script>

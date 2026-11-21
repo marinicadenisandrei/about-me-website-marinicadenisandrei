@@ -6,13 +6,14 @@ import SegmentedControl from '@components/SegmentedControl.astro';
 import ProjectCard from '@components/ProjectCard.astro';
 import Grid from '@components/Grid.astro';
 import { site } from '@config/site';
-import { CATEGORY_META, PROJECT_CATEGORIES } from '@config/categories';
+import { CATEGORY_META, PROJECT_CATEGORIES, PROJECT_DOMAINS, DOMAIN_LABEL } from '@config/categories';
 import { techLabel, canonicalTech } from '@config/stack';
 import { getProjects } from '@lib/content';
 
 const ui = site.ui.projects;
 const projects = await getProjects();
 const usedCategories = PROJECT_CATEGORIES.filter((c) => projects.some((p) => p.data.category === c));
+const usedDomains = PROJECT_DOMAINS.filter((d) => projects.some((p) => p.data.domain === d));
 const usedStatuses = (['active', 'completed', 'paused', 'archived'] as const).filter((s) => projects.some((p) => p.data.status === s));
 const techCounts = new Map<string, number>();
 for (const p of projects) for (const s of new Set(p.data.stack.map(canonicalTech))) techCounts.set(s, (techCounts.get(s) ?? 0) + 1);
@@ -21,9 +22,10 @@ const techs = [...techCounts.entries()].filter(([, n]) => n >= 2).sort((a, b) =>
 
 <Base title="Projects" description={`${projects.length} projects by ${site.name}: research platforms, CubeSat software, VR rehabilitation, AI infrastructure and more.`} tint="industry">
   <section class="page-head" data-label="Projects">
-    <SectionHeader tag={ui.tag} title={ui.title} body={`${projects.length} projects across research, employment and academia. Filter by category, status or technology.`} as="h1" reveal={false} />
+    <SectionHeader tag={ui.tag} title={ui.title} body={`${projects.length} projects across R&D contracts and B2B work. Filter by category, domain, status or technology.`} as="h1" reveal={false} />
     <div class="pf" data-project-filters>
       <SegmentedControl group="category" label={ui.filterCategory} value="all" options={[{ value: 'all', label: ui.all }, ...usedCategories.map((c) => ({ value: c, label: CATEGORY_META[c].label }))]} />
+      <SegmentedControl group="domain" label="Domain" value="all" options={[{ value: 'all', label: 'All domains' }, ...usedDomains.map((d) => ({ value: d, label: DOMAIN_LABEL[d] }))]} />
       <SegmentedControl group="status" label={ui.filterStatus} value="all" options={[{ value: 'all', label: ui.all }, ...usedStatuses.map((s) => ({ value: s, label: ui.status[s] }))]} />
       <label class="pf-select"><span class="visually-hidden">{ui.filterTech}</span>
         <select data-filter-tech>
@@ -61,10 +63,10 @@ const techs = [...techCounts.entries()].filter(([, n]) => n >= 2).sort((a, b) =>
   import { canonicalTech } from '@config/stack';
   document.addEventListener('astro:page-load', () => {
     const root = document.querySelector<HTMLElement>('[data-project-filters]');
-    const grid = document.querySelector<HTMLElement>('[data-project-grid]');
+    const grid = document.querySelector<HTMLElement>('.pgrid');
     if (!root || !grid || root.dataset.bound) return;
     root.dataset.bound = '';
-    const state = { category: 'all', status: 'all', tech: 'all', q: '' };
+    const state = { category: 'all', domain: 'all', status: 'all', tech: 'all', q: '' };
     const cards = [...grid.querySelectorAll<HTMLElement>('.pc')];
     const empty = document.querySelector<HTMLElement>('[data-filter-empty]');
     const apply = () => {
@@ -73,6 +75,7 @@ const techs = [...techCounts.entries()].filter(([, n]) => n >= 2).sort((a, b) =>
         const stack = (c.dataset.stack ?? '').split(' ').map(canonicalTech);
         const ok =
           (state.category === 'all' || c.dataset.category === state.category) &&
+          (state.domain === 'all' || c.dataset.domain === state.domain) &&
           (state.status === 'all' || c.dataset.status === state.status) &&
           (state.tech === 'all' || stack.includes(state.tech)) &&
           (!state.q || (c.dataset.title ?? '').includes(state.q) || c.textContent?.toLowerCase().includes(state.q));
@@ -83,13 +86,13 @@ const techs = [...techCounts.entries()].filter(([, n]) => n >= 2).sort((a, b) =>
     };
     document.addEventListener('segmented:change', (e) => {
       const d = (e as CustomEvent).detail as { group: string; value: string };
-      if (d.group === 'category' || d.group === 'status') { state[d.group] = d.value; apply(); }
+      if (d.group === 'category' || d.group === 'domain' || d.group === 'status') { state[d.group] = d.value; apply(); }
     });
     root.querySelector<HTMLSelectElement>('[data-filter-tech]')?.addEventListener('change', (e) => { state.tech = (e.target as HTMLSelectElement).value; apply(); });
     root.querySelector<HTMLInputElement>('[data-filter-search]')?.addEventListener('input', (e) => { state.q = (e.target as HTMLInputElement).value.trim().toLowerCase(); apply(); });
     // deep link: /projects?category=research&tech=kubernetes
     const qs = new URLSearchParams(location.search);
-    for (const k of ['category', 'status', 'tech'] as const) { const v = qs.get(k); if (v) state[k] = v; }
-    if (qs.get('category') || qs.get('status') || qs.get('tech')) apply();
+    for (const k of ['category', 'domain', 'status', 'tech'] as const) { const v = qs.get(k); if (v) state[k] = v; }
+    if (qs.get('category') || qs.get('domain') || qs.get('status') || qs.get('tech')) apply();
   });
 </script>

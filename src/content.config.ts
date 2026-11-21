@@ -13,7 +13,7 @@ import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { COURSE_CATEGORIES } from './config/course-categories';
-import { PROJECT_CATEGORIES } from './config/categories';
+import { PROJECT_CATEGORIES, PROJECT_DOMAINS } from './config/categories';
 
 /* ───────────────────────────── shared primitives ───────────────────────────── */
 
@@ -128,6 +128,8 @@ const projects = defineCollection({
           .regex(/^[a-z0-9-]+$/)
           .optional(),
         category: z.enum(PROJECT_CATEGORIES),
+        /** Industry domain, shown as a filter on /projects. */
+        domain: z.enum(PROJECT_DOMAINS).optional(),
         role: nonEmpty,
         organization: z.string().optional(),
         /** Links to other collections (file names without extension). */
@@ -141,7 +143,7 @@ const projects = defineCollection({
         summary: z.string().max(280),
         problem: z.string().optional(),
         solution: z.string().optional(),
-        myContribution: z.array(nonEmpty).min(1).max(8),
+        myContribution: z.array(nonEmpty).min(1).max(12),
         outcomes: z.array(nonEmpty).default([]),
         stack,
         /** Optional: the technologies shown on the project card (otherwise the hottest ones are picked automatically). */

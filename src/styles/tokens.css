@@ -23,6 +23,8 @@
   --panel-bg: rgba(22, 26, 32, 0.55);
   --panel-border: rgba(156, 163, 175, 0.08);
   --silk-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  /* signature accent: used sparingly for progress, active states and hairlines */
+  --prism: linear-gradient(90deg, #8B5CF6, #3B82F6 38%, #22D3EE 72%, #34D399);
 
   /* ── semantic aliases (what components use) ── */
   --bg: var(--base-deep);

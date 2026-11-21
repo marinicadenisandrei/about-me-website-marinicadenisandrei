@@ -12,6 +12,7 @@ import GlassCard from '@components/GlassCard.astro';
 import EuBadge from '@components/EuBadge.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
 import PrevNext from '@components/PrevNext.astro';
+import ProjectGallery from '@components/ProjectGallery.astro';
 import { site } from '@config/site';
 import { CATEGORY_META } from '@config/categories';
 import { getProjects, projectSlug, projectClientLabel, uniqueTech } from '@lib/content';
@@ -88,11 +89,13 @@ const ui = site.ui.projects;
       </section>
     )}
 
+    {p.data.images.length > 0 && <ProjectGallery images={p.data.images} url={p.data.links.live} />}
+
     <div class="prose project-body"><Content /></div>
 
     <PrevNext
-      prev={prev ? { label: prev.data.title, href: `/projects/${projectSlug(prev)}` } : undefined}
-      next={next ? { label: next.data.title, href: `/projects/${projectSlug(next)}` } : undefined}
+      prev={prev ? { label: prev.data.title, href: `/projects/${projectSlug(prev)}`, image: prev.data.images[0]?.src, meta: prev.data.role } : undefined}
+      next={next ? { label: next.data.title, href: `/projects/${projectSlug(next)}`, image: next.data.images[0]?.src, meta: next.data.role } : undefined}
       allHref="/projects"
       allLabel="All projects"
     />
