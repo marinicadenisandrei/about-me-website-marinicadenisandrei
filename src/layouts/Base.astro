@@ -13,6 +13,7 @@ import '@styles/tokens.css';
 import '@styles/glass.css';
 import '@styles/base.css';
 import '@styles/motion.css';
+import '@styles/energy.css';
 import Nav from '@components/Nav.astro';
 import MobileMenu from '@components/MobileMenu.astro';
 import BookingDialog from '@components/BookingDialog.astro';
@@ -149,6 +150,7 @@ const ogImage = absoluteUrl(image, Astro.site);
   import { readStoredTheme, applyTheme } from '@/scripts/theme';
   import { readGlass, applyGlass, detectLens } from '@/scripts/motion';
   import { initTilt, initMagnetic } from '@/scripts/interactions';
+  import { initEnergy } from '@/scripts/energy';
   // Runs on first load and after every client-side navigation (ClientRouter).
   document.addEventListener('astro:page-load', () => {
     initReveal();
@@ -156,6 +158,7 @@ const ogImage = absoluteUrl(image, Astro.site);
     initCardSpot();
     initTilt();
     initMagnetic();
+    initEnergy();
     detectLens();
   });
   // reading progress hairline: one rAF-throttled, passive scroll listener for the whole site

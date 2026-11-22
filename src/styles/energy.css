@@ -1,0 +1,92 @@
+/*
+ * Energy layer: one motif used everywhere, a soft light that drifts plus a prism hairline.
+ * Rules of the house: only transform and opacity animate, every effect lives inside or on top of
+ * its element (never behind a glass panel), and everything stops under prefers-reduced-motion.
+ */
+
+/* ── primary buttons: a sheen of light crosses the button every few seconds ── */
+.btn--primary, .nav-cta { position: relative; overflow: hidden; isolation: isolate; }
+.btn--primary::after, .nav-cta::after {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.42) 50%, transparent 62%);
+  transform: translateX(-120%); will-change: transform;
+  animation: e-sheen 6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+.nav-cta::after { animation-delay: 1.5s; }
+@keyframes e-sheen { 0%, 55% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
+@media (hover: hover) { .btn--primary:hover::after, .nav-cta:hover::after { animation-duration: 1.6s; } }
+
+/* ── segmented controls (filters): the thumb carries the same drifting light as the nav tab ── */
+.segmented__thumb { overflow: hidden; background: hsl(var(--tint-h) 60% 60% / 0.09); border-color: hsl(var(--tint-h) 70% 70% / 0.2); box-shadow: none; }
+.segmented__thumb::before {
+  content: ''; position: absolute; top: -60%; left: 0; width: 56%; height: 220%;
+  background: radial-gradient(closest-side, hsl(var(--tint-h) 90% 68% / 0.45), hsl(var(--tint-h) 90% 68% / 0.12) 55%, transparent);
+  transform: translateX(-45%); will-change: transform;
+  animation: e-drift 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+}
+.segmented__thumb::after {
+  content: ''; position: absolute; left: 18%; right: 18%; bottom: 0; height: 1px; background: var(--prism);
+  animation: e-pulse 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+}
+@keyframes e-drift { from { transform: translateX(-45%); } to { transform: translateX(125%); } }
+@keyframes e-pulse { from { transform: scaleX(0.35); opacity: 0.45; } 50% { transform: scaleX(1); opacity: 1; } to { transform: scaleX(0.35); opacity: 0.45; } }
+
+/* inset 0, not -1px: grid cards use content-visibility, which clips anything drawn over the border */
+/* ── cards: an energised edge (element injected by scripts/energy.ts) ──
+   ::after  a prism glow on the border that follows the cursor
+   ::before a light that runs along the border once when the card appears, and loops on hover */
+.glass > .edge {
+  position: absolute; inset: 0; z-index: 2; border-radius: inherit; padding: 1.5px; pointer-events: none; overflow: hidden;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.edge::after {
+  content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s var(--silk-ease);
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), #A5F3FC, #22D3EE 25%, #8B5CF6 55%, transparent 78%);
+}
+.edge::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 45%; opacity: 0;
+  background: linear-gradient(90deg, transparent, #8B5CF6 30%, #22D3EE 60%, #34D399 80%, transparent);
+  transform: translateX(-110%); will-change: transform;
+}
+.reveal.visible > .edge::before, .edge.run::before { animation: e-run 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.35s 1 both; }
+@keyframes e-run { 0% { transform: translateX(-110%); opacity: 0; } 15%, 80% { opacity: 1; } 100% { transform: translateX(330%); opacity: 0; } }
+@media (hover: hover) and (pointer: fine) {
+  .glass:hover > .edge::after { opacity: 1; }
+  .glass--lift:hover > .edge::before { animation: e-run 2.4s linear infinite; }
+}
+
+/* ── hairlines with a travelling bead of light: hero metrics, footer ── */
+.hero-metrics, .footer-bar { position: relative; container-type: inline-size; }
+.hero-metrics::before { content: ''; position: absolute; left: 0; right: 0; top: -36px; height: 1px; background: linear-gradient(90deg, transparent, var(--line-strong) 20%, var(--line-strong) 80%, transparent); }
+.hero-metrics::after, .footer-bar::after {
+  content: ''; position: absolute; left: 0; top: -1px; width: 140px; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, #8B5CF6, #22D3EE 70%, transparent);
+  transform: translateX(-140px); opacity: 0; will-change: transform;
+  animation: e-bead 7s cubic-bezier(0.45, 0, 0.55, 1) 2s infinite;
+}
+.hero-metrics::after { top: -36px; }
+@keyframes e-bead { 0% { transform: translateX(-140px); opacity: 0; } 10%, 60% { opacity: 1; } 70%, 100% { transform: translateX(100cqw); opacity: 0; } }
+.silk-divider { position: relative; overflow: hidden; }
+.silk-divider::after {
+  content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, #22D3EE, transparent);
+  transform: translateX(-100%); animation: e-slide 4.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes e-slide { 0% { transform: translateX(-100%); } 60%, 100% { transform: translateX(100%); } }
+
+/* ── section labels: the prism rule keeps breathing once it has drawn in ── */
+.section-tag.t-in::before { animation: e-breathe 3.6s ease-in-out 1.4s infinite alternate; }
+@keyframes e-breathe { from { transform: scaleX(1); opacity: 1; } to { transform: scaleX(0.45); opacity: 0.55; } }
+
+/* ── live status: active projects send out a quiet ping ── */
+.pc-status[data-status='active'] { position: relative; }
+.pc-status[data-status='active']::after {
+  content: ''; position: absolute; left: 0; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%;
+  border: 1px solid hsl(150 60% 50%); animation: e-ping 2.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes e-ping { 0% { transform: scale(1); opacity: 0.9; } 70%, 100% { transform: scale(3.2); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn--primary::after, .nav-cta::after, .segmented__thumb::before, .segmented__thumb::after, .edge::before,
+  .hero-metrics::after, .footer-bar::after, .silk-divider::after, .section-tag.t-in::before, .pc-status[data-status='active']::after { animation: none !important; }
+  .segmented__thumb::before { transform: translateX(40%); }
+}
